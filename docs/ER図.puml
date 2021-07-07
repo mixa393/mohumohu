@@ -1,0 +1,51 @@
+@startuml
+
+entity Users{
+id
+name
+email
+password
+image_path
+}
+
+entity Group_members
+{
+user_id
+group_id
+}
+
+entity Groups
+{
+id
+name
+}
+
+entity Laundries{
+id
+group_id
+name
+description
+}
+
+entity Periods{
+landry_id
+days
+message_for_notice
+}
+
+entity Assigned{
+landry_id
+user_id
+is_approved
+is_fixed
+message_for_notice
+}
+
+Users ||--|| Group_members
+Group_members }|-o| Groups
+Groups ||-o{ Laundries
+Laundries ||-|| Assigned
+Users }o-|| Assigned
+Laundries ||--|| Periods
+
+@enduml
