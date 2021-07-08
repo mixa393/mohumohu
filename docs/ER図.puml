@@ -6,18 +6,16 @@ name
 email
 password
 image_path
-}
-
-entity Group_members
-{
-user_id
-group_id
+created_at
+modified_at
 }
 
 entity Groups
 {
 id
 name
+created_at
+modified_at
 }
 
 entity Laundries{
@@ -25,11 +23,7 @@ id
 group_id
 name
 description
-}
-
-entity Periods{
-landry_id
-days
+days_for_wash
 message_for_notice
 }
 
@@ -41,11 +35,10 @@ is_fixed
 message_for_notice
 }
 
-Users ||--|| Group_members
-Group_members }|-o| Groups
+Users ||--o| Groups
 Groups ||-o{ Laundries
 Laundries ||-|| Assigned
-Users }o-|| Assigned
-Laundries ||--|| Periods
+Users }o--|| Assigned
+
 
 @enduml
