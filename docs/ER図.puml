@@ -5,10 +5,10 @@ package phase1 as phase1{
     + id [PK] : int
     --
     # group_id [FK]
-    name : string
-    email : string
-    password : string
-    image_path : string
+    name : varchar(15)
+    email : varchar(127)
+    password : varchar(255)
+    image_path : varchar(255)
     created_at : datetime
     modified_at : datetime
     }
@@ -17,7 +17,7 @@ package phase1 as phase1{
     {
     + id [PK] : int
     --
-    name : string
+    name : varchar(15)
     created_at : datetime
     modified_at : datetime
     }
@@ -27,17 +27,17 @@ package phase1 as phase1{
     --
     # group_id [FK]
     # user_id [FK]
-    name : string
-    description : string
+    name : varchar(15)
+    description : varchar(255)
     days : int
-    notice : string
+    notice : text
     created_at : datetime
     modified_at : datetime
     }
 }
 
 package  phase2以降 as phase2{
-    entity Assigned{
+    entity Wash_requests{
     # landry_id [PK][FK]
     # requested_user_id [PK][FK]
     # user_id [PK][FK]
@@ -51,8 +51,8 @@ package  phase2以降 as phase2{
 }
 Users ||-o| Groups
 Groups ||-o{ Laundries
-Laundries ||-|| Assigned
-Users }o--|| Assigned
+Laundries ||-|| Wash_requests
+Users }o--|| Wash_requests
 
 
 @enduml
