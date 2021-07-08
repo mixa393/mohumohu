@@ -11,6 +11,7 @@ package phase1 as phase1{
     image_path : varchar(255)
     created_at : datetime
     updated_at : datetime
+    deleted_at : datetime
     }
 
     entity Groups
@@ -20,6 +21,7 @@ package phase1 as phase1{
     name : varchar(15)
     created_at : datetime
     updated_at : datetime
+    deleted_at : datetime
     }
 
     entity Laundries{
@@ -32,7 +34,8 @@ package phase1 as phase1{
     days : int
     notice : text
     created_at : datetime
-    updated_at_at : datetime
+    updated_at : datetime
+    deleted_at : datetime
     }
 }
 
@@ -46,7 +49,8 @@ package  phase2以降 as phase2{
     is_fixed
     message_for_notice
     created_at
-    modified_at
+    updated_at
+    deleted_at
     }
 }
 Users ||-o| Groups
