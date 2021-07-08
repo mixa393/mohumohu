@@ -1,6 +1,6 @@
 @startuml
 
-package phase1 as phase1{
+package phase1{
     entity Users{
     + id [PK] : int
     --
@@ -39,7 +39,7 @@ package phase1 as phase1{
     }
 }
 
-package  phase2以降 as phase2{
+package  phase2以降{
     entity Wash_requests{
     # landry_id [PK][FK]
     # requested_user_id [PK][FK]
