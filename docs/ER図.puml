@@ -45,8 +45,8 @@ package  phase2以降{
     # requested_user_id [PK][FK]
     # user_id [PK][FK]
     --
-    is_approved
-    is_fixed
+    approved_at
+    fixed_at
     message_for_notice
     created_at
     updated_at
