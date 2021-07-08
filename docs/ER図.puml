@@ -2,45 +2,51 @@
 
 package phase1 as phase1{
     entity Users{
-    + id [PK]
+    + id [PK] : int
     --
     # group_id [FK]
-    name
-    email
-    password
-    image_path
-    created_at
-    modified_at
+    name : string
+    email : string
+    password : string
+    image_path : string
+    created_at : datetime
+    modified_at : datetime
     }
 
     entity Groups
     {
-    + id [PK]
+    + id [PK] : int
     --
-    name
-    created_at
-    modified_at
+    name : string
+    created_at : datetime
+    modified_at : datetime
     }
 
     entity Laundries{
-    + id [PK]
+    + id [PK] : int
     --
     # group_id [FK]
-    name
-    description
-    days_for_wash
-    message_for_notice
+    # user_id [FK]
+    name : string
+    description : string
+    days : int
+    notice : string
+    created_at : datetime
+    modified_at : datetime
     }
 }
 
 package  phase2以降 as phase2{
     entity Assigned{
     # landry_id [PK][FK]
+    # requested_user_id [PK][FK]
     # user_id [PK][FK]
     --
     is_approved
     is_fixed
     message_for_notice
+    created_at
+    modified_at
     }
 }
 Users ||-o| Groups
