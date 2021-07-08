@@ -1,41 +1,44 @@
 @startuml
 
-entity Users{
-id
-name
-email
-password
-image_path
-created_at
-modified_at
+package phase1 as phase1{
+    entity Users{
+    id
+    name
+    email
+    password
+    image_path
+    created_at
+    modified_at
+    }
+
+    entity Groups
+    {
+    id
+    name
+    created_at
+    modified_at
+    }
+
+    entity Laundries{
+    id
+    group_id
+    name
+    description
+    days_for_wash
+    message_for_notice
+    }
 }
 
-entity Groups
-{
-id
-name
-created_at
-modified_at
+package  phase2以降 as phase2{
+    entity Assigned{
+    landry_id
+    user_id
+    is_approved
+    is_fixed
+    message_for_notice
+    }
 }
-
-entity Laundries{
-id
-group_id
-name
-description
-days_for_wash
-message_for_notice
-}
-
-entity Assigned{
-landry_id
-user_id
-is_approved
-is_fixed
-message_for_notice
-}
-
-Users ||--o| Groups
+Users ||-o| Groups
 Groups ||-o{ Laundries
 Laundries ||-|| Assigned
 Users }o--|| Assigned
