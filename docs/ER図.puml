@@ -5,7 +5,7 @@ package phase1{
     + id [PK] : int
     --
     # group_id [FK]
-    name : varchar(15)
+    name : varchar(31)
     email : varchar(127)
     password : varchar(255)
     image_path : varchar(255)
@@ -18,7 +18,7 @@ package phase1{
     {
     + id [PK] : int
     --
-    name : varchar(15)
+    name : varchar(31)
     created_at : datetime
     updated_at : datetime
     deleted_at : datetime
@@ -29,7 +29,7 @@ package phase1{
     --
     # group_id [FK]
     # user_id [FK]
-    name : varchar(15)
+    name : varchar(31)
     description : varchar(255)
     days : int
     notice : text
