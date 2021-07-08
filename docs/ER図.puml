@@ -2,7 +2,9 @@
 
 package phase1 as phase1{
     entity Users{
-    id
+    + id [PK]
+    --
+    # group_id [FK]
     name
     email
     password
@@ -13,15 +15,17 @@ package phase1 as phase1{
 
     entity Groups
     {
-    id
+    + id [PK]
+    --
     name
     created_at
     modified_at
     }
 
     entity Laundries{
-    id
-    group_id
+    + id [PK]
+    --
+    # group_id [FK]
     name
     description
     days_for_wash
@@ -31,8 +35,9 @@ package phase1 as phase1{
 
 package  phase2以降 as phase2{
     entity Assigned{
-    landry_id
-    user_id
+    # landry_id [PK][FK]
+    # user_id [PK][FK]
+    --
     is_approved
     is_fixed
     message_for_notice
