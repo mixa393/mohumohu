@@ -1,40 +1,20 @@
 # @see:https://gist.github.com/iriya-ufo/963f30e7ecd4704ad16358e68d34e394
-FIG = docker-compose
-APP = $(FIG) exec web
-RAILS = $(APP) rails
 
-# コンテナ操作コマンド等
+# コンテナ操作コマンド
 build:
-	@$(FIG) build
+	@docker-compose build
 up:
-	@$(FIG) up
+	@docker-compose up
 down:
-	@$(FIG) down
+	@docker-compose down
 restart:
-	@$(FIG) stop
-	@$(FIG) start
+	@docker-compose stop
+	@docker-compose start
 clean:
 	@docker system prune
 
-# bundle install コマンド
-bi:
-	@$(APP) bundle install
-br:
-	@$(APP) gem uninstall -aIx
-	@make bi
-
-# rails コマンド
-rc:
-	@$(RAILS) console
-rr:
-	@$(RAILS) routes
-rt:
-	@$(RAILS) test
-
-# db コマンド
-dbc:
-	@$(RAILS) db:create
-dbm:
-	@$(RAILS) db:migrate
-dbs:
-	@$(RAILS) db:seed
+# rails用コマンド
+bundle:
+	@docker-compose exec web bundle
+rails:
+	@docker-compose exec web rails
