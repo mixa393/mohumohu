@@ -1,7 +1,7 @@
 class CreateLaundries < ActiveRecord::Migration[6.1]
   def change
     create_table :laundries do |t|
-      t.bigint :group_id
+      t.bigint :team_id
       t.bigint :user_id
       t.string :name, null: false, limit: 31
       t.string :description, limit: 255
@@ -11,7 +11,7 @@ class CreateLaundries < ActiveRecord::Migration[6.1]
       t.timestamps
     end
 
-    add_foreign_key :laundries, :groups
+    add_foreign_key :laundries, :teams
     add_foreign_key :laundries, :users
 
   end

@@ -1,7 +1,7 @@
 class CreateUsers < ActiveRecord::Migration[6.1]
   def change
     create_table :users do |t|
-      t.bigint :group_id
+      t.bigint :team_id
       t.string :name, limit: 31, null: false
       t.string :email, limit: 127, null: false
       t.string :password,null: false
@@ -9,7 +9,7 @@ class CreateUsers < ActiveRecord::Migration[6.1]
       t.timestamps
     end
 
-    add_foreign_key :users,:groups
+    add_foreign_key :users,:teams
 
   end
 end
