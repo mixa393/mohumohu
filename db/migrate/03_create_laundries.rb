@@ -1,8 +1,8 @@
 class CreateLaundries < ActiveRecord::Migration[6.1]
   def change
     create_table :laundries do |t|
-      t.bigint :team_id
-      t.bigint :user_id
+      t.bigint :team_id, null: false
+      t.bigint :user_id, null: false
       t.string :name, null: false, limit: 31
       t.string :description, limit: 255
       t.integer :days, null: false, default: 7, comment: "次の洗濯までの期間、デフォルトは7日"
