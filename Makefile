@@ -14,7 +14,7 @@ clean:
 	@docker system prune
 
 # rails用コマンド
-bundle:
-	@docker-compose exec web bundle
-rails:
-	@docker-compose exec web rails
+web:
+	@docker-compose exec web bash
+console:
+	@@docker-compose exec web rails console
