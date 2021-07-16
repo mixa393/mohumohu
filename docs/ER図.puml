@@ -1,6 +1,17 @@
 @startuml
 
 package phase1{
+    entity Laundry_histories{
+        + id [PK] : int
+        --
+        # user_id [PK][FK]
+        # group_id_id [PK][FK]
+        # laundry_id [PK][FK]
+        created_at : datetime
+        updated_at : datetime
+        deleted_at : datetime
+    }
+
     entity Users{
     + id [PK] : int
     --
@@ -39,15 +50,6 @@ package phase1{
     }
 }
 
-entity Laundry_histories{
-    + id [PK] : int
-    --
-    # group_id [FK]
-    # user_id [FK]
-    created_at : datetime
-    updated_at : datetime
-    deleted_at : datetime
-}
 
 package  phase2以降{
     entity Wash_requests{
@@ -63,10 +65,15 @@ package  phase2以降{
     deleted_at
     }
 }
+
+Laundry_histories -- Users
+Laundry_histories - Groups
+Laundry_histories - Laundries
 Users ||-o| Groups
 Groups ||-o{ Laundries
 Laundries ||-|| Wash_requests
 Users }o--|| Wash_requests
+
 
 
 @enduml
