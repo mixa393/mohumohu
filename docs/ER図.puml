@@ -39,6 +39,16 @@ package phase1{
     }
 }
 
+entity Laundry_histories{
+    + id [PK] : int
+    --
+    # group_id [FK]
+    # user_id [FK]
+    created_at : datetime
+    updated_at : datetime
+    deleted_at : datetime
+}
+
 package  phase2以降{
     entity Wash_requests{
     # landry_id [PK][FK]
