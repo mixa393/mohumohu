@@ -5,7 +5,6 @@ package phase1{
         + id [PK] : int
         --
         # user_id [PK][FK]
-        # group_id_id [PK][FK]
         # laundry_id [PK][FK]
         created_at : datetime
         updated_at : datetime
@@ -66,9 +65,8 @@ package  phase2以降{
     }
 }
 
-Laundry_histories -- Users
-Laundry_histories - Groups
-Laundry_histories - Laundries
+Laundry_histories }o--|| Users
+Laundry_histories }o-|| Laundries
 Users ||-o| Groups
 Groups ||-o{ Laundries
 Laundries ||-|| Wash_requests
