@@ -24,7 +24,7 @@ package phase1{
     deleted_at : datetime
     }
 
-    entity Groups
+    entity Teams
     {
     + id [PK] : int
     --
@@ -67,8 +67,8 @@ package  phase2以降{
 
 Laundry_histories }o--|| Users
 Laundry_histories }o-|| Laundries
-Users }|-|| Groups
-Groups ||-o{ Laundries
+Users }|-|| Teams
+Teams ||-o{ Laundries
 Laundries ||-|| Wash_requests
 Users }o--|| Wash_requests
 
