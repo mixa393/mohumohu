@@ -14,7 +14,7 @@ package phase1{
     entity Users{
     + id [PK] : int
     --
-    # group_id [FK]
+    # team_id [FK]
     name : varchar(31)
     email : varchar(127)
     password : varchar(255)
@@ -37,7 +37,7 @@ package phase1{
     entity Laundries{
     + id [PK] : int
     --
-    # group_id [FK]
+    # team_id [FK]
     # user_id [FK]
     name : varchar(31)
     description : varchar(255)
