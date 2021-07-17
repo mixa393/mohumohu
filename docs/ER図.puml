@@ -19,6 +19,7 @@ package phase1{
     email : varchar(127)
     password : varchar(255)
     image_path : varchar(255)
+    remind_at : time
     created_at : datetime
     updated_at : datetime
     deleted_at : datetime
