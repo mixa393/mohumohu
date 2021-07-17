@@ -67,7 +67,7 @@ package  phase2以降{
 
 Laundry_histories }o--|| Users
 Laundry_histories }o-|| Laundries
-Users ||-o| Groups
+Users }|-|| Groups
 Groups ||-o{ Laundries
 Laundries ||-|| Wash_requests
 Users }o--|| Wash_requests
