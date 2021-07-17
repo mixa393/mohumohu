@@ -53,12 +53,13 @@ package phase1{
 
 package  phase2以降{
     entity Wash_requests{
-    # laundry_id [PK][FK]
-    # requested_user_id [PK][FK]
-    # user_id [PK][FK]
+    + id [PK]
     --
+    # laundry_id [FK]
+    # requested_user_id [FK]
+    # user_id [FK]
     approved_at
-    fixed_at
+    completed_at
     message_for_notice
     created_at
     updated_at
