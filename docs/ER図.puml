@@ -53,7 +53,7 @@ package phase1{
 
 package  phase2以降{
     entity Wash_requests{
-    # landry_id [PK][FK]
+    # laundry_id [PK][FK]
     # requested_user_id [PK][FK]
     # user_id [PK][FK]
     --
@@ -66,12 +66,14 @@ package  phase2以降{
     }
 }
 
-Laundry_histories }o--|| Users
+Laundry_histories }o-|| Users
 Laundry_histories }o-|| Laundries
-Users }|-|| Teams
+Users }|---|| Teams
+Users }|--|| Laundries
 Teams ||-o{ Laundries
-Laundries ||-|| Wash_requests
-Users }o--|| Wash_requests
+
+Laundries }o--|| Wash_requests
+Users }o-|| Wash_requests
 
 
 
