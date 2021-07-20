@@ -40,7 +40,7 @@ package phase1{
     --
     # team_id [FK]
     # user_id [FK]
-    name : varchar(31)
+    name : varchar(127)
     description : varchar(255)
     days : int
     notice : text
