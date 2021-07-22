@@ -34,6 +34,9 @@ module Myapp
 
     # Don't generate system test files.
     config.generators.system_tests = nil
+
+    # アプリケーションの日本語化対応
     config.i18n.default_locale = :ja
+    config.i18n.load_path += Dir[Rails.root.join('config', 'locales', '**', '*.{rb,yml}').to_s]
   end
 end
