@@ -1,0 +1,13 @@
+ja:
+  activerecord:
+    models:
+      team: チーム
+      user: ユーザー
+      laundry: 洗濯物
+      laundry_history: 洗濯履歴
+    attributes:
+      id: ID
+      deleted_at: 削除日
+      created_at: 作成日
+      updated_at: 更新日
+
