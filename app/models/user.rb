@@ -8,5 +8,6 @@ class User < ApplicationRecord
   validates :email, uniqueness: true, format: { with: VALID_EMAIL_REGEX }, length: { maximum: 127 }
 
   belongs_to :team
-  validates_associated :team
+  has_many :laundry_histories
+  has_many :laundries
 end
