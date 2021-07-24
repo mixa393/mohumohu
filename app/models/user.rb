@@ -1,5 +1,5 @@
 class User < ApplicationRecord
-  validates :created_at, :updated_at, :name, :password, :email, :team_id, presence: true
+  validates :name, :password, :email, :team_id, :created_at, :updated_at, presence: true
 
   validates :name, length: { maximum: 31 }
   validates :password, length: { maximum: 255 }
