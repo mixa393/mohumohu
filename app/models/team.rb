@@ -1,5 +1,6 @@
-class Team
-  from ApplicationRecord
+class Team < ApplicationRecord
+  validates :name, :created_at, :updated_at, presence: true
+
   has_many :user
-  validates :name, presence: true, length: { maximum: 31 }
+  validates :name, length: { maximum: 31 }
 end
