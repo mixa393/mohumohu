@@ -3,6 +3,6 @@ class Team < ApplicationRecord
 
   validates :name, length: { maximum: 31 }
 
-  has_many :user
+  has_many :users
   has_many :laundries
 end
