@@ -38,7 +38,7 @@ ActiveRecord::Schema.define(version: 4) do
 
   create_table "teams", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.string "name", limit: 31, null: false
-    t.datetime "deleted_at", null: false
+    t.datetime "deleted_at"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
   end
