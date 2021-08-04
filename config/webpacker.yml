@@ -33,7 +33,7 @@ default: &default
     - .woff2
 
   extensions:
-    - .vue
+    - .jsx
     - .mjs
     - .js
     - .sass
