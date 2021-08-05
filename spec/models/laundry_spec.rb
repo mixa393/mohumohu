@@ -35,7 +35,7 @@ RSpec.describe Laundry, type: :model do
 
     it "説明が256文字以上であれば無効" do
       @laundry.description = "a" * 256
-        expect(@laundry).not_to be_valid
+      expect(@laundry).not_to be_valid
     end
 
   end
