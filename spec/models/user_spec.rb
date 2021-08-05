@@ -33,7 +33,9 @@ RSpec.describe User, type: :model do
     end
 
     it "メールアドレスがフォーマットに即していなければ無効" do
-
+      VALID_EMAIL_REGEX = /\A[\w+\-.]+@[a-z\d\-.]+\.[a-z]+\z/i
+      @user.email = "emailtestcom"
+      expect(@user).not_to be_valid
     end
 
     it "パスワードが無ければ無効" do
