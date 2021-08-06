@@ -48,7 +48,7 @@ RSpec.describe User, type: :model do
     end
 
     it "重複したメールアドレスなら無効" do
-      second_user = build(:second_user, team_id: @team.id)
+      second_user = build(:second_user, email: @user.email, team_id: @team.id)
       expect(second_user).not_to be_valid
     end
   end
