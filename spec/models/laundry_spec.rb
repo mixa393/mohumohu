@@ -2,9 +2,7 @@ require 'rails_helper'
 
 RSpec.describe Laundry, type: :model do
 
-  let(:team) { FactoryBot.create(:team) }
-  let(:user) { FactoryBot.create(:user, team_id: team.id) }
-  let(:laundry) { FactoryBot.create(:laundry, team_id: team.id, user_id: user.id) }
+  let(:laundry) { FactoryBot.create(:laundry) }
 
   describe Laundry do
     it "名前、日数、team_id、user_idがあれば有効" do

@@ -2,8 +2,7 @@ require 'rails_helper'
 
 RSpec.describe User, type: :model do
 
-  let(:team) { FactoryBot.create(:team) }
-  let(:user) { FactoryBot.create(:user, team_id: team.id) }
+  let(:user) { FactoryBot.create(:user) }
 
   describe User do
     it "名前、メールアドレス、パスワード、team_idがあれば有効" do
@@ -46,7 +45,7 @@ RSpec.describe User, type: :model do
     end
 
     it "重複したメールアドレスなら無効" do
-      second_user = build(:user, email: user.email, team_id: team.id)
+      second_user = build(:user, email: user.email)
       expect(second_user).not_to be_valid
     end
   end

@@ -1,8 +1,8 @@
 FactoryBot.define do
   factory :user, class: User do
+    team
     name { Faker::Internet.username }
     email { Faker::Internet.unique.email }
     password { Faker::Internet.password }
-    team_id { 1 }
   end
 end
