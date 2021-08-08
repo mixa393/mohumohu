@@ -47,7 +47,7 @@ ActiveRecord::Schema.define(version: 4) do
     t.bigint "team_id", null: false
     t.string "name", limit: 31, null: false
     t.string "email", limit: 127, null: false
-    t.string "password", null: false
+    t.string "password_digest", null: false
     t.time "remind_at"
     t.datetime "deleted_at"
     t.datetime "created_at", precision: 6, null: false

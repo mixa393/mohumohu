@@ -35,12 +35,17 @@ RSpec.describe User, type: :model do
     end
 
     it "パスワードが無ければ無効" do
-      user.password = nil
+      user.password_digest = nil
+      expect(user).not_to be_valid
+    end
+
+    it "パスワードが6文字未満であれば無効" do
+      user.password_digest = "a" * 5
       expect(user).not_to be_valid
     end
 
     it "パスワードが256文字以上であれば無効" do
-      user.password = "a" * 256
+      user.password_digest = "a" * 256
       expect(user).not_to be_valid
     end
 

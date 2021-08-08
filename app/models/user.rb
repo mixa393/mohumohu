@@ -3,9 +3,11 @@ class User < ApplicationRecord
   has_many :laundry_histories
   has_many :laundries
 
-  validates :name,presence: true, length: { maximum: 31 }
-  validates :password, presence:true,length: { maximum: 255 }
+  validates :name, presence: true, length: { maximum: 31 }
+
+  has_secure_password
+  validates :password_digest, presence: true, length: { minimum: 6, maximum: 255 }
 
   VALID_EMAIL_REGEX = /\A[\w+\-.]+@[a-z\d\-.]+\.[a-z]+\z/i
-  validates :email,presence:true, uniqueness: true, format: { with: VALID_EMAIL_REGEX }, length: { maximum: 127 }
+  validates :email, presence: true, uniqueness: true, format: { with: VALID_EMAIL_REGEX }, length: { maximum: 127 }
 end

@@ -3,6 +3,6 @@ FactoryBot.define do
     team
     name { Faker::Internet.username }
     email { Faker::Internet.unique.email }
-    password { Faker::Internet.password }
+    password_digest { Faker::Internet.password }
   end
 end
