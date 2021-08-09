@@ -24,3 +24,5 @@ console:
 	docker-compose exec rails console
 sql:
 	docker-compose exec db bash -c 'mysql -u root -ppassword'
+react:
+	docker-compose exec react sh
