@@ -1,0 +1,81 @@
+@startuml
+
+package phase1{
+    entity Laundry_histories{
+        + id [PK] : int
+        --
+        # user_id [PK][FK]
+        # laundry_id [PK][FK]
+        created_at : datetime
+        updated_at : datetime
+        deleted_at : datetime
+    }
+
+    entity Users{
+    + id [PK] : int
+    --
+    # team_id [FK]
+    name : varchar(31)
+    email : varchar(127)
+    password : varchar(255)
+    image_path : varchar(255)
+    remind_at : time
+    created_at : datetime
+    updated_at : datetime
+    deleted_at : datetime
+    }
+
+    entity Teams
+    {
+    + id [PK] : int
+    --
+    name : varchar(31)
+    created_at : datetime
+    updated_at : datetime
+    deleted_at : datetime
+    }
+
+    entity Laundries{
+    + id [PK] : int
+    --
+    # team_id [FK]
+    # user_id [FK]
+    name : varchar(127)
+    description : varchar(255)
+    days : int
+    notice : text
+    created_at : datetime
+    updated_at : datetime
+    deleted_at : datetime
+    }
+}
+
+
+package  phase2以降{
+    entity Wash_requests{
+    + id [PK]
+    --
+    # laundry_id [FK]
+    # requested_user_id [FK]
+    # user_id [FK]
+    approved_at
+    completed_at
+    message_for_notice
+    created_at
+    updated_at
+    deleted_at
+    }
+}
+
+Laundry_histories }o-|| Users
+Laundry_histories }o-|| Laundries
+Users }|---|| Teams
+Users }|--|| Laundries
+Teams ||-o{ Laundries
+
+Laundries }o--|| Wash_requests
+Users }o-|| Wash_requests
+
+
+
+@enduml
