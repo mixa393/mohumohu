@@ -1,20 +1,26 @@
-# @see:https://gist.github.com/iriya-ufo/963f30e7ecd4704ad16358e68d34e394
-
 # コンテナ操作コマンド
+init:
+	docker-compose build
+	docker-compose up -d
 build:
-	@docker-compose build
+	docker-compose build
 up:
-	@docker-compose up
+	docker-compose up -d
 down:
-	@docker-compose down
+	docker-compose down
 restart:
-	@docker-compose stop
-	@docker-compose start
+	docker-compose stop
+	docker-compose start
+rebuild:
+	docker-compose down
+	docker-compose build
 clean:
-	@docker system prune
+	docker system prune
 
-# rails用コマンド
-web:
-	@docker-compose exec web bash
+# サービス用コマンド
+rails:
+	docker-compose exec rails bash
 console:
-	@@docker-compose exec web rails console
+	docker-compose exec rails console
+sql:
+	docker-compose exec db bash -c 'mysql -u root -ppassword'
