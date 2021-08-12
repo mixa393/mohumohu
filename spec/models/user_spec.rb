@@ -9,49 +9,62 @@ RSpec.describe User, type: :model do
       expect(user).to be_valid
     end
 
-    it "名前が無ければ無効" do
-      user.name = nil
-      expect(user).not_to be_valid
+    describe "ユーザー名" do
+      it "無ければ無効" do
+        user.name = nil
+        expect(user).not_to be_valid
+      end
+
+      it "32文字以上なら無効" do
+        user.name = "a" * 32
+        expect(user).not_to be_valid
+      end
     end
 
-    it "名前が32文字以上なら無効" do
-      user.name = "a" * 32
-      expect(user).not_to be_valid
+    describe "メールアドレス" do
+      it "無ければ無効" do
+        user.email = nil
+        expect(user).not_to be_valid
+      end
+
+      it "127文字以上なら無効" do
+        user.email = "a" * 127
+        expect(user).not_to be_valid
+      end
+
+      it "フォーマットに即していなければ無効" do
+        user.email = "emailtestcom"
+        expect(user).not_to be_valid
+      end
+
+      it "重複したメールアドレスなら無効" do
+        second_user = build(:user, email: user.email)
+        expect(second_user).not_to be_valid
+      end
     end
 
-    it "メールアドレスが無ければ無効" do
-      user.email = nil
-      expect(user).not_to be_valid
+    describe "パスワード" do
+      it "無ければ無効" do
+        user.password = nil
+        user.password_confirmation = nil
+        expect(user).not_to be_valid
+      end
+
+      it "6文字未満であれば無効" do
+        user.password = user.password_confirmation = "a" * 5
+        expect(user).not_to be_valid
+      end
+
+      it "256文字以上であれば無効" do
+        user.password = user.password_confirmation = "a" * 256
+        expect(user).not_to be_valid
+      end
+
+      it "複合パスワードが不一致なら無効" do
+        user.password_confirmation = "mismatch"
+        expect(user).not_to be_valid
+      end
     end
 
-    it "メールアドレスが127文字以上なら無効" do
-      user.email = "a" * 127
-      expect(user).not_to be_valid
-    end
-
-    it "メールアドレスがフォーマットに即していなければ無効" do
-      user.email = "emailtestcom"
-      expect(user).not_to be_valid
-    end
-
-    it "パスワードが無ければ無効" do
-      user.password_digest = nil
-      expect(user).not_to be_valid
-    end
-
-    it "パスワードが6文字未満であれば無効" do
-      user.password_digest = "a" * 5
-      expect(user).not_to be_valid
-    end
-
-    it "パスワードが256文字以上であれば無効" do
-      user.password_digest = "a" * 256
-      expect(user).not_to be_valid
-    end
-
-    it "重複したメールアドレスなら無効" do
-      second_user = build(:user, email: user.email)
-      expect(second_user).not_to be_valid
-    end
   end
 end
