@@ -1,5 +1,6 @@
 version: '3'
 services:
+
   db:
     image: mysql:8.0
     environment:
@@ -9,17 +10,32 @@ services:
     command: --default-authentication-plugin=mysql_native_password
     volumes:
       - mysql-data:/var/lib/mysql
-  web:
-    build: .
+#      - ./tmp/dockerdir:/etc/mysql/conf.d/
+
+  rails:
+    build:
+      context: ./backend/
+      dockerfile: Dockerfile
     command: bash -c "rm -f tmp/pids/server.pid && bundle exec rails s -p 3000 -b '0.0.0.0'"
     volumes:
-      - .:/myapp
+      - ./backend:/myapp
+      - ./backend/vendor/bundle:/myapp/vendor/bundle
     ports:
-      - "3000:3000"
+      - "3001:3000"
     depends_on:
       - db
     stdin_open: true
     tty: true
+
+  react:
+    build:
+      context: ./frontend/
+      dockerfile: Dockerfile
+    volumes:
+      - ./frontend:/usr/src/app
+    command: sh -c "yarn start"
+    ports:
+      - "3000:3000"
 volumes:
   mysql-data:
     driver: local
