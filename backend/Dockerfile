@@ -5,7 +5,7 @@ RUN apt-get update -qq && apt-get install -y nodejs yarn && mkdir /myapp
 WORKDIR /myapp
 COPY Gemfile /myapp/Gemfile
 COPY Gemfile.lock /myapp/Gemfile.lock
-RUN gem install bundler:1.17.2
+RUN gem install bundler:2.2.23
 RUN bundle install
 COPY . /myapp
 
