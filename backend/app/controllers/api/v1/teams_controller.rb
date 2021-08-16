@@ -1,7 +1,5 @@
 class Api::V1::TeamsController < ApplicationController
   before_action :set_team, only: [:show, :update, :destroy]
-  protect_from_forgery
-  skip_before_action :verify_authenticity_token
 
   def show
     render json: { status: 200, team: @team }
@@ -11,9 +9,9 @@ class Api::V1::TeamsController < ApplicationController
     team = Team.new(team_params)
 
     if team.save
-      render json: { status: 200, team: team }
+      render json: { status: 200, data: team }
     else
-      render json: { status: 500, message: "Teamの作成に失敗しました" }
+      render json: { status: 500, message: "Teamの作成に失敗しました", data: team.errors }
     end
   end
 
@@ -44,6 +42,6 @@ class Api::V1::TeamsController < ApplicationController
   end
 
   def team_params
-    params.require(:team).permit(:name)
+    params.permit(:name)
   end
 end
