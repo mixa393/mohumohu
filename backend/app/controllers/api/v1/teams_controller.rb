@@ -15,25 +15,23 @@ class Api::V1::TeamsController < ApplicationController
     end
   end
 
-  # def update
-  #   if @team.update(team_params)
-  #     render json: { status: 200, message: 'Updated the post', data: @team }
-  #   else
-  #     render json: { status: 500, message: 'Not updated', data: @team.errors }
-  #   end
-  # end
-  #
-  #
-  # def destroy
-  #   team = Team.find(params[:id])
-  #
-  #   if team.destroy
-  #     render json: { status: 200, team: team }
-  #   else
-  #     render json: { status: 500, message: "Teamの削除に失敗しました" }
-  #   end
-  # end
-  #
+  def update
+    if @team.update(team_params)
+      render json: { status: 200, data: @team }
+    else
+      render json: { status: 500, data: @team.errors }
+    end
+  end
+
+  def destroy
+    team = Team.find(params[:id])
+
+    if team.destroy
+      render json: { status: 200, data: team }
+    else
+      render json: { status: 500, message: "Teamの削除に失敗しました" }
+    end
+  end
 
   private
 
