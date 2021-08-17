@@ -47,8 +47,16 @@ RSpec.describe "TeamsAPI", type: :request do
   end
 
   # teams#destroy
-  it "DELETE /api/v1/teams/:id" do
-
+  context "DELETE /api/v1/teams/:id" do
+    it 'status:200を返す' do
+      delete "/api/v1/teams/#{team.id}", headers: request_header
+      expect(response.status).to eq(200)
+    end
+    it 'データの削除' do
+      team = FactoryBot.create(:team)
+      expect { delete "/api/v1/teams/#{team.id}", headers: request_header }
+        .to change(Team, :count).by(-1)
+    end
   end
 
   # teams#remove
