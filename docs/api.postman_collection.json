@@ -15,9 +15,15 @@
 							"name": "show",
 							"request": {
 								"method": "GET",
-								"header": [],
+								"header": [
+									{
+										"key": "X-Requested-With",
+										"value": "XMLHttpRequest",
+										"type": "text"
+									}
+								],
 								"url": {
-									"raw": "http://localhost:3001/api/v1/teams/1",
+									"raw": "http://localhost:3001/api/v1/teams/4",
 									"protocol": "http",
 									"host": [
 										"localhost"
@@ -27,7 +33,7 @@
 										"api",
 										"v1",
 										"teams",
-										"1"
+										"4"
 									]
 								}
 							},
@@ -37,7 +43,13 @@
 							"name": "create",
 							"request": {
 								"method": "POST",
-								"header": [],
+								"header": [
+									{
+										"key": "X-Requested-With",
+										"value": "XMLHttpRequest",
+										"type": "text"
+									}
+								],
 								"body": {
 									"mode": "raw",
 									"raw": "{\n    \"name\":\"test_name2\"\n}",
@@ -67,7 +79,13 @@
 							"name": "update",
 							"request": {
 								"method": "PUT",
-								"header": [],
+								"header": [
+									{
+										"key": "X-Requested-With",
+										"value": "XMLHttpRequest",
+										"type": "text"
+									}
+								],
 								"body": {
 									"mode": "raw",
 									"raw": "{\n    \"name\":\"updated_name\"\n}",
@@ -78,7 +96,7 @@
 									}
 								},
 								"url": {
-									"raw": "http://localhost:3001/api/v1/teams/2",
+									"raw": "http://localhost:3001/api/v1/teams/3",
 									"protocol": "http",
 									"host": [
 										"localhost"
@@ -88,7 +106,7 @@
 										"api",
 										"v1",
 										"teams",
-										"2"
+										"3"
 									]
 								}
 							},
@@ -98,9 +116,15 @@
 							"name": "delete",
 							"request": {
 								"method": "DELETE",
-								"header": [],
+								"header": [
+									{
+										"key": "X-Requested-With",
+										"value": "XMLHttpRequest",
+										"type": "text"
+									}
+								],
 								"url": {
-									"raw": "http://localhost:3001/api/v1/teams/30",
+									"raw": "http://localhost:3001/api/v1/teams/29",
 									"protocol": "http",
 									"host": [
 										"localhost"
@@ -110,7 +134,14 @@
 										"api",
 										"v1",
 										"teams",
-										"30"
+										"29"
+									],
+									"query": [
+										{
+											"key": null,
+											"value": "",
+											"disabled": true
+										}
 									]
 								}
 							},
@@ -120,9 +151,15 @@
 							"name": "remove",
 							"request": {
 								"method": "POST",
-								"header": [],
+								"header": [
+									{
+										"key": "X-Requested-With",
+										"value": "XMLHttpRequest",
+										"type": "text"
+									}
+								],
 								"url": {
-									"raw": "http://localhost:3001/api/v1/teams/27",
+									"raw": "http://localhost:3001/api/v1/teams/26",
 									"protocol": "http",
 									"host": [
 										"localhost"
@@ -132,7 +169,7 @@
 										"api",
 										"v1",
 										"teams",
-										"27"
+										"26"
 									]
 								}
 							},
