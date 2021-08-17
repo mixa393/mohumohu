@@ -2,7 +2,7 @@ class Api::V1::TeamsController < ApplicationController
   before_action :set_team, only: [:show, :update, :destroy, :remove]
 
   def show
-    render json: { status: 200, team: @team }
+    render json: { status: 200, data: @team }
   end
 
   def create
