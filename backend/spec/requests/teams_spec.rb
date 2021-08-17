@@ -13,7 +13,7 @@ RSpec.describe "TeamsAPI", type: :request do
       expect(response.status).to eq(200)
     end
 
-    it '新しいデータが作成される' do
+    it '新しいデータの作成' do
       expect { post '/api/v1/teams', headers: request_header, params: { name: valid_param } }
         .to change(Team, :count).by(+1)
     end
@@ -21,26 +21,37 @@ RSpec.describe "TeamsAPI", type: :request do
 
   # teams#show
   context "GET /api/v1/teams/:id" do
-    it "status:200を返すこと" do
+    it "status:200を返す" do
       get "/api/v1/teams/#{team.id}", headers: request_header
       expect(response.status).to eq(200)
     end
 
-    it '特定のデータが抽出できていること' do
+    it '特定データの抽出' do
       get "/api/v1/teams/#{team.id}", headers: request_header
       json = JSON.parse(response.body)
-      expect(json['team']['name']).to eq(team.name)
+      expect(json['data']['name']).to eq(team.name)
     end
   end
 
-  it "PUT /api/v1/teams/:id" do
-
+  # teams#update
+  context "PUT /api/v1/teams/:id" do
+    it 'status:200を返す' do
+      put "/api/v1/teams/#{team.id}", headers: request_header, params: { name: "updated_name" }
+      expect(response.status).to eq(200)
+    end
+    it 'データの変更' do
+      put "/api/v1/teams/#{team.id}", headers: request_header, params: { name: "updated_name" }
+      json = JSON.parse(response.body)
+      expect(json['data']['name']).to eq('updated_name')
+    end
   end
 
+  # teams#destroy
   it "DELETE /api/v1/teams/:id" do
 
   end
 
+  # teams#remove
   it "POST /api/v1/teams/:id" do
 
   end
