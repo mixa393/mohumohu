@@ -60,7 +60,16 @@ RSpec.describe "TeamsAPI", type: :request do
   end
 
   # teams#remove
-  it "POST /api/v1/teams/:id" do
+  context "POST /api/v1/teams/:id" do
+    it 'status:200を返す' do
+      post "/api/v1/teams/#{team.id}", headers: request_header
+      expect(response.status).to eq(200)
+    end
 
+    it 'deleted_atカラムの更新' do
+      post "/api/v1/teams/#{team.id}", headers: request_header
+      json = JSON.parse(response.body)
+      expect(json['data']['deleted_at']).not_to eq(nil)
+    end
   end
 end
