@@ -1,22 +1,23 @@
-import React,{useState} from "react";
+import React, {useState} from "react";
 import Header from "../../components/common/header";
 import Footer from "../../components/common/footer";
-import TodaysWheather from "../../components/users/todaysWheather";
+import Weather from "../../components/users/weather";
 import LaundryList from "../../components/users/laundryList";
-
+import dayjs from "dayjs";
 
 const UsersIndex = () => {
     const [dateBegin] = useState({})
-
-return (
-    <>
-        <Header/>
-        <h1 className="text-green-600">{dateBegin.toLocaleString()}</h1>
-        <TodaysWheather/>
-        <LaundryList/>
-        <Footer/>
-    </>
-);
+    const now = dayjs()
+    return (
+        <>
+            <Header/>
+            <p>{dayjs().format("MM/DD")}</p>
+            <h1 className="text-green-600">h1tag</h1>
+            <Weather/>
+            <LaundryList/>
+            <Footer/>
+        </>
+    );
 }
 
 

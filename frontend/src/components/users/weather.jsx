@@ -1,10 +1,10 @@
 import React from "react";
 
-const TodaysWheather= () => {
+const Weather= () => {
     return (
         <p>今日の天気</p>
     );
 }
 
 
-export default TodaysWheather
+export default Weather
