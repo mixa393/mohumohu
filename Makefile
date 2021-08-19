@@ -2,6 +2,10 @@
 init:
 	docker-compose build
 	docker-compose up -d
+rebuild:
+	docker-compose down
+	docker-compose build
+	docker-compose up -d
 build:
 	docker-compose build
 up:
@@ -26,3 +30,6 @@ sql:
 	docker-compose exec db bash -c 'mysql -u root -ppassword'
 react:
 	docker-compose exec react sh
+restart-react:
+	docker-compose stop react
+	docker-compose start react
