@@ -28,34 +28,6 @@
     </content>
     <orderEntry type="jdk" jdkName="Remote: ruby-2.6.7-p197" jdkType="RUBY_SDK" />
     <orderEntry type="sourceFolder" forTests="false" />
-    <orderEntry type="library" scope="PROVIDED" name="actionpack (v6.1.4, Remote: ruby-2.6.7-p197) [gem]" level="application" />
-    <orderEntry type="library" scope="PROVIDED" name="actionview (v6.1.4, Remote: ruby-2.6.7-p197) [gem]" level="application" />
-    <orderEntry type="library" scope="PROVIDED" name="activesupport (v6.1.4, Remote: ruby-2.6.7-p197) [gem]" level="application" />
-    <orderEntry type="library" scope="PROVIDED" name="builder (v3.2.4, Remote: ruby-2.6.7-p197) [gem]" level="application" />
-    <orderEntry type="library" scope="PROVIDED" name="concurrent-ruby (v1.1.9, Remote: ruby-2.6.7-p197) [gem]" level="application" />
-    <orderEntry type="library" scope="PROVIDED" name="crass (v1.0.6, Remote: ruby-2.6.7-p197) [gem]" level="application" />
-    <orderEntry type="library" scope="PROVIDED" name="diff-lcs (v1.4.4, Remote: ruby-2.6.7-p197) [gem]" level="application" />
-    <orderEntry type="library" scope="PROVIDED" name="erubi (v1.10.0, Remote: ruby-2.6.7-p197) [gem]" level="application" />
-    <orderEntry type="library" scope="PROVIDED" name="i18n (v1.8.10, Remote: ruby-2.6.7-p197) [gem]" level="application" />
-    <orderEntry type="library" scope="PROVIDED" name="loofah (v2.10.0, Remote: ruby-2.6.7-p197) [gem]" level="application" />
-    <orderEntry type="library" scope="PROVIDED" name="method_source (v1.0.0, Remote: ruby-2.6.7-p197) [gem]" level="application" />
-    <orderEntry type="library" scope="PROVIDED" name="minitest (v5.14.4, Remote: ruby-2.6.7-p197) [gem]" level="application" />
-    <orderEntry type="library" scope="PROVIDED" name="nokogiri (v1.11.7, Remote: ruby-2.6.7-p197) [gem]" level="application" />
-    <orderEntry type="library" scope="PROVIDED" name="racc (v1.5.2, Remote: ruby-2.6.7-p197) [gem]" level="application" />
-    <orderEntry type="library" scope="PROVIDED" name="rack (v2.2.3, Remote: ruby-2.6.7-p197) [gem]" level="application" />
-    <orderEntry type="library" scope="PROVIDED" name="rack-test (v1.1.0, Remote: ruby-2.6.7-p197) [gem]" level="application" />
-    <orderEntry type="library" scope="PROVIDED" name="rails-dom-testing (v2.0.3, Remote: ruby-2.6.7-p197) [gem]" level="application" />
-    <orderEntry type="library" scope="PROVIDED" name="rails-html-sanitizer (v1.3.0, Remote: ruby-2.6.7-p197) [gem]" level="application" />
-    <orderEntry type="library" scope="PROVIDED" name="railties (v6.1.4, Remote: ruby-2.6.7-p197) [gem]" level="application" />
-    <orderEntry type="library" scope="PROVIDED" name="rake (v13.0.3, Remote: ruby-2.6.7-p197) [gem]" level="application" />
-    <orderEntry type="library" scope="PROVIDED" name="rspec-core (v3.10.1, Remote: ruby-2.6.7-p197) [gem]" level="application" />
-    <orderEntry type="library" scope="PROVIDED" name="rspec-expectations (v3.10.1, Remote: ruby-2.6.7-p197) [gem]" level="application" />
-    <orderEntry type="library" scope="PROVIDED" name="rspec-mocks (v3.10.2, Remote: ruby-2.6.7-p197) [gem]" level="application" />
-    <orderEntry type="library" scope="PROVIDED" name="rspec-rails (v5.0.1, Remote: ruby-2.6.7-p197) [gem]" level="application" />
-    <orderEntry type="library" scope="PROVIDED" name="rspec-support (v3.10.2, Remote: ruby-2.6.7-p197) [gem]" level="application" />
-    <orderEntry type="library" scope="PROVIDED" name="thor (v1.1.0, Remote: ruby-2.6.7-p197) [gem]" level="application" />
-    <orderEntry type="library" scope="PROVIDED" name="tzinfo (v2.0.4, Remote: ruby-2.6.7-p197) [gem]" level="application" />
-    <orderEntry type="library" scope="PROVIDED" name="zeitwerk (v2.4.2, Remote: ruby-2.6.7-p197) [gem]" level="application" />
   </component>
   <component name="RModuleSettingsStorage">
     <LOAD_PATH number="0" />
