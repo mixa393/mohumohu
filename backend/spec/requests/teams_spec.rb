@@ -31,11 +31,11 @@ RSpec.describe "TeamsAPI", type: :request do
 
   # teams#update
   it "PUT /api/v1/teams/:id" do
-    put "/api/v1/teams/#{team.id}", headers: request_header, params: { name: "updated_name" }
+    put "/api/v1/teams/#{team.id}", headers: request_header, params: { name: valid_param }
 
     # データの変更
     json = JSON.parse(response.body)
-    expect(json['data']['name']).to eq('updated_name')
+    expect(json['data']['name']).to eq(valid_param)
 
     # status:200を返す
     expect(response.status).to eq(200)
