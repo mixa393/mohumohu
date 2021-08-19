@@ -1,11 +1,22 @@
-import React from "react";
+import React,{useState} from "react";
+import Header from "../../components/common/header";
+import Footer from "../../components/common/footer";
+import TodaysWheather from "../../components/users/todaysWheather";
+import LaundryList from "../../components/users/laundryList";
+
 
 const UsersIndex = () => {
-    return (
+    const [dateBegin] = useState({})
 
-        <h1 className="text-green-500">usersのインデックス</h1>
-
-    );
+return (
+    <>
+        <Header/>
+        <h1 className="text-green-600">{dateBegin.toLocaleString()}</h1>
+        <TodaysWheather/>
+        <LaundryList/>
+        <Footer/>
+    </>
+);
 }
 
 
