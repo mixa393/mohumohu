@@ -11,7 +11,7 @@ class Api::V1::TeamsController < ApplicationController
     if team.save
       render json: { status: 200, data: team }
     else
-      render json: { status: 500, message: "Teamの作成に失敗しました", data: team.errors }
+      render json: { status: 400, message: "Teamの作成に失敗しました", data: team.errors }
     end
   end
 
