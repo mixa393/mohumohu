@@ -7,64 +7,50 @@ RSpec.describe "TeamsAPI", type: :request do
   let(:valid_param) { Faker::Team.name }
 
   # teams#create
-    it "POST /api/v1/teams" do
-      post '/api/v1/teams', headers: request_header, params: { name: valid_param }
+  it "POST /api/v1/teams" do
+    post '/api/v1/teams', headers: request_header, params: { name: valid_param }
 
-      # 新規データの作成
-      expect { post '/api/v1/teams', headers: request_header, params: { name: valid_param } }.to change(Team, :count).by(+1)
+    # 新規データの作成
+    expect { post '/api/v1/teams', headers: request_header, params: { name: valid_param } }.to change(Team, :count).by(+1)
 
-      # status:200を返す
-      expect(response.status).to eq(200)
-    end
+    # status:200を返す
+    expect(response.status).to eq(200)
+  end
 
   # teams#show
-    it "GET /api/v1/teams/:id" do
-      get "/api/v1/teams/#{team.id}", headers: request_header
+  it "GET /api/v1/teams/:id" do
+    get "/api/v1/teams/#{team.id}", headers: request_header
 
-      # 特定のデータの取り出し
-      json = JSON.parse(response.body)
-      expect(json['data']['name']).to eq(team.name)
+    # 特定のデータの取り出し
+    json = JSON.parse(response.body)
+    expect(json['data']['name']).to eq(team.name)
 
-      # status:200を返す
-      expect(response.status).to eq(200)
-    end
-
+    # status:200を返す
+    expect(response.status).to eq(200)
+  end
 
   # teams#update
-    it "PUT /api/v1/teams/:id" do
-      put "/api/v1/teams/#{team.id}", headers: request_header, params: { name: "updated_name" }
+  it "PUT /api/v1/teams/:id" do
+    put "/api/v1/teams/#{team.id}", headers: request_header, params: { name: "updated_name" }
 
-      # データの変更
-      json = JSON.parse(response.body)
-      expect(json['data']['name']).to eq('updated_name')
+    # データの変更
+    json = JSON.parse(response.body)
+    expect(json['data']['name']).to eq('updated_name')
 
-      # status:200を返す
-      expect(response.status).to eq(200)
-    end
-
-  # # teams#destroy
-  # context "DELETE /api/v1/teams/:id" do
-  #   it "DELETE /api/v1/teams/:id" do
-  #     delete "/api/v1/teams/#{team.id}", headers: request_header
-  #     expect(response.status).to eq(200)
-  #   end
-  #   it 'データの削除' do
-  #     team = FactoryBot.create(:team)
-  #     expect { delete "/api/v1/teams/#{team.id}", headers: request_header }
-  #       .to change(Team, :count).by(-1)
-  #   end
-  # end
+    # status:200を返す
+    expect(response.status).to eq(200)
+  end
 
   # teams#remove
-    it "POST /api/v1/teams/:id" do
-      post "/api/v1/teams/#{team.id}", headers: request_header
+  it "DELETE /api/v1/teams/:id" do
+    delete "/api/v1/teams/#{team.id}", headers: request_header
 
-      # deleted_atカラムの値更新
-      json = JSON.parse(response.body)
-      expect(json['data']['deleted_at']).not_to eq(nil)
+    # deleted_atカラムの値更新
+    json = JSON.parse(response.body)
+    expect(json['data']['deleted_at']).not_to eq(nil)
 
-      # status:200を返す
-      expect(response.status).to eq(200)
-    end
+    # status:200を返す
+    expect(response.status).to eq(200)
+  end
 
 end

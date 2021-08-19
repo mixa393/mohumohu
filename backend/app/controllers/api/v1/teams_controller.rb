@@ -1,5 +1,5 @@
 class Api::V1::TeamsController < ApplicationController
-  before_action :set_team, only: [:show, :update, :destroy, :remove]
+  before_action :set_team, only: [:show, :update, :destroy]
 
   def show
     render json: { status: 200, data: @team }
@@ -23,17 +23,8 @@ class Api::V1::TeamsController < ApplicationController
     end
   end
 
-  # 物理削除
-  def destroy
-    if @team.destroy
-      render json: { status: 200, data: @team }
-    else
-      render json: { status: 500, message: "Teamの削除に失敗しました" }
-    end
-  end
-
   # 論理削除
-  def remove
+  def destroy
     if @team.update(deleted_at: Time.now)
       render json: { status: 200, data: @team }
     else
