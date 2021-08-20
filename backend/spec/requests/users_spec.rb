@@ -10,15 +10,13 @@ RSpec.describe "UsersAPI", type: :request do
                          password_confirmation: user.password,
                          team_id: user.team.id } }
 
-  # it "POST /api/v1/users" do
-  #   print user.team_id
-  #   print valid_params
-  #
-  #   post '/api/v1/users', headers: request_header, params: valid_params
-  #   print response.body
-  #   expect { post '/api/v1/users', headers: request_header, params: valid_params }.to change(User, :count).by(+1)
-  #   expect(response.status).to eq(200)
-  # end
+  # 未動作
+  it "POST /api/v1/users" do
+    post '/api/v1/users', headers: request_header, params: valid_params
+    # debugger
+    expect { post '/api/v1/users', headers: request_header, params: valid_params }.to change(User, :count).by(+1)
+    expect(response.status).to eq(200)
+  end
 
   it "GET /api/v1/users/:id" do
     get "/api/v1/users/#{user.id}", headers: request_header
@@ -37,12 +35,12 @@ RSpec.describe "UsersAPI", type: :request do
     expect(response.status).to eq(200)
   end
 
-  # it "DELETE /api/v1/users/:id" do
-  #   delete "/api/v1/users/#{user.id}", headers: request_header
-  #
-  #   json = JSON.parse(response.body)
-  #   expect(json['data']['deleted_at']).not_to eq(nil)
-  #   expect(response.status).to eq(200)
-  # end
+  it "DELETE /api/v1/users/:id" do
+    delete "/api/v1/users/#{user.id}", headers: request_header
+    json = JSON.parse(response.body)
+    # debugger
+    expect(json['data']['deleted_at']).not_to eq(nil)
+    expect(response.status).to eq(200)
+  end
 
 end
