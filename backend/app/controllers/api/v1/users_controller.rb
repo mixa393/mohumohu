@@ -28,7 +28,7 @@ class Api::V1::UsersController < ApplicationController
     if @user.update(deleted_at: Time.now)
       render json: { status: 200, data: @user }
     else
-      render json: { status: 500, message: "Userの削除に失敗しました" }
+      render json: { status: 500, message: "Userの削除に失敗しました", data: @user.errors }
     end
   end
 
@@ -39,7 +39,7 @@ class Api::V1::UsersController < ApplicationController
   end
 
   def user_params
-    params.permit(:name,:email,:password,:password_confirmation,:remind_at,:team_id)
+    params.permit(:name, :email, :password, :password_confirmation, :remind_at, :team_id)
   end
 
 end
