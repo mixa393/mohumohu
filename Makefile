@@ -1,11 +1,11 @@
 # コンテナ操作コマンド
 init:
 	docker-compose build
-	docker-compose up -d
+	docker-compose up
 rebuild:
 	docker-compose down
 	docker-compose build
-	docker-compose up -d
+	docker-compose up
 build:
 	docker-compose build
 up:
@@ -15,9 +15,6 @@ down:
 restart:
 	docker-compose stop
 	docker-compose start
-rebuild:
-	docker-compose down
-	docker-compose build
 clean:
 	docker system prune
 
