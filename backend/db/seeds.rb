@@ -1,7 +1,33 @@
-# This file should contain all the record creation needed to seed the database with its default values.
-# The data can then be loaded with the bin/rails db:seed command (or created alongside the database with db:setup).
+5.times do |n|
+  Team.create!(
+    name: Faker::Team.name
+  )
+end
+
+# # user作成
+# Team.all.each do |team|
+#   password= Faker::Internet.password
 #
-# Examples:
+#   team.users.create!(
+#     name: Faker::Internet.username,
+#     email: Faker::Internet.unique.email,
+#     password: password,
+#     password_confirmation: password
+#   )
+# end
 #
-#   movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
-#   Character.create(name: 'Luke', movie: movies.first)
+# # laundry作成
+# User.all.each do |n|
+#   user.laundries.create!(
+#     team_id: Team.find(n),
+#     name: Faker::String.random(length: 3..12)
+#   )
+# end
+#
+# # laundry_history作成
+# Laundry.all.each do |n|
+#   laundry.laundry_histories.create!(
+#     user_id: User.find(n),
+#     laundry_id: Laundry.find(n)
+#   )
+# end
