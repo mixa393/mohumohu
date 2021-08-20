@@ -1,4 +1,4 @@
-class API::V1::UsersController < ApplicationController
+class Api::V1::UsersController < ApplicationController
   before_action :set_user, only: [:show, :update, :destroy]
 
   def show
@@ -39,7 +39,7 @@ class API::V1::UsersController < ApplicationController
   end
 
   def user_params
-    params.permit(:name)
+    params.permit(:name,:email,:password,:password_confirmation,:remind_at,:team_id)
   end
 
 end
