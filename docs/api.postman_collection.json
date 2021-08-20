@@ -1,0 +1,183 @@
+{
+	"info": {
+		"_postman_id": "b45d26c0-5a8c-4a02-a000-d8ac28262708",
+		"name": "api",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "v1",
+			"item": [
+				{
+					"name": "user",
+					"item": [
+						{
+							"name": "show",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "X-Requested-With",
+										"value": "XMLHttpRequest",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "http://localhost:3001/api/v1/teams/4",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "3001",
+									"path": [
+										"api",
+										"v1",
+										"teams",
+										"4"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "create",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "X-Requested-With",
+										"value": "XMLHttpRequest",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"name\":\"test_name2\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:3001/api/v1/teams",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "3001",
+									"path": [
+										"api",
+										"v1",
+										"teams"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "update",
+							"request": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "X-Requested-With",
+										"value": "XMLHttpRequest",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"name\":\"updated_name\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:3001/api/v1/teams/3",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "3001",
+									"path": [
+										"api",
+										"v1",
+										"teams",
+										"3"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "delete",
+							"request": {
+								"method": "DELETE",
+								"header": [
+									{
+										"key": "X-Requested-With",
+										"value": "XMLHttpRequest",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "http://localhost:3001/api/v1/teams/29",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "3001",
+									"path": [
+										"api",
+										"v1",
+										"teams",
+										"29"
+									],
+									"query": [
+										{
+											"key": null,
+											"value": "",
+											"disabled": true
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "remove",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "X-Requested-With",
+										"value": "XMLHttpRequest",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "http://localhost:3001/api/v1/teams/26",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "3001",
+									"path": [
+										"api",
+										"v1",
+										"teams",
+										"26"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				}
+			]
+		}
+	]
+}
