@@ -29,14 +29,14 @@ RSpec.describe "UsersAPI", type: :request do
     expect(response.status).to eq(200)
   end
 
-  # it "PUT /api/v1/users/:id" do
-  #   put "/api/v1/users/#{user.id}", headers: request_header, params: { name: valid_param }
-  #
-  #   json = JSON.parse(response.body)
-  #   expect(json['data']['name']).to eq(valid_param)
-  #   expect(response.status).to eq(200)
-  # end
-  #
+  it "PUT /api/v1/users/:id" do
+    put "/api/v1/users/#{user.id}", headers: request_header, params: valid_params
+    json = JSON.parse(response.body)
+
+    expect(json['data']['name']).to eq(valid_params[:name])
+    expect(response.status).to eq(200)
+  end
+
   # it "DELETE /api/v1/users/:id" do
   #   delete "/api/v1/users/#{user.id}", headers: request_header
   #
