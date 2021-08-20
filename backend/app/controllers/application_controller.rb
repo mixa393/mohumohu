@@ -1,7 +1,5 @@
-class ApplicationController < ActionController::Base
+class ApplicationController < ActionController::API
   before_action :check_xhr_header
-  skip_forgery_protection
-
 
   private
 
