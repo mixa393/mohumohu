@@ -1,22 +1,32 @@
-import React, { useState } from "react"
-import { createuser } from "../../lib/api/users"
+import React, {useState} from "react"
+import {createUser} from "../../lib/api/users"
 
-export const userForm = ({ users, setusers }) => {
-    const [title, setTitle] = useState<string>("")
+export const Form = ({users, setUsers}) => {
+    const [userInfo, setUserInfo] = useState({
+        name: "",
+        email: "",
+        password: "",
+        remind_at: "",
+        team_id: 1
+    })
 
-    const handleCreateuser = async (e) => {
+    const handleCreateUser = async (e) => {
         e.preventDefault()
 
         const data = {
-            title: title
+            name: userInfo.name,
+            email: userInfo.email,
+            password: userInfo.password,
+            remind_at: userInfo.remind_at,
+            team_id: userInfo.team_id
         }
 
         try {
-            const res = await createuser(data)
+            const res = await createUser(data)
             console.log(res)
 
             if (res.status == 200) {
-                setusers([...users, res.data.user])
+                setUsers([...users, res.data.user])
             } else {
                 console.log(res.data.message)
             }
@@ -24,19 +34,47 @@ export const userForm = ({ users, setusers }) => {
             console.log(err)
         }
 
-        setTitle("")
+        setUserInfo("")
     }
 
     return (
-        <form onSubmit={handleCreateuser}>
+        <form onSubmit={handleCreateUser}>
             <input
                 type="text"
-                value={title}
+                value={userInfo.name}
                 onChange={(e) => {
-                    setTitle(e.target.value)
+                    setUserInfo(e.target.value)
                 }}
             />
-            <input type="submit" value="Add" disabled={!title} />
+            <input
+                type="text"
+                value={userInfo.mail}
+                onChange={(e) => {
+                    setUserInfo(e.target.value)
+                }}
+            />
+            <input
+                type="text"
+                value={userInfo.password}
+                onChange={(e) => {
+                    setUserInfo(e.target.value)
+                }}
+            />
+            <input
+                type="text"
+                value={userInfo.remind_at}
+                onChange={(e) => {
+                    setUserInfo(e.target.value)
+                }}
+            />
+            <input
+                type="hidden"
+                value={userInfo.team_id}
+                onChange={(e) => {
+                    setUserInfo(e.target.value)
+                }}
+            />
+            <input type="submit" value="Add" disabled={!title}/>
         </form>
     )
 }

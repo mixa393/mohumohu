@@ -1,14 +1,14 @@
 import React from "react"
-import { deleteuser } from "../../lib/api/users"
+import { deleteUser } from "../../lib/api/users"
 
-export const userItem = ({ user, setusers }) => {
-    const handleDeleteuser = async (id) => {
+export const laundryItem = ({ user, setUsers }) => {
+    const handleDeleteUser = async (id) => {
         try {
-            const res = await deleteuser(id)
+            const res = await deleteUser(id)
             console.log(res)
 
             if (res?.status === 200) {
-                setusers((prev) => prev.filter((user) => user.id !== id))
+                setUsers((prev) => prev.filter((user) => user.id !== id))
             } else {
                 console.log(res.data.message)
             }
@@ -21,7 +21,7 @@ export const userItem = ({ user, setusers }) => {
         <tr>
             <td>{user.title}</td>
             <td>
-                <button onClick={() => handleDeleteuser(user.id || 0)}>Delete</button>
+                <button onClick={() => handleDeleteUser(user.id || 0)}>Delete</button>
             </td>
         </tr>
     )
