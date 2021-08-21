@@ -10,9 +10,6 @@ export const getWeather = (id) => {
 
 export const getWeatherFormat = (id) => {
     return getWeather(id)
-        .then(res => {
-            return res.json()
-        })
         .then(data => {
             return {
                 telop: data.forecasts[0].telop,
