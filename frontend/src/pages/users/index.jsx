@@ -7,11 +7,12 @@ import dayjs from "dayjs";
 
 const UsersIndex = () => {
     const date = dayjs().format('MM/DD ddd')
+    const locationId = 130010
     return (
         <>
             <Header date={date}/>
             <h1 className="text-green-600">h1tag</h1>
-            <Weather/>
+            <Weather locationId={locationId}/>
             <LaundryList/>
             <Footer/>
         </>
