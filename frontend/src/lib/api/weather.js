@@ -13,7 +13,8 @@ export const getWeatherFormat = (id) => {
         .then(({data}) => {
             return {
                 telop: data.forecasts[0].telop,
-                image_url: data.forecasts[0].image.url,
+                imageTitle: data.forecasts[0].image.title,
+                imageUrl: data.forecasts[0].image.url,
                 chanceOfRainAM: data.forecasts[0].chanceOfRain["T06_12"],
                 chanceOfRainPM: data.forecasts[0].chanceOfRain["T12_18"],
             }
