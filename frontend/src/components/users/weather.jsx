@@ -1,5 +1,20 @@
 import React, {useState, useEffect} from "react";
 import {getWeatherFormat} from "../../lib/api/weather";
+import cloud from "../../images/users/cloud.jpg";
+import sunny from "../../images/users/sunny.jpg";
+import rainy from "../../images/users/rainy.jpg";
+
+const backgroundImage = (telop) => {
+    if (telop.indexOf("雨") > 0) {
+        return "background--rainy"
+    } else if (telop.indexOf("曇り") > 0) {
+        return "background--cloud"
+    } else if (telop.indexOf("晴れ") > 0) {
+        return "background--sunny"
+    } else {
+        return "background--cloud"
+    }
+};
 
 const Weather = ({locationId}) => {
     const [weather, setWeather] = useState(
@@ -15,13 +30,15 @@ const Weather = ({locationId}) => {
         setWeather(await getWeatherFormat(locationId))
     })
 
+
     return (
         <>
-            <div className="bg-pink-100">
-                <p>{weather.telop}</p>
-                <img src={weather.imageUrl} alt={weather.imageTitle}/>
-                <p><span className="text-xs">AM</span>{weather.chanceOfRainAM}</p>
-                <p><span className="text-xs">PM</span>{weather.chanceOfRainAM}</p>
+            <div className={`h-64 flex flex-col justify-around items-center ${backgroundImage(weather.telop)}`}>
+                <img src={weather.imageUrl} alt={weather.imageTitle} className="w-56 weather__image rounded-full"/>
+                <div className="flex text-yellow-400 text-2xl">
+                    <p className="mx-3 bg-gradient-to-tr from-white to-transparent rounded-xl p-3 font-bold"><span className="text-xs align-top">AM</span>{weather.chanceOfRainAM}</p>
+                    <p className="mx-3 bg-gradient-to-tr from-white to-transparent rounded-xl p-3 font-bold"><span className="text-xs align-top">PM</span>{weather.chanceOfRainAM}</p>
+                </div>
             </div>
         </>
     );

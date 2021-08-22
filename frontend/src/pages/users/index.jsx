@@ -4,6 +4,8 @@ import Footer from "../../components/common/footer";
 import Weather from "../../components/users/weather";
 import LaundryList from "../../components/users/laundryList";
 import dayjs from "dayjs";
+import "../../css/user.css";
+
 
 const UsersIndex = () => {
     const date = dayjs().format('MM/DD ddd')

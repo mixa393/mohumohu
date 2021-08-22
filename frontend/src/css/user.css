@@ -1,0 +1,18 @@
+.background--cloud {
+    background-image: url("../images/users/cloud.jpg");
+    background-size: cover;
+}
+
+.background--sunny {
+    background-image: url("../images/users/sunny.jpg");
+    background-size: cover;
+}
+
+.background--rainy {
+    background-image: url("../images/users/rainy.jpg");
+    background-size: cover;
+}
+
+.weather__image{
+    background: radial-gradient(rgba(255,255,255,1),rgba(255,255,255,0));
+}
