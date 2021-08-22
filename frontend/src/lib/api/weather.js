@@ -10,7 +10,7 @@ export const getWeather = (id) => {
 
 export const getWeatherFormat = (id) => {
     return getWeather(id)
-        .then(data => {
+        .then(({data}) => {
             return {
                 telop: data.forecasts[0].telop,
                 image_url: data.forecasts[0].image.url,
