@@ -4,7 +4,8 @@ RSpec.describe "TeamsAPI", type: :request do
 
   let(:team) { FactoryBot.create(:team) }
   let(:request_header) { { "X-Requested-With" => "XMLHttpRequest" } }
-  let(:valid_param) { Faker::Team.name }
+  let(:valid_param) { { name: Faker::Team.name,
+                        location_id: 280010 } }
 
   # teams#create
   it "POST /api/v1/teams" do
