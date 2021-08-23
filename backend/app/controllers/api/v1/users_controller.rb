@@ -25,7 +25,8 @@ class Api::V1::UsersController < ApplicationController
 
   # 論理削除
   def destroy
-    if @user.update(deleted_at: Time.now)
+    @user[:deleted_at] = Time.now
+    if @user.update(user_params)
       render json: { status: 200, data: @user }
     else
       render json: { status: 500, message: "Userの削除に失敗しました", data: @user.errors }
@@ -39,7 +40,7 @@ class Api::V1::UsersController < ApplicationController
   end
 
   def user_params
-    params.permit(:name, :email, :password, :password_confirmation, :remind_at, :team_id)
+    params.permit(:name, :email, :password, :password_confirmation, :remind_at, :team_id, :deleted_at)
   end
 
 end
