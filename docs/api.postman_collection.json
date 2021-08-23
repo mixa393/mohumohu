@@ -9,7 +9,7 @@
 			"name": "v1",
 			"item": [
 				{
-					"name": "user",
+					"name": "teams",
 					"item": [
 						{
 							"name": "show",
@@ -23,7 +23,7 @@
 									}
 								],
 								"url": {
-									"raw": "http://localhost:3001/api/v1/teams/4",
+									"raw": "http://localhost:3001/api/v1/teams/25",
 									"protocol": "http",
 									"host": [
 										"localhost"
@@ -33,7 +33,7 @@
 										"api",
 										"v1",
 										"teams",
-										"4"
+										"25"
 									]
 								}
 							},
@@ -124,7 +124,7 @@
 									}
 								],
 								"url": {
-									"raw": "http://localhost:3001/api/v1/teams/29",
+									"raw": "http://localhost:3001/api/v1/teams/25",
 									"protocol": "http",
 									"host": [
 										"localhost"
@@ -134,7 +134,7 @@
 										"api",
 										"v1",
 										"teams",
-										"29"
+										"25"
 									],
 									"query": [
 										{
@@ -146,9 +146,42 @@
 								}
 							},
 							"response": []
+						}
+					]
+				},
+				{
+					"name": "users",
+					"item": [
+						{
+							"name": "show",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "X-Requested-With",
+										"value": "XMLHttpRequest",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "http://localhost:3001/api/v1/users/4",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "3001",
+									"path": [
+										"api",
+										"v1",
+										"users",
+										"4"
+									]
+								}
+							},
+							"response": []
 						},
 						{
-							"name": "remove",
+							"name": "create",
 							"request": {
 								"method": "POST",
 								"header": [
@@ -158,8 +191,17 @@
 										"type": "text"
 									}
 								],
+								"body": {
+									"mode": "raw",
+									"raw": " {\n     \"name\":\"user_name\",\n     \"email\":\"test@mail.com\",\n     \"password\":\"testpassword\",\n     \"password_confirmation\":\"testpassword\",\n     \"team_id\":1\n }",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
 								"url": {
-									"raw": "http://localhost:3001/api/v1/teams/26",
+									"raw": "http://localhost:3001/api/v1/users",
 									"protocol": "http",
 									"host": [
 										"localhost"
@@ -168,8 +210,81 @@
 									"path": [
 										"api",
 										"v1",
-										"teams",
-										"26"
+										"users"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "update",
+							"request": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "X-Requested-With",
+										"value": "XMLHttpRequest",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"name\":\"updated\",\n    \"team_id\":\"2\",\n    \"password\":\"testpassword\",\n    \"password_confirmation\":\"testpassword\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:3001/api/v1/users/60",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "3001",
+									"path": [
+										"api",
+										"v1",
+										"users",
+										"60"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "delete",
+							"request": {
+								"method": "DELETE",
+								"header": [
+									{
+										"key": "X-Requested-With",
+										"value": "XMLHttpRequest",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"password\":\"testpassword\",\n    \"password_confirmation\":\"testpassword\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:3001/api/v1/users/60",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "3001",
+									"path": [
+										"api",
+										"v1",
+										"users",
+										"60"
 									]
 								}
 							},
