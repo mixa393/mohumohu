@@ -1,28 +1,41 @@
-import React, {useState} from "react"
+import React, {useState, useEffect} from "react"
 import {createUser} from "../../lib/api/users"
+import {createTeam} from "../../lib/api/teams"
+import locationId from "../../lib/api/locationId.json"
 
-export const Form = ({users, setUsers}) => {
+export const Form = () => {
+    const [location, setLocation] = useState({
+        local: "",
+        pref: ""
+    })
+
+    const [teamInfo, setTeamInfo] = useState({
+        name:"",
+        locationId: ""
+    })
+
     const [userInfo, setUserInfo] = useState({
         name: "",
         email: "",
         password: "",
-        remind_at: "",
-        team_id: 1
+        password_confirmation: "",
+        remind_at: ""
     })
 
     const handleCreateUser = async (e) => {
         e.preventDefault()
 
-        const data = {
-            name: userInfo.name,
-            email: userInfo.email,
-            password: userInfo.password,
-            remind_at: userInfo.remind_at,
-            team_id: userInfo.team_id
-        }
-
+        // TODO: チームの作成処理
         try {
-            const res = await createUser(data)
+            const resTeam = await createTeam(teamInfo)
+            const team_id = resTeam.data.id
+
+            const userData = {
+                ...userInfo,
+                team_id
+            }
+
+            const res = await createUser(userData)
             console.log(res)
 
             if (res.status == 200) {
@@ -62,19 +75,47 @@ export const Form = ({users, setUsers}) => {
             />
             <input
                 type="text"
-                value={userInfo.remind_at}
+                value={userInfo.password_confirmation}
                 onChange={(e) => {
                     setUserInfo(e.target.value)
                 }}
             />
             <input
-                type="hidden"
-                value={userInfo.team_id}
+                type="text"
+                value={userInfo.remind_at}
                 onChange={(e) => {
                     setUserInfo(e.target.value)
                 }}
             />
+            <select onChange={(e) => {
+                setLocation({local: e.target.value})
+            }}>
+                {
+                    locationId.keys().map(local => <option value={local}>{local}</option>)
+                }
+            </select>
+            {location.local && (
+                <select onChange={setLocation({pref: e.target.value})}>
+                    {
+                        (location.local?.length > 0) && (locationId[location.local].map(pref => <option
+                            value={pref}>{pref}</option>))
+                    }
+                </select>
+            )
+            }
+            {location.pref && (
+                <select onChange={setTeamInfo({locationId: locationId[location.local][location.pref][e.target.value]})}>
+                    {
+                        (location.pref?.length > 0) && (locationId[location.pref].map(city => <option
+                            value={locationId[location.local][location.pref][city]}>{city}</option>))
+                    }
+                </select>
+            )
+            }
+
             <input type="submit" value="Add" disabled={!title}/>
         </form>
     )
 }
+
+export default Form
