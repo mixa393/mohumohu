@@ -19,7 +19,7 @@ class Api::V1::TeamsController < ApplicationController
     if @team.update(team_params)
       render json: { status: 200, data: @team }
     else
-      render json: { status: 500, data: @team.errors }
+      render json: { status: 400, data: @team.errors }
     end
   end
 
@@ -28,7 +28,7 @@ class Api::V1::TeamsController < ApplicationController
     if @team.update(deleted_at: Time.now)
       render json: { status: 200, data: @team }
     else
-      render json: { status: 500, message: "Teamの削除に失敗しました" }
+      render json: { status: 400, message: "Teamの削除に失敗しました" }
     end
   end
 

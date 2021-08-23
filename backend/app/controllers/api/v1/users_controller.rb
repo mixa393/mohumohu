@@ -19,17 +19,18 @@ class Api::V1::UsersController < ApplicationController
     if @user.update(user_params)
       render json: { status: 200, data: @user }
     else
-      render json: { status: 500, data: @user.errors }
+      render json: { status: 400, data: @user.errors }
     end
   end
 
   # 論理削除
   def destroy
     @user[:deleted_at] = Time.now
+
     if @user.update(user_params)
       render json: { status: 200, data: @user }
     else
-      render json: { status: 500, message: "Userの削除に失敗しました", data: @user.errors }
+      render json: { status: 400, message: "Userの削除に失敗しました", data: @user.errors }
     end
   end
 
