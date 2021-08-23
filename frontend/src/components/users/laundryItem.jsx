@@ -1,12 +1,14 @@
 import React from "react"
-import { deleteUser } from "../../lib/api/users"
 
-export const laundryItem = ({ user, setUsers }) => {
-
-
+const LaundryItem = () => {
     return (
-        <tr>
-            <td>{user.title}</td>
-        </tr>
+        <>
+            <div className="flex bg-pink-200">
+                <p>トップス</p>
+                <p>あと3日</p>
+            </div>
+        </>
     )
 }
+
+export default LaundryItem
