@@ -39,6 +39,6 @@ class Api::V1::TeamsController < ApplicationController
   end
 
   def team_params
-    params.permit(:name)
+    params.permit(:name,:location_id)
   end
 end
