@@ -30,6 +30,7 @@ package phase1{
     + id [PK] : int
     --
     name : varchar(31)
+    location_id : varchar(6)
     created_at : datetime
     updated_at : datetime
     deleted_at : datetime

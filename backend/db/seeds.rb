@@ -1,6 +1,7 @@
 5.times do |n|
   Team.create!(
-    name: Faker::Team.name
+    name: Faker::Team.name,
+    location_id: 130010
   )
 end
 
