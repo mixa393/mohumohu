@@ -4,18 +4,18 @@
   )
 end
 
-# # user作成
-# Team.all.each do |team|
-#   password= Faker::Internet.password
-#
-#   team.users.create!(
-#     name: Faker::Internet.username,
-#     email: Faker::Internet.unique.email,
-#     password: password,
-#     password_confirmation: password
-#   )
-# end
-#
+# user作成
+Team.all.each do |team|
+  password= Faker::Internet.password
+
+  team.users.create!(
+    name: Faker::Internet.username,
+    email: Faker::Internet.unique.email,
+    password: password,
+    password_confirmation: password
+  )
+end
+
 # # laundry作成
 # User.all.each do |n|
 #   user.laundries.create!(
