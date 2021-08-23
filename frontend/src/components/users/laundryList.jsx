@@ -1,5 +1,6 @@
 import React from "react";
 import {laundryItem} from "./laundryItem"
+import tops01 from "../../images/laundries/tops01.png"
 
 const LaundryList= () => {
     return (
@@ -15,7 +16,10 @@ const LaundryList= () => {
             {/*        )*/}
             {/*    })*/}
             {/*}</li>*/}
-            <li>今日の洗濯物2</li>
+            <li>
+                <div className="list-item flex items-end w-24 h-24"><p>トップス</p></div>
+                <p>あと3日</p>
+            </li>
         </ul>
     );
 }
