@@ -9,8 +9,6 @@ RSpec.describe "UsersAPI", type: :request do
                          password: user.password,
                          password_confirmation: user.password,
                          team_id: user.team.id } }
-  let(:passwords) { { password: user.password,
-                      password_confirmation: user.password } }
 
   it "POST /api/v1/users" do
     expect { post '/api/v1/users', headers: request_header, params: valid_params }.to change(User, :count).by(+1)
@@ -35,7 +33,7 @@ RSpec.describe "UsersAPI", type: :request do
   end
 
   it "DELETE /api/v1/users/:id" do
-    delete "/api/v1/users/#{user.id}", headers: request_header, params: passwords
+    delete "/api/v1/users/#{user.id}", headers: request_header
     json = JSON.parse(response.body)
     expect(json['data']['deleted_at']).not_to eq(nil)
     expect(response.status).to eq(200)
