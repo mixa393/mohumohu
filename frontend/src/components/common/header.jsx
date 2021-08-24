@@ -1,15 +1,20 @@
 import React from "react";
-import setting from "../../images/common/settings.png";
+import menu from "../../images/common/menu.svg";
+import sun from "../../images/common/sun.svg";
+import setting from "../../images/common/setting.svg"
 
 const Header = ({date}) => {
     return (
-        <header className="bg-pink-400 h-16">
-            <div className="flex h-full justify-between items-center">
-                <p className="mx-9 text-3xl text-white font-bold">{date}.</p>
-                <nav className="mx-9 h-2/5">
-                    <img src={setting} alt="ユーザー設定編集" className="h-full max-h-full w-auto"/>
-                </nav>
+        <header className="h-16 grid grid-cols-10">
+            <div className="h-16 col-span-6 bg-pink-400">
+                <img src={sun} alt="ダッシュボード" className="h-3/5 w-auto mx-auto mt-3"/>
             </div>
+            <div className="h-16 col-span-3 bg-pink-300">
+                <img src={menu} alt="洗濯物リスト" className="h-3/5 w-auto m-auto mt-3"/>
+            </div>
+            <nav className="h-16 col-span-1 bg-pink-200">
+                <img src={setting} alt="ユーザー設定編集" className="h-3/5 w-auto m-auto mt-3"/>
+            </nav>
         </header>
     );
 }
