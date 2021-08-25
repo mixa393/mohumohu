@@ -11,11 +11,19 @@ class Api::V1::WeatherController < ApplicationController
     res = JSON.parse(responce)
 
     data = {
+      # 都市名
       city: res["location"]["city"],
+
+      # ["forecasts"]に配列で3日間のデータが入っている
       # [0]は今日のデータ
+
+      # 今日の大まかな天気
       telop: res["forecasts"][0]["telop"],
+      # 午前の降水確率
       chance_of_rain_am: res["forecasts"][0]["chanceOfRain"]["T06_12"],
+      # 午後の降水確率
       chance_of_rain_pm: res["forecasts"][0]["chanceOfRain"]["T12_18"],
+      # 天気の画像
       image_url: res["forecasts"][0]["image"]["url"]
     }
 
