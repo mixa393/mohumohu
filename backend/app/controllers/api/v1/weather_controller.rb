@@ -1,4 +1,6 @@
 class Api::V1::WeatherController < ApplicationController
+  # 本番環境では不要なもののPostmanでは以下が必要
+  # require 'net/http'
 
   def get
     location_id = weather_params[:location_id]
