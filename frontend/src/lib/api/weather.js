@@ -8,8 +8,8 @@ export const getWeather = (id) => {
     return weatherBase.get(`/${id}`)
 }
 
-export const getWeatherFormat = (id) => {
-    return getWeather(id)
+export const getWeatherFormat = async (id) => {
+    return await getWeather(id)
         .then(({data}) => {
             return {
                 telop: data.forecasts[0].telop,
@@ -19,6 +19,6 @@ export const getWeatherFormat = (id) => {
                 chanceOfRainPM: data.forecasts[0].chanceOfRain["T12_18"],
             }
         })
-        // .catch(err => alert("エラーが発生しました。ページをリロードして下さい。"));
+        .catch(err => alert("エラーが発生しました。ページをリロードして下さい。"));
 }
 

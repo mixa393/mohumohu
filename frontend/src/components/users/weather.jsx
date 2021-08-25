@@ -1,15 +1,12 @@
 import React, {useState, useEffect} from "react";
 import {getWeatherFormat} from "../../lib/api/weather";
-import cloud from "../../images/users/cloud.jpg";
-import sunny from "../../images/users/sunny.jpg";
-import rainy from "../../images/users/rainy.jpg";
 
 const backgroundImage = (telop) => {
-    if (telop.indexOf("雨") > 0) {
+    if (telop?.indexOf("雨") > 0) {
         return "background--rainy"
-    } else if (telop.indexOf("曇り") > 0) {
+    } else if (telop?.indexOf("曇り") > 0) {
         return "background--cloud"
-    } else if (telop.indexOf("晴れ") > 0) {
+    } else if (telop?.indexOf("晴れ") > 0) {
         return "background--sunny"
     } else {
         return "background--cloud"
@@ -26,9 +23,11 @@ const Weather = ({locationId}) => {
             chanceOfRainPM: ""
         }
     )
-    useEffect(async () => {
-        setWeather(await getWeatherFormat(locationId))
-    })
+    useEffect( () => {
+        getWeatherFormat(locationId).then(r => {
+            setWeather(r)
+        })
+    },[locationId])
 
 
     return (
