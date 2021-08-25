@@ -17,14 +17,16 @@ Team.all.each do |team|
   )
 end
 
-# # laundry作成
-# User.all.each do |n|
-#   user.laundries.create!(
-#     team_id: Team.find(n),
-#     name: Faker::String.random(length: 3..12)
-#   )
-# end
-#
+# laundry作成
+User.all.each do |user|
+  user.laundries.create!(
+    team_id: user.team_id,
+    user_id:user.id,
+    name: Faker::String.random(length: 3..12),
+    days:rand(7..12)
+  )
+end
+
 # # laundry_history作成
 # Laundry.all.each do |n|
 #   laundry.laundry_histories.create!(
