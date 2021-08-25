@@ -6,6 +6,7 @@ Rails.application.routes.draw do
     namespace :v1 do
       resources :teams, only: [:show, :create, :update, :destroy]
       resources :users, only: [:show, :create, :update, :destroy]
+      get "/weather", "/weather#get"
     end
   end
 end
