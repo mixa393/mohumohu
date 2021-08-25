@@ -19,10 +19,17 @@ class Api::V1::WeatherController < ApplicationController
       image_url: res["forecasts"][0]["image"]["url"]
     }
 
-    render json: {
-      status: 200,
-      data: data
-    }
+    if res
+      render json: {
+        status: 200,
+        data: data
+      }
+    else
+      render json: {
+        status: 400,
+        message: "天気の取得に失敗しました"
+      }
+    end
   end
 
   def weather_params
