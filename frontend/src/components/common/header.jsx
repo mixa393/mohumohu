@@ -54,7 +54,7 @@ const Header = ({date}) => {
         <>
             <header>
                 <div className="h-16 grid grid-cols-11">
-                    <div className={width.index}>
+                    <div className={`transition duration-150 ease-in-outduration-300 ${width.index}`}>
                         <Link className="h-16 bg-pink-400 flex justify-items-center items-center" to={"/"}>
                             <img src={sun} alt="ダッシュボード" className="h-3/5 w-auto mx-auto"/>
                         </Link>
