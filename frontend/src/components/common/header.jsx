@@ -3,6 +3,7 @@ import {Link, useLocation} from "react-router-dom"
 import sun from "../../images/common/sun.svg";
 import tshirt from "../../images/common/tshirts.svg"
 import menu from "../../images/common/menu.svg";
+import Menu from "./menu"
 
 const Header = ({date}) => {
     const location = useLocation()
@@ -49,9 +50,10 @@ const Header = ({date}) => {
                 </Link>
             </div>
             <nav className={width.setting}>
-                <Link className="h-16 bg-pink-100 flex justify-items-center items-center" to={"/setting"}>
-                    <img src={menu} alt="設定編集" className="h-2/5 w-auto mx-auto"/>
-                </Link>
+                {/*<Link className="h-16 bg-pink-100 flex justify-items-center items-center" to={"/setting"}>*/}
+                {/*    <img src={menu} alt="設定編集" className="h-2/5 w-auto mx-auto"/>*/}
+                {/*</Link>*/}
+                <Menu right width={'20%'}/>
             </nav>
         </header>
     );
