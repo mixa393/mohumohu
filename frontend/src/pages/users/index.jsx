@@ -1,8 +1,7 @@
-// import React, {useState} from "react";
-import Header from "../../components/common/header";
-import Footer from "../../components/common/footer";
+import React from "react";
 import Weather from "../../components/users/weather";
 import LaundryList from "../../components/users/laundryList";
+// import Form from "../../components/users/form";
 import dayjs from "dayjs";
 import "../../css/user.css";
 
@@ -12,11 +11,9 @@ const UsersIndex = () => {
     const locationId = 130010
     return (
         <>
-            <Header date={date}/>
-            <h1 className="text-green-600">h1tag</h1>
-            <Weather locationId={locationId}/>
+            <Weather locationId={locationId} date={date}/>
             <LaundryList/>
-            <Footer/>
+            {/*<Form/>*/}
         </>
     );
 }
