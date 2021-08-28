@@ -4,7 +4,7 @@ RSpec.describe "Laundries", type: :request do
   let(:laundry) { FactoryBot.create(:laundry) }
   let(:request_header) { { "X-Requested-With" => "XMLHttpRequest" } }
   let!(:valid_params) { { name: laundry.name,
-                          days: laundry.days,
+                          wash_at: laundry.wash_at,
                           user_id: laundry.user_id,
                           team_id: laundry.team_id } }
 
