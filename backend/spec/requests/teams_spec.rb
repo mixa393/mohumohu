@@ -4,14 +4,15 @@ RSpec.describe "TeamsAPI", type: :request do
 
   let(:team) { FactoryBot.create(:team) }
   let(:request_header) { { "X-Requested-With" => "XMLHttpRequest" } }
-  let(:valid_param) { Faker::Team.name }
+  let(:valid_params) { { name: Faker::Team.name,
+                        location_id: 280010 } }
 
   # teams#create
   it "POST /api/v1/teams" do
-    post '/api/v1/teams', headers: request_header, params: { name: valid_param }
+    post '/api/v1/teams', headers: request_header, params:  valid_params
 
     # 新規データの作成
-    expect { post '/api/v1/teams', headers: request_header, params: { name: valid_param } }.to change(Team, :count).by(+1)
+    expect { post '/api/v1/teams', headers: request_header, params: valid_params  }.to change(Team, :count).by(+1)
 
     # status:200を返す
     expect(response.status).to eq(200)
@@ -31,11 +32,11 @@ RSpec.describe "TeamsAPI", type: :request do
 
   # teams#update
   it "PUT /api/v1/teams/:id" do
-    put "/api/v1/teams/#{team.id}", headers: request_header, params: { name: valid_param }
+    put "/api/v1/teams/#{team.id}", headers: request_header, params: valid_params
 
     # データの変更
     json = JSON.parse(response.body)
-    expect(json['data']['name']).to eq(valid_param)
+    expect(json['data']['name']).to eq(valid_params[:name])
 
     # status:200を返す
     expect(response.status).to eq(200)

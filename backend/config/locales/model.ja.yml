@@ -1,0 +1,34 @@
+ja:
+  activerecord:
+    models:
+      team: チーム
+      user: ユーザー
+      laundry: 洗濯物
+      laundry_history: 洗濯履歴
+    attributes:
+      team:
+        id: ID
+        name: 名
+      user:
+        id: ID
+        team_id: チームID
+        name: 名前
+        email: メールアドレス
+        password: パスワード
+        remind_at: リマインドする日
+      laundry:
+        id: ID
+        name: 名
+        description: 説明
+        days: 洗濯するまでの期間
+        notice: リマインダーの通知文
+        team_id: チームID
+        user_id: ユーザーID
+      laundry_history:
+        user_id: ユーザーID
+        laundry_id: 洗濯物ID
+  # 全てのmodelで使用するattributes
+  attributes:
+    created_at: 作成日
+    updated_at: 更新日
+    deleted_at: 削除日
