@@ -19,9 +19,14 @@ RSpec.describe Laundry, type: :model do
       expect(laundry).not_to be_valid
     end
 
-    it "日数が無ければ無効" do
-      laundry.days = nil
+    it "wash_atが無ければ無効" do
+      laundry.wash_at = nil
       expect(laundry).not_to be_valid
+    end
+
+    it "wash_atがあればdaysがNULLでも無効" do
+      laundry.days = nil
+      expect(laundry).to be_valid
     end
 
     it "日数が数字以外なら無効" do
@@ -33,6 +38,6 @@ RSpec.describe Laundry, type: :model do
       laundry.description = "a" * 256
       expect(laundry).not_to be_valid
     end
-
   end
+
 end
