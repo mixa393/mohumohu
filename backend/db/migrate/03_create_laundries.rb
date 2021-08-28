@@ -5,7 +5,8 @@ class CreateLaundries < ActiveRecord::Migration[6.1]
       t.bigint :user_id, null: false
       t.string :name, null: false, limit: 127
       t.string :description, limit: 255
-      t.integer :days, null: false, default: 7, comment: "次の洗濯までの期間、デフォルトは7日"
+      t.integer :days, default: 7, comment: "次の洗濯までの期間、デフォルトは7日"
+      t.date :wash_at, null: false, comment: "次回の洗濯日"
       t.text :notice, comment: "洗濯期間が過ぎたときの通知文"
       t.datetime :deleted_at
       t.timestamps
