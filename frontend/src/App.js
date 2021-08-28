@@ -1,8 +1,8 @@
 import {
-    Router,
+    BrowserRouter,
     Switch,
     Route,
-} from "react-router";
+} from "react-router-dom";
 import './css/App.css';
 import Header from './components/common/header'
 import Footer from './components/common/footer'
@@ -11,27 +11,33 @@ import LaundriesIndex from "./pages/laundries";
 
 function App() {
     return (
-        <Router>
-            <Header/>
-            <div className="App">
-                <Switch>
-                    <Route path={"/"}>
-                        <UsersIndex/>
-                    </Route>
-                    <Route path={"/weekly"}>
-                        <LaundriesIndex/>
-                    </Route>
-                    <Route path={"/register"}>
-                        <UsersIndex/>
-                    </Route>
-                    <Route path={"/settings"}>
-                        <UsersIndex/>
-                    </Route>
-                </Switch>
-            </div>
-            <Footer/>
-        </Router>
+        <BrowserRouter>
+            <div className="App flex flex-col">
+                <Header/>
+                <div className="flex-1">
+                    <Switch>
+                        <Route exact path="/">
+                            <UsersIndex/>
+                        </Route>
+                        <Route path="/laundries">
+                            <LaundriesIndex/>
+                        </Route>
+                        <Route path="/settings">
+                            <div>設定</div>
+                        </Route>
+                        {/*TODO:認証後では関連*/}
+                        <Route path="/login">
+                            <div>ログイン画面予定</div>
+                        </Route>
+                        <Route path="/logout">
+                            <div>ログアウト予定</div>
+                        </Route>
 
+                    </Switch>
+                </div>
+                <Footer/>
+            </div>
+        </BrowserRouter>
     );
 }
 
