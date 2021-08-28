@@ -7,6 +7,7 @@ Rails.application.routes.draw do
       resources :teams, only: [:show, :create, :update, :destroy]
       resources :users, only: [:show, :create, :update, :destroy]
       resources :laundries, only: [:show, :create, :update, :destroy]
+      get 'laundries/weekly/:id', to: 'laundries#weekly'
     end
   end
 end
