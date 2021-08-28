@@ -39,6 +39,6 @@ class Api::V1::LaundriesController < ApplicationController
   end
 
   def laundry_params
-    params.permit(:name,:description,:days,:team_id,:user_id,:deleted_at)
+    params.permit(:name,:description,:days,:notice,:wash_at,:team_id,:user_id,:deleted_at)
   end
 end
