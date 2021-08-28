@@ -37,7 +37,7 @@ class Api::V1::LaundriesController < ApplicationController
   def weekly
     week_data = []
 
-    for day in 0...7 do
+    (0...7).each { |day|
       today = Time.now.to_date
 
       if @laundry.wash_at == today + day
@@ -47,7 +47,7 @@ class Api::V1::LaundriesController < ApplicationController
       else
         week_data.push(0)
       end
-    end
+    }
     render json: { status: 200, data: week_data }
   end
 
