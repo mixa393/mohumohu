@@ -3,7 +3,7 @@ class Api::V1::WeatherController < ApplicationController
   # require 'net/http'
 
   def get
-    location_id = weather_params[:location_id]
+    location_id = params[:location_id]
 
     # 天気取得API https://weather.tsukumijima.net/
     uri = URI.parse("https://weather.tsukumijima.net/api/forecast/city/#{location_id}")
@@ -40,12 +40,6 @@ class Api::V1::WeatherController < ApplicationController
         message: "天気の取得に失敗しました"
       }
     end
-  end
-
-  private
-
-  def weather_params
-    params
   end
 
 end
