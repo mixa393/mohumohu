@@ -6,11 +6,13 @@ class Api::V1::WeatherController < ApplicationController
     # 天気取得API https://weather.tsukumijima.net を利用して天気データを返却する
     # @param [VARCHAR(6)] location_id 地区ID
     # @return [json] status,data
-    # data = {city: 都市名, telop: 天気, chance_of_rain_am: 午前の降水確率,
-    #         chance_of_rain_pm: 午後の降水確率, image_url:天気画像のURL}
+    # data = {city: 都市名,
+    #         telop: 天気,
+    #         chance_of_rain_am: 午前の降水確率,
+    #         chance_of_rain_pm: 午後の降水確率,
+    #         image_url: 天気画像のURL}
 
     location_id = params[:location_id]
-
 
     uri = URI.parse("https://weather.tsukumijima.net/api/forecast/city/#{location_id}")
 
