@@ -41,11 +41,4 @@ RSpec.describe "Laundries", type: :request do
     expect(response.status).to eq(200)
   end
 
-  # laundries#weekly
-  it "GET /api/v1/laundries/weekly/:id" do
-    get "/api/v1/laundries/weekly/#{laundry.id}", headers: request_header
-    json = JSON.parse(response.body)
-    expect(json["data"].size).to eq(7)
-    expect(response.status).to eq(200)
-  end
 end

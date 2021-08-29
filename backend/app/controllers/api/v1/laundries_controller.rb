@@ -1,5 +1,5 @@
 class Api::V1::LaundriesController < ApplicationController
-  before_action :set_laundry, only: [:show, :update, :destroy, :weekly]
+  before_action :set_laundry, only: [:show, :update, :destroy]
 
   def show
     render json: { status: 200, data: @laundry }
@@ -30,25 +30,6 @@ class Api::V1::LaundriesController < ApplicationController
     else
       render json: { status: 400, message: "Laundryの削除に失敗しました", data: @laundry.errors }
     end
-  end
-
-  # 1週間のうち、洗濯する日=2、洗濯する日の前後=1を配列で返却する
-  # フロントのマス目の色変化用
-  def weekly
-    week_data = []
-
-    (0...7).each { |day|
-      today = Time.now.to_date
-
-      if @laundry.wash_at == today + day
-        week_data.push(2)
-      elsif @laundry.wash_at == today + day - 1 || @laundry.wash_at == today + day + 1
-        week_data.push(1)
-      else
-        week_data.push(0)
-      end
-    }
-    render json: { status: 200, data: week_data }
   end
 
   private
