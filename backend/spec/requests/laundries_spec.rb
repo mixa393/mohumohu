@@ -1,12 +1,13 @@
 require 'rails_helper'
 
 RSpec.describe "Laundries", type: :request do
+  let(:user){FactoryBot.create(:user) }
   let(:laundry) { FactoryBot.create(:laundry) }
   let(:request_header) { { "X-Requested-With" => "XMLHttpRequest" } }
-  let!(:valid_params) { { name: laundry.name,
-                          wash_at: laundry.wash_at,
-                          user_id: laundry.user_id,
-                          team_id: laundry.team_id } }
+  let!(:valid_params) { { name: Faker::String.random(length: 3..12),
+                          wash_at: Time.now.to_date + 5,
+                          user_id: user.id,
+                          team_id: user.team_id } }
 
   # laundries#create
   it "POST /api/v1/laundries" do
