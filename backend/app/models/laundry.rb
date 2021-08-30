@@ -11,7 +11,7 @@ class Laundry < ApplicationRecord
 
   validates :image_path, length: { maximum: 127 }
 
-  validates :wash_at_check
+  validate :wash_at_check
 
   def wash_at_check
     errors.add(:wash_at, "は現在の日時より遅い時間を選択してください") if self.wash_at < Time.now.to_date
