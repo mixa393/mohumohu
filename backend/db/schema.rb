@@ -17,9 +17,10 @@ ActiveRecord::Schema.define(version: 4) do
     t.bigint "user_id", null: false
     t.string "name", limit: 127, null: false
     t.string "description"
-    t.integer "days", default: 7, comment: "次の洗濯までの期間、デフォルトは7日"
-    t.date "wash_at", null: false, comment: "次回の洗濯日"
+    t.integer "days", comment: "次の洗濯までの期間"
+    t.date "wash_at", default: "2021-09-06", null: false, comment: "次回の洗濯日"
     t.text "notice", comment: "洗濯期間が過ぎたときの通知文"
+    t.string "image_path", limit: 127, default: "default.svg", null: false
     t.datetime "deleted_at"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
