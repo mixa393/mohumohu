@@ -7,7 +7,7 @@ end
 
 # user作成
 Team.all.each do |team|
-  password = Faker::Internet.password
+  password= Faker::Internet.password
 
   team.users.create!(
     name: Faker::Internet.username,
@@ -18,8 +18,9 @@ Team.all.each do |team|
 end
 
 # laundry作成
+# 各ユーザにつき5つ
 User.all.each do |user|
-  3.times do
+  5.times do
     user.laundries.create!(
       team_id: user.team_id,
       name: Faker::String.random(length: 3..12),
@@ -28,6 +29,7 @@ User.all.each do |user|
       notice:"#{Faker::String.random(length: 3..12)}の洗濯期限になりました。"
     )
   end
+
 end
 
 # # laundry_history作成
