@@ -9,7 +9,7 @@ class Laundry < ApplicationRecord
   validates :days, presence: true, unless: :wash_at?
   validates :days, numericality: { only_integer: true }, allow_nil: true
 
-  validates :image_path, length: { maximum: 127 }
+  validates :image, length: { maximum: 127 }
 
   validate :wash_at_check
 
