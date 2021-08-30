@@ -1,5 +1,4 @@
 class Api::V1::WeeklyController < ApplicationController
-  # before_action :get_laundries
 
   def show
     # statusと、チームに所属する洗濯物全てについてデータをjsonで返却する
