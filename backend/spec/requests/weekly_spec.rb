@@ -7,8 +7,6 @@ RSpec.describe "Weekly", type: :request do
 
   it "GET /weekly/:id" do
     team_id = team.id
-    print team_id
-    print laundries
     get "/api/v1/weekly/#{team_id}", headers: request_header
 
     json = JSON.parse(response.body)
