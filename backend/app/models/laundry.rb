@@ -9,5 +9,11 @@ class Laundry < ApplicationRecord
   validates :days, presence: true, unless: :wash_at?
   validates :days, numericality: { only_integer: true }, allow_nil: true
 
-  validates :wash_at, presence: true
+  validates :image_path, length: { maximum: 127 }
+
+  validate :wash_at_check
+
+  def wash_at_check
+    errors.add(:wash_at, "は現在の日時より遅い時間を選択してください") if self.wash_at < Time.now.to_date
+  end
 end
