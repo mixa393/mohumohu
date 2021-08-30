@@ -15,6 +15,7 @@ locations = [{ id: "016010", city: "札幌" },
   )
 end
 
+
 # user作成
 Team.all.each do |team|
   rand(1..3).times do |n|
@@ -24,18 +25,31 @@ Team.all.each do |team|
       name: Faker::Name.first_name,
       email: Faker::Internet.unique.email,
       password: password,
-      password_confirmation: password
+      password_confirmation: password,
+      remind_at: Random.rand(Time.parse("08:00:00")..Time.parse("22:00:00"))
     )
   end
 end
 
 # laundry作成
 # 各ユーザにつき5つ
-laundry_categories = %w[シーツ 枕カバー ぬいぐるみ タオル 毛布 服 カーテン 布団カバー マット ブランケット クッション]
+laundry_categories = [{ name: "シーツ", image: "sheets" },
+                      { name: "枕カバー", image: "pillow" },
+                      { name: "ぬいぐるみ", image: "bear" },
+                      { name: "タオル", image: "bath-towel" },
+                      { name: "服", image: "default" },
+                      { name: "カーテン", image: "curtains" },
+                      { name: "布団カバー", image: "duvet-cover" },
+                      { name: "マット", image: "mat" },
+                      { name: "毛布", image: "blanket" },
+                      { name: "クッション", image: "cushion" }]
+
 day_numbers = [nil, 3, 5, 7, 9, 12]
 
 User.all.each do |user|
   rand(1..5).times do
+    laundry = laundry_categories.sample
+
     # daysはday_numbersからランダムに選出
     # もしdaysがnullだったら次の洗濯日は10~30日後
     days = day_numbers.sample
@@ -43,11 +57,12 @@ User.all.each do |user|
 
     user.laundries.create!(
       team_id: user.team_id,
-      name: "#{user.name}の#{laundry_categories.sample}",
+      name: "#{user.name}の#{laundry[:name]}",
       days: days,
       wash_at: Time.now.to_date + plus_days,
-      description: "#{user.name}の#{laundry_categories.sample}の説明文",
-      notice: "#{user.name}の#{laundry_categories.sample}の洗濯期限になりました。"
+      description: "#{user.name}の#{laundry[:name]}の説明文",
+      notice: "#{user.name}の#{laundry[:name]}の洗濯期限になりました。",
+      image: laundry[:image]
     )
   end
 
