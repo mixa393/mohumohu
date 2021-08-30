@@ -19,8 +19,8 @@ RSpec.describe Laundry, type: :model do
       expect(laundry).not_to be_valid
     end
 
-    it "wash_atが無ければ無効" do
-      laundry.wash_at = nil
+    it "wash_atが現在より前の日付なら無効" do
+      laundry.wash_at = Time.now.to_date - 3
       expect(laundry).not_to be_valid
     end
 
