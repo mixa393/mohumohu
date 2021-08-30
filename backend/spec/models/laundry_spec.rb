@@ -38,6 +38,11 @@ RSpec.describe Laundry, type: :model do
       laundry.description = "a" * 256
       expect(laundry).not_to be_valid
     end
+
+    it "imageが128文字以上であれば無効" do
+      laundry.image = "a" * 128
+      expect(laundry).not_to be_valid
+    end
   end
 
 end
