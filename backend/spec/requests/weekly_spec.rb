@@ -1,13 +1,12 @@
 require 'rails_helper'
 
 RSpec.describe "Weekly", type: :request do
-  let(:team) { FactoryBot.create(:team) }
-  let(:laundries) { FactoryBot.create_list(:laundry, 5, team_id: team.id) }
+  let!(:team) { FactoryBot.create(:team) }
+  let!(:laundries) { FactoryBot.create_list(:laundry, 5, team_id: team.id) }
   let(:request_header) { { "X-Requested-With" => "XMLHttpRequest" } }
 
   it "GET /weekly/:id" do
-    team_id = team.id
-    get "/api/v1/weekly/#{team_id}", headers: request_header
+    get "/api/v1/weekly/#{team.id}", headers: request_header
 
     json = JSON.parse(response.body)
 
