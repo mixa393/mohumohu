@@ -12,24 +12,19 @@ class Api::V1::LaundriesController < ApplicationController
     #     {id: 洗濯物ID, name: 洗濯物の名前, week_data: 配列},
     #     {id: 洗濯物ID, name: 洗濯物の名前, week_data: 配列}
     # }
-
     laundries = Laundry.where(team_id: params[:team_id])
     data = []
 
-    begin
-      laundries.each do |laundry|
-        data.push({ id: laundry.id,
-                    name: laundry.name,
-                    image: laundry.image,
-                    week_data: weekly(laundry)
-                  }
-        )
-      end
-
-      render json: { status: 200, data: data }
-    rescue
-      render json: { status: 400, message: "データが取得できませんでした" }
+    laundries.each do |laundry|
+      data.push({ id: laundry.id,
+                  name: laundry.name,
+                  image: laundry.image,
+                  week_data: weekly(laundry)
+                }
+      )
     end
+
+    render json: { status: 200, data: data }
   end
 
   def weekly(laundry)
@@ -42,21 +37,17 @@ class Api::V1::LaundriesController < ApplicationController
 
     week_data = []
 
-    begin
-      (0...6).each { |day|
-        today = Time.now.to_date
+    (0...6).each { |day|
+      today = Time.now.to_date
 
-        if laundry.wash_at == today + day
-          week_data.push(2)
-        elsif laundry.wash_at == today + day - 1 || laundry.wash_at == today + day + 1
-          week_data.push(1)
-        else
-          week_data.push(0)
-        end
-      }
-    rescue
-      week_data = [0, 0, 0, 0, 0, 0, 0]
-    end
+      if laundry.wash_at == today + day
+        week_data.push(2)
+      elsif laundry.wash_at == today + day - 1 || laundry.wash_at == today + day + 1
+        week_data.push(1)
+      else
+        week_data.push(0)
+      end
+    }
 
     week_data
   end
