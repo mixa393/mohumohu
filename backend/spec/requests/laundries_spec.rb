@@ -1,13 +1,33 @@
 require 'rails_helper'
 
 RSpec.describe "Laundries", type: :request do
-  let(:user){FactoryBot.create(:user) }
-  let(:laundry) { FactoryBot.create(:laundry) }
+  # 全てのリクエストで使用
   let(:request_header) { { "X-Requested-With" => "XMLHttpRequest" } }
+
+  # indexで使用
+  let!(:team) { FactoryBot.create(:team) }
+  let!(:laundries) { FactoryBot.create_list(:laundry, 5, team_id: team.id) }
+
+  # create, updateで使用
+  let(:user) { FactoryBot.create(:user) }
   let!(:valid_params) { { name: Faker::String.random(length: 3..12),
                           wash_at: Time.now.to_date + 5,
                           user_id: user.id,
                           team_id: user.team_id } }
+
+  # show, update, removeで使用
+  let(:laundry) { FactoryBot.create(:laundry) }
+
+
+  # laundries#index
+  it "GET /laundries" do
+    get "/api/v1/laundries", headers: request_header, params: { id: team.id }
+
+    json = JSON.parse(response.body)
+
+    expect(json["data"].first["name"]).to eq(laundries.first.name)
+    expect(response.status).to eq(200)
+  end
 
   # laundries#create
   it "POST /api/v1/laundries" do
