@@ -45,6 +45,7 @@ package phase1{
     description : varchar(255)
     days : int
     notice : text
+    image : varchar(127)
     created_at : datetime
     updated_at : datetime
     deleted_at : datetime
