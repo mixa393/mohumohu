@@ -6,7 +6,7 @@ Rails.application.routes.draw do
     namespace :v1 do
       resources :teams, only: [:show, :create, :update, :destroy]
       resources :users, only: [:show, :create, :update, :destroy]
-      resources :weekly, only: [:show]
+      resources :laundries, only: [:show, :create, :update, :destroy]
     end
   end
 end
