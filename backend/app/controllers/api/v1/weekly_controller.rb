@@ -40,7 +40,7 @@ class Api::V1::WeeklyController < ApplicationController
     week_data = []
 
     begin
-      (0...7).each { |day|
+      (0...6).each { |day|
         today = Time.now.to_date
 
         if laundry.wash_at == today + day
