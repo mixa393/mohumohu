@@ -21,7 +21,7 @@ RSpec.describe "Laundries", type: :request do
 
   # laundries#index
   it "GET /laundries" do
-    get "/api/v1/laundries", headers: request_header, params: { id: team.id }
+    get "/api/v1/laundries", headers: request_header, params: { team_id: team.id }
 
     json = JSON.parse(response.body)
 

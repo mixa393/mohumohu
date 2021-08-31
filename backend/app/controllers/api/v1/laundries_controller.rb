@@ -13,7 +13,7 @@ class Api::V1::LaundriesController < ApplicationController
     #     {id: 洗濯物ID, name: 洗濯物の名前, week_data: 配列}
     # }
 
-    laundries = Laundry.where(team_id: params[:id])
+    laundries = Laundry.where(team_id: params[:team_id])
     data = []
 
     begin
