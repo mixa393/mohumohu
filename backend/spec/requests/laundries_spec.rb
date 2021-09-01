@@ -26,6 +26,7 @@ RSpec.describe "Laundries", type: :request do
     json = JSON.parse(response.body)
 
     expect(json["data"].first["name"]).to eq(laundries.first.name)
+    expect(json["data"].first["weekly"].length).to eq(7)
     expect(response.status).to eq(200)
   end
 
