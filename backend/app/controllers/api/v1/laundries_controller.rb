@@ -12,7 +12,7 @@ class Api::V1::LaundriesController < ApplicationController
       data.push({ id: laundry.id,
                   name: laundry.name,
                   image: laundry.image,
-                  week_data: weekly(laundry)
+                  weekly: weekly(laundry)
                 }
       )
     end
@@ -30,7 +30,7 @@ class Api::V1::LaundriesController < ApplicationController
   def weekly(laundry)
     week_data = []
 
-    (0...6).each { |day|
+    (0...7).each { |day|
       today = Time.now.to_date
 
       if laundry.wash_at == today + day
