@@ -1,17 +1,10 @@
 class Api::V1::LaundriesController < ApplicationController
   before_action :set_laundry, only: [:show, :update, :destroy]
 
+  # statusと、チームに所属する洗濯物全てについてデータをjsonで返却する
+  # @return [json] status,data = {id: 洗濯物ID, name: 洗濯物名, image: 画像, weekly: その週の洗濯する日か否かの配列}
+  # @param [Integer] team_id チームID
   def index
-    # statusと、チームに所属する洗濯物全てについてデータをjsonで返却する
-    # id: 洗濯物ID, name: 洗濯物の名前, week_data: その週の洗濯する日か否かの配列
-    # @return [json] status,data
-
-    # 返却例
-    # { status:200,
-    #   data:
-    #     {id: 洗濯物ID, name: 洗濯物の名前, week_data: 配列},
-    #     {id: 洗濯物ID, name: 洗濯物の名前, week_data: 配列}
-    # }
     laundries = Laundry.where(team_id: params[:team_id])
     data = []
 
@@ -27,14 +20,14 @@ class Api::V1::LaundriesController < ApplicationController
     render json: { status: 200, data: data }
   end
 
+  # ある洗濯物について、今日を含む1週間の中で洗濯する日orその前後の日を数字で返却する
+  # index内で呼び出す
+  # 洗濯する日:2, その前後の日:1, それ以外の日:0
+  # 要素数7
+  # 返却例: [0, 0, 1, 2, 1, 0, 0, 0]
+  # @return [Array] integer
+  # @params [Object] laundry
   def weekly(laundry)
-    # ある洗濯物について、今日を含む1週間の中で洗濯する日orその前後の日を数字で返却する
-    # index内で呼び出す
-    # @return [Array] integer
-    # 洗濯する日:2, その前後の日:1, それ以外の日:0
-    # 要素数7
-    # 返却例: [0, 0, 1, 2, 1, 0, 0, 0]
-
     week_data = []
 
     (0...6).each { |day|
