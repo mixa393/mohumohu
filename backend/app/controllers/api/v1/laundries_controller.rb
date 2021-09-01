@@ -5,7 +5,7 @@ class Api::V1::LaundriesController < ApplicationController
   # @return [json] status,data = {id: 洗濯物ID, name: 洗濯物名, image: 画像, weekly: その週の洗濯する日か否かの配列}
   # @param [Integer] team_id チームID
   def index
-    laundries = Laundry.where(team_id: params[:team_id])
+    laundries = Laundry.where(deleted_at: nil).where(team_id: params[:team_id])
     data = []
 
     laundries.each do |laundry|
@@ -79,7 +79,7 @@ class Api::V1::LaundriesController < ApplicationController
   private
 
   def set_laundry
-    @laundry = Laundry.find(params[:id])
+    @laundry = Laundry.where(deleted_at: nil).find(params[:id])
   end
 
   def laundry_params
