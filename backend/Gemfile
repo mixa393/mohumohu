@@ -22,6 +22,7 @@ gem 'bcrypt', '~> 3.1.7'
 # トークンベースの認証を行う
 gem 'devise'
 gem 'devise_token_auth'
+gem 'omniauth'
 
 # Reduces boot times through caching; required in config/boot.rb
 gem 'bootsnap', '>= 1.4.4', require: false
