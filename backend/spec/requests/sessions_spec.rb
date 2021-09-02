@@ -12,10 +12,14 @@ RSpec.describe "Sessions", type: :request do
   end
 
   it 'DELETE /logout' do
-
+    delete "/api/v1/logout", headers: request_header
+    expect(response.status).to eq(200)
   end
-  it 'GET logged_in' do
 
+  it 'GET logged_in' do
+    get "/api/v1/logged_in", headers: request_header, params: sessions
+    debugger
+    expect(response.status).to eq(200)
   end
 
 end
