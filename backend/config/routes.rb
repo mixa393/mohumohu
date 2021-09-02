@@ -4,9 +4,9 @@ Rails.application.routes.draw do
       resources :teams, only: [:show, :create, :update, :destroy]
       resources :users, only: [:show, :create, :update, :destroy]
       resources :laundries, only: [:show, :create, :update, :destroy]
-      get    '/login',   to: 'sessions#new'
-      post   '/login',   to: 'sessions#create'
-      delete '/logout',  to: 'sessions#destroy'
+      post '/login', to: 'sessions#login'
+      delete '/logout', to: 'sessions#logout'
+      get '/logged_in', to: 'sessions#logged_in?'
     end
   end
 end
