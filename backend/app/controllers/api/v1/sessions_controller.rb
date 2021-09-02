@@ -22,9 +22,9 @@ class Api::V1::SessionsController < ApplicationController
   # ユーザーのログイン状態を返却
   def logged_in?
     if @current_user
-      render json: { logged_in: true, user: current_user }
+      render json: { status: 200, logged_in: true, user: current_user }
     else
-      render json: { logged_in: false, message: 'ユーザーが存在しません' }
+      render json: { status: 401, logged_in: false, message: 'ユーザーが存在しません' }
     end
   end
 

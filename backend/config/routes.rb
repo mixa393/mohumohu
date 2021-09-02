@@ -5,7 +5,7 @@ Rails.application.routes.draw do
       resources :users, only: [:show, :create, :update, :destroy]
       resources :laundries, only: [:show, :create, :update, :destroy]
       post '/login', to: 'sessions#login'
-      delete '/logout', to: 'sessions#logout'
+      post '/logout', to: 'sessions#logout'
       get '/logged_in', to: 'sessions#logged_in?'
     end
   end
