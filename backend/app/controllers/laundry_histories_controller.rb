@@ -1,0 +1,2 @@
+class LaundryHistoriesController < ApplicationController
+end
