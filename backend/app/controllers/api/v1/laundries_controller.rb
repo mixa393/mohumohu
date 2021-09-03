@@ -29,10 +29,9 @@ class Api::V1::LaundriesController < ApplicationController
   # @params [Object] laundry
   def weekly(laundry)
     week_data = []
+    today = Time.now.to_date
 
     (0...7).each { |day|
-      today = Time.now.to_date
-
       if laundry.wash_at == today + day
         week_data.push(2)
       elsif laundry.wash_at == today + day - 1 || laundry.wash_at == today + day + 1
