@@ -7,6 +7,7 @@ Rails.application.routes.draw do
       resources :teams, only: [:show, :create, :update, :destroy]
       resources :users, only: [:show, :create, :update, :destroy]
       resources :laundries
+      resources :laundry_histories, only: [:index, :show, :create, :destroy]
       get "/weather", to: "weather#get"
     end
   end
