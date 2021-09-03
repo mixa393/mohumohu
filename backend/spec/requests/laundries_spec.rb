@@ -23,6 +23,10 @@ RSpec.describe "Laundries", type: :request do
     it 'weeklyの取得' do
       get "/api/v1/laundries", headers: request_header, params: { team_id: team.id }
       json = JSON.parse(response.body)
+      # 5日後がFactoryBotでの初期設定のwash_at
+      expect(json["data"].first["weekly"][4]).to eq(1)
+      expect(json["data"].first["weekly"][5]).to eq(2)
+      expect(json["data"].first["weekly"][6]).to eq(1)
       expect(json["data"].first["weekly"].length).to eq(7)
     end
   end
