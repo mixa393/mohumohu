@@ -6,10 +6,6 @@ RSpec.describe "Sessions", type: :request do
   let(:request_header) { { "X-Requested-With" => "XMLHttpRequest" } }
   let(:valid_params) { { user: { user_id: user.id, email: user.email, password: user.password } } }
 
-  before do
-    allow_any_instance_of(ActionDispatch::Request).to receive(:session).and_return({ user_id: user.id, email: user.email, password: user.password })
-  end
-
   it "POST /login" do
     post "/api/v1/login", headers: request_header, params: valid_params
     expect(response.status).to eq(200)
