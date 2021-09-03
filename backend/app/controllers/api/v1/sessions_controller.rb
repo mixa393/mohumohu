@@ -4,7 +4,7 @@ class Api::V1::SessionsController < ApplicationController
   # 入力したpassword/password_confirmationと、DBのpassword_digestの値を比較
   # 合致した場合にtrue
   def login
-    @user = User.find_by(email: session_params[:email])
+    @user = User.where(deleted_at: nil).find_by(email: session_params[:email])
 
     if @user && @user.authenticate(session_params[:password])
       login!
