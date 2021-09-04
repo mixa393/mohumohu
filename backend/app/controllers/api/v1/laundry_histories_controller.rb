@@ -1,22 +1,18 @@
-class LaundryHistoriesController < ApplicationController
+class Api::V1::LaundryHistoriesController < ApplicationController
 
   #ユーザーの所属しているチームに属する洗濯物の履歴を全件取得する
-  # @params [Integer] user_id
   # @return [json] status,data
   def index
     laundry_histories = []
 
-    # ユーザーの所属チームを取得
-    team_id = User.find(params[:user_id]).team_id
-
     # 所属チームの洗濯物を取得
-    laundries = Laundry.where(deleted_at: nil, team_id: team_id)
+    laundries = Laundry.where(deleted_at: nil, team_id: current_team.id)
 
     # 所属チームの洗濯物の履歴を全件表示
-    laundries.each do
-      laundry_history = LaundryHistory.where(deleted_at: nil, laundry_id: params[:laundry_id])
+    laundries.each { |laundry|
+      laundry_history = LaundryHistory.where(deleted_at: nil, laundry_id: laundry.id)
       laundry_histories << laundry_history
-    end
+    }
 
     render json: { status: 200, data: laundry_histories }
   end
