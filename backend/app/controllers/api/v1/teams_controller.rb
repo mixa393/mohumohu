@@ -35,7 +35,7 @@ class Api::V1::TeamsController < ApplicationController
   private
 
   def set_team
-    @team = Team.where(deleted_at: nil).find(params[:id])
+    @team = Team.where(deleted_at: nil).find(@current_team.id)
   end
 
   def team_params

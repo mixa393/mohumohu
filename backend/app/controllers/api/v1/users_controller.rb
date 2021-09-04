@@ -38,7 +38,7 @@ class Api::V1::UsersController < ApplicationController
   private
 
   def set_user
-    @user = User.where(deleted_at: nil).find(params[:id])
+    @user = User.where(deleted_at: nil).find(@current_user.id)
   end
 
   def user_params
