@@ -35,7 +35,7 @@ class Api::V1::LaundriesController < ApplicationController
   private
 
   def set_laundry
-    @laundry = Laundry.find(params[:id])
+    @laundry = Laundry.where(deleted_at: nil).find(params[:id])
   end
 
   def laundry_params

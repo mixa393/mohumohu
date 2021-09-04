@@ -9,6 +9,7 @@ class Api::V1::UsersController < ApplicationController
     user = User.new(user_params)
 
     if user.save
+      login!
       render json: { status: 200, data: user }
     else
       render json: { status: 400, message: "Userの作成に失敗しました", data: user.errors }
@@ -37,7 +38,7 @@ class Api::V1::UsersController < ApplicationController
   private
 
   def set_user
-    @user = User.find(params[:id])
+    @user = User.where(deleted_at: nil).find(params[:id])
   end
 
   def user_params
