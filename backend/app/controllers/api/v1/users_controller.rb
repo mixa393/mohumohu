@@ -10,7 +10,12 @@ class Api::V1::UsersController < ApplicationController
     user = User.new(user_params)
 
     if user.save
-      login!
+      # ログイン
+      login(user)
+
+      # 記憶トークンの保存
+      remember user
+
       render json: { status: 200, data: user }
     else
       render json: { status: 400, message: "Userの作成に失敗しました", data: user.errors }
