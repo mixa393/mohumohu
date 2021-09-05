@@ -11,7 +11,7 @@ class Api::V1::UsersController < ApplicationController
 
     if user.save
       # ログイン
-      login(user)
+      login! user
 
       # 記憶トークンの保存
       remember user
