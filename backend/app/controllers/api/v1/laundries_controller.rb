@@ -32,16 +32,30 @@ class Api::V1::LaundriesController < ApplicationController
     today = Time.now.to_date
 
     (0...7).each { |day|
-      if laundry.wash_at == today + day
-        week_data.push(2)
-      elsif laundry.wash_at == today + day - 1 || laundry.wash_at == today + day + 1
-        week_data.push(1)
-      else
-        week_data.push(0)
-      end
+      week_data.push(wash_day_type(today + day, laundry))
     }
 
     week_data
+  end
+
+  # 日付と比較して2,1,0のいずれかを返す
+  # 洗濯する日 = 2, その前後の日 = 1, それ以外の日 = 0
+  # @param [Date] day
+  # @param [Object] laundry
+  # @return [Integer] 2 or 1 or 0
+  def wash_day_type(day, laundry)
+    wash_at = laundry.wash_at
+    wash_at_plus_days = wash_at + laundry.days
+    wash_at_plus_twice_days = wash_at + (2 * laundry.days)
+
+    case day
+    when wash_at, wash_at_plus_days, wash_at_plus_twice_days
+      2
+    when wash_at + 1, wash_at - 1, wash_at_plus_days - 1, wash_at_plus_days + 1, wash_at_plus_twice_days - 1, wash_at_plus_twice_days + 1
+      1
+    else
+      0
+    end
   end
 
   def show
