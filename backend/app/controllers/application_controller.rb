@@ -1,11 +1,15 @@
 class ApplicationController < ActionController::API
-  helper_method :login!, :current_user, :current_team
+  helper_method :login!, login?, :current_user, :current_team
   before_action :check_xhr_header
 
   # セッションを使用してユーザーログイン
   def login!
     session[:user_id] = @user.id
     session[:team_id] = @user.team_id
+  end
+
+  def login?
+    !@current_user.nil?
   end
 
   # ログイン中のユーザーを取得するインスタンス変数
@@ -26,7 +30,7 @@ class ApplicationController < ActionController::API
 
   def check_xhr_header
     return if request.xhr?
-
     render json: { error: 'forbidden' }, status: :forbidden
   end
+
 end
