@@ -15,6 +15,12 @@ class User < ApplicationRecord
   # 以下ログイン用
   attr_accessor :remember_token
 
+  def User.digest(string)
+    cost = ActiveModel::SecurePassword.min_cost ? BCrypt::Engine::MIN_COST :
+             BCrypt::Engine.cost
+    BCrypt::Password.create(string, cost: cost)
+  end
+
   # ランダムなトークンを返す
   def User.new_token
     SecureRandom.urlsafe_base64
@@ -32,7 +38,7 @@ class User < ApplicationRecord
     BCrypt::Password.new(remember_digest).is_password?(remember_token)
   end
 
-  # ユーザーログインを破棄
+  # remember_digestを破棄
   def forget
     update_attribute(:remember_digest, nil)
   end
