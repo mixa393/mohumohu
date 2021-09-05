@@ -1,4 +1,5 @@
 class Api::V1::TeamsController < ApplicationController
+  before_action :login?, only: [:show, :update, :destroy]
   before_action :set_team, only: [:show, :update, :destroy]
 
   def show
@@ -39,6 +40,6 @@ class Api::V1::TeamsController < ApplicationController
   end
 
   def team_params
-    params.permit(:name,:location_id)
+    params.permit(:name, :location_id)
   end
 end
