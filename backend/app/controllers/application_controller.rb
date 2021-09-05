@@ -1,4 +1,5 @@
 class ApplicationController < ActionController::API
+  include ActionController::Cookies
   helper_method :login!, :login?, :remember, :current_user, :current_team
   before_action :check_xhr_header
 
@@ -30,8 +31,10 @@ class ApplicationController < ActionController::API
       user = User.find_by(id: cookies.signed[:user_id])
 
       if user && user.authenticated?(cookies[:remember_token])
+        login! user
         @current_user = user
       end
+
     end
   end
 
@@ -49,13 +52,12 @@ class ApplicationController < ActionController::API
     end
   end
 
-  # 永続的セッションを破棄する
-  def forget(user)
-    user.forget
-    cookies.delete(:user_id)
-    cookies.delete(:remember_token)
-  end
-
+  # # 永続的セッションを破棄する
+  # def forget(user)
+  #   user.forget
+  #   cookies.delete(:user_id)
+  #   cookies.delete(:remember_token)
+  # end
 
   private
 
