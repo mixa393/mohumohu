@@ -1,5 +1,5 @@
 class Api::V1::UsersController < ApplicationController
-  before_action :login?,only: [:show,:update,:destroy]
+  before_action :login?, only: [:show, :update, :destroy]
   before_action :set_user, only: [:show, :update, :destroy]
 
   def show
@@ -27,9 +27,7 @@ class Api::V1::UsersController < ApplicationController
 
   # 論理削除
   def destroy
-    @user[:deleted_at] = Time.now
-
-    if @user.update(user_params)
+    if @user.update(deleted_at: Time.now)
       render json: { status: 200, data: @user }
     else
       render json: { status: 400, message: "Userの削除に失敗しました", data: @user.errors }
