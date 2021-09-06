@@ -1,25 +1,11 @@
 class ApplicationController < ActionController::API
-  include DeviseTokenAuth::Concerns::SetUserByToken
   before_action :check_xhr_header
   include ActionController::Cookies
 
-
-  # セッション用の記述 ここから
-  helper_method :login!, :current_user
-
-  # セッションを使用してユーザーログイン
-  def login!
-    session[:user_id] = @user.id
-  end
-
-  # ログイン中のユーザーを取得するインスタンス変数を定義
-  def current_user
-    if session[:user_id]
-      @current_user ||= User.find(session[:user_id])
-    end
-  end
-
-  # セッション用の記述 ここまで
+  # devise_token_auth
+  include DeviseTokenAuth::Concerns::SetUserByToken
+  skip_before_action :verify_authenticity_token
+  helper_method :current_user, :user_signed_in?
 
   private
 
