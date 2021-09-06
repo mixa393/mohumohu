@@ -3,6 +3,7 @@ require 'rails_helper'
 RSpec.describe "Laundries", type: :request do
   let(:request_header) { { "X-Requested-With" => "XMLHttpRequest" } }
 
+
   # laundries#index
   context "GET /laundries" do
     let!(:team) { FactoryBot.create(:team) }
@@ -10,6 +11,7 @@ RSpec.describe "Laundries", type: :request do
     let!(:laundries) { [] }
 
     before do
+      # 洗濯期間daysを1〜5でデータ作成
       (1..5).each { |n|
         laundry = FactoryBot.create(:laundry, wash_at: Time.now.to_date + n, days: n + 1, team_id: team.id)
         laundries << laundry
@@ -55,15 +57,15 @@ RSpec.describe "Laundries", type: :request do
             # 今日 + 2*洗濯期間：laundry["weekly"][2 * days(laundry) + 1]
             # 今日 + 3*洗濯期間：laundry["weekly"][3 * days(laundry) + 2]
 
-          # 当日か洗濯期間が2or3回来た日は 2 が格納されている
+            # 当日か洗濯期間が2or3回過ぎた日は 2 が格納されている
           when days(laundry), 2 * days(laundry) + 1, 3 * days(laundry) + 2
             expect(n).to eq(2)
 
-            # 当日か洗濯期間が2or3回来た日 の前後の日は 1 が格納されている
+            # 上記の前後の日は 1 が格納されている
           when days(laundry) - 1, days(laundry) + 1, 2 * days(laundry), 2 * days(laundry) + 2, 3 * days(laundry) + 1, 3 * days(laundry) + 3
             expect(n).to eq(1)
 
-            # 上記以外の日は 0 が格納されている
+            # それ以外の日は 0 が格納されている
           else
             expect(n).to eq(0)
           end
@@ -74,9 +76,10 @@ RSpec.describe "Laundries", type: :request do
     end
   end
 
+
   # laundries#create
   context "POST /api/v1/laundries" do
-    let(:user) { FactoryBot.create(:user) }
+    let(:team) { FactoryBot.create(:user) }
     let!(:valid_params) { { name: Faker::String.random(length: 3..12),
                             wash_at: Time.now.to_date + 5,
                             user_id: user.id,
@@ -91,6 +94,7 @@ RSpec.describe "Laundries", type: :request do
       expect { post '/api/v1/laundries', headers: request_header, params: valid_params }.to change(Laundry, :count).by(+1)
     end
   end
+
 
   # laundries#show
   context "GET /api/v1/laundries/:id" do
@@ -107,6 +111,7 @@ RSpec.describe "Laundries", type: :request do
       expect(json['data']['name']).to eq(laundry.name)
     end
   end
+
 
   # laundries#update
   context "PUT /api/v1/laundries/:id" do
@@ -129,6 +134,7 @@ RSpec.describe "Laundries", type: :request do
     end
   end
 
+
   # laundries#destroy
   context "DELETE /api/v1/laundries/:id" do
     let(:laundry) { FactoryBot.create(:laundry) }
@@ -146,70 +152,3 @@ RSpec.describe "Laundries", type: :request do
   end
 
 end
-
-# 以下contextで分ける前のもの
-#
-# RSpec.describe "Laundries", type: :request do
-#   # 全てのリクエストで使用
-#   let(:request_header) { { "X-Requested-With" => "XMLHttpRequest" } }
-#
-#   # indexで使用
-#   let!(:team) { FactoryBot.create(:team) }
-#   let!(:laundries) { FactoryBot.create_list(:laundry, 5, team_id: team.id) }
-#
-#   # create, updateで使用
-#   let(:user) { FactoryBot.create(:user) }
-#   let!(:valid_params) { { name: Faker::String.random(length: 3..12),
-#                           wash_at: Time.now.to_date + 5,
-#                           user_id: user.id,
-#                           team_id: user.team_id } }
-#
-#   # show, update, removeで使用
-#   let(:laundry) { FactoryBot.create(:laundry) }
-#
-#
-#   # laundries#index
-#   it "GET /laundries" do
-#     get "/api/v1/laundries", headers: request_header, params: { team_id: team.id }
-#
-#     json = JSON.parse(response.body)
-#
-#     expect(json["data"].first["name"]).to eq(laundries.first.name)
-#     expect(json["data"].first["weekly"].length).to eq(7)
-#     expect(response.status).to eq(200)
-#   end
-#
-#   # laundries#create
-#   it "POST /api/v1/laundries" do
-#     expect { post '/api/v1/laundries', headers: request_header, params: valid_params }.to change(Laundry, :count).by(+1)
-#     expect(response.status).to eq(200)
-#   end
-#
-#   # laundries#show
-#   it "GET /api/v1/laundries/:id" do
-#     get "/api/v1/laundries/#{laundry.id}", headers: request_header
-#     json = JSON.parse(response.body)
-#
-#     expect(json['data']['name']).to eq(laundry.name)
-#     expect(response.status).to eq(200)
-#   end
-#
-#   # laundries#update
-#   it "PUT /api/v1/laundries/:id" do
-#     put "/api/v1/laundries/#{laundry.id}", headers: request_header, params: valid_params
-#
-#     json = JSON.parse(response.body)
-#     expect(json['data']['name']).to eq(valid_params[:name])
-#
-#     expect(response.status).to eq(200)
-#   end
-#
-#   # laundries#remove
-#   it "DELETE /api/v1/laundries/:id" do
-#     delete "/api/v1/laundries/#{laundry.id}", headers: request_header
-#     json = JSON.parse(response.body)
-#     expect(json['data']['deleted_at']).not_to eq(nil)
-#     expect(response.status).to eq(200)
-#   end
-#
-# end
