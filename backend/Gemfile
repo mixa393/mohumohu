@@ -43,3 +43,7 @@ end
 gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
 gem 'rack-cors'
 gem 'rails-i18n', '~> 6.0.0'
+
+# for authentication
+gem 'devise'
+gem 'devise_token_auth'
