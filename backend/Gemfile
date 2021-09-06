@@ -47,3 +47,4 @@ gem 'rails-i18n', '~> 6.0.0'
 # for authentication
 gem 'devise'
 gem 'devise_token_auth'
+gem 'devise-i18n'
