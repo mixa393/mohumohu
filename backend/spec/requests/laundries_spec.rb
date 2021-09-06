@@ -6,12 +6,25 @@ RSpec.describe "Laundries", type: :request do
   # laundries#index
   context "GET /laundries" do
     let!(:team) { FactoryBot.create(:team) }
+    let!(:laundry_days) { {} }
     let!(:laundries) { [] }
 
     before do
       (1..5).each { |n|
-        laundries << FactoryBot.create(:laundry, wash_at: Time.now.to_date + n, days: n + 1, team_id: team.id)
+        laundry = FactoryBot.create(:laundry, wash_at: Time.now.to_date + n, days: n + 1, team_id: team.id)
+        laundries << laundry
+
+        # 洗濯物のidをキー、期間をvalueとして作成する配列
+        # { id:期間, id:期間, id:期間, ...}
+        laundry_days.store(laundry.id, n)
       }
+
+      # 洗濯物のidを与えるとその洗濯期間を返却する
+      # @param [Integer] laundry_id
+      # @return [Integer] days
+      def days(laundry)
+        laundry_days[laundry["id"]]
+      end
     end
 
     it "200 OK" do
@@ -22,18 +35,41 @@ RSpec.describe "Laundries", type: :request do
     it '特定データの取得' do
       get "/api/v1/laundries", headers: request_header, params: { team_id: team.id }
       json = JSON.parse(response.body)
-      debugger
       expect(json["data"].first["name"]).to eq(laundries.first.name)
     end
 
     it 'weeklyの取得' do
       get "/api/v1/laundries", headers: request_header, params: { team_id: team.id }
       json = JSON.parse(response.body)
-      debugger
-      # 5日後がFactoryBotでの初期設定のwash_at
-      # expect(json["data"].first["weekly"][4]).to eq(1)
-      # expect(json["data"].first["weekly"][5]).to eq(2)
-      # expect(json["data"].first["weekly"][6]).to eq(1)
+
+      # dataまで掘る
+      json["data"].each { |laundry|
+
+        # 1つの洗濯物データ中のweekly配列の値を1つ1つチェック
+        laundry["weekly"].each_with_index { |n, index|
+
+          case index
+
+            # 今日：laundry["weekly"][0]
+            # 今日 + 洗濯期間：laundry["weekly"][days(laundry)]
+            # 今日 + 2*洗濯期間：laundry["weekly"][2 * days(laundry) + 1]
+            # 今日 + 3*洗濯期間：laundry["weekly"][3 * days(laundry) + 2]
+
+          # 当日か洗濯期間が2or3回来た日は 2 が格納されている
+          when days(laundry), 2 * days(laundry) + 1, 3 * days(laundry) + 2
+            expect(n).to eq(2)
+
+            # 当日か洗濯期間が2or3回来た日 の前後の日は 1 が格納されている
+          when days(laundry) - 1, days(laundry) + 1, 2 * days(laundry), 2 * days(laundry) + 2, 3 * days(laundry) + 1, 3 * days(laundry) + 3
+            expect(n).to eq(1)
+
+            # 上記以外の日は 0 が格納されている
+          else
+            expect(n).to eq(0)
+          end
+        }
+      }
+
       expect(json["data"].first["weekly"].length).to eq(7)
     end
   end
