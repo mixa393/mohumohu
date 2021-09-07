@@ -20,15 +20,15 @@ class Api::V1::LaundryHistoriesController < ApplicationController
   end
 
   # １件の洗濯物についての履歴を取得
-  # @params [Integer] laundry_id
-  # @return [json] status,data
+  # @params [Integer] laundry_id,URLから取得
+  # @return [json] status,data(Array)
   def show
     laundry_histories = LaundryHistory.where(deleted_at: nil, laundry_id: params[:id])
     render json: { status: 200, data: laundry_histories }
   end
 
   # 洗濯履歴を作成
-  # @params [Integer] user_id,laundry_id
+  # @params [Integer] laundry_id,リクエストボディから取得
   # @return [json] status,data
   def create
     laundry_history = LaundryHistory.new(user_id: current_api_v1_user.id, laundry_id: params[:laundry_id])
@@ -42,10 +42,10 @@ class Api::V1::LaundryHistoriesController < ApplicationController
 
   # 洗濯履歴を論理削除
   # 削除できるのは自分で洗濯したもののみ
-  # @params [Integer] user_id,laundry_id
+  # @params [Integer] laundry_id, URLから取得
   # @return [json] status,data
   def destroy
-    laundry_history = LaundryHistory.where(deleted_at: nil, user_id: current_api_v1_user.id, laundry_id: params[:laundry_id])
+    laundry_history = LaundryHistory.where(deleted_at: nil, user_id: current_api_v1_user.id, laundry_id: params[:id])
 
     if laundry_history.update(deleted_at: Time.now)
       render json: { status: 200, data: laundry_history }

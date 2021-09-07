@@ -37,6 +37,7 @@ RSpec.describe "LaundryHistories", type: :request do
 
   it "GET /api/v1/laundry_histories/:id" do
     laundry_id = @laundries.sample.id
+
     get "/api/v1/laundry_histories/#{laundry_id}", headers: auth_tokens
 
     # status:200 ok
@@ -45,10 +46,8 @@ RSpec.describe "LaundryHistories", type: :request do
     # 他のユーザーが作成した履歴でも、同じチームに属する履歴は取得できている
     json = JSON.parse(response.body)
 
-    debugger
-
-    if json["data"]
-      expect(json['data']["laundry_id"]).to eq(laundry_id)
+    if json["data"].first
+      expect(json['data'].first["laundry_id"]).to eq(laundry_id)
     end
   end
 
@@ -59,7 +58,11 @@ RSpec.describe "LaundryHistories", type: :request do
     expect(response.status).to eq(200)
   end
 
-  it "DELETE /api/v1/laundry_histories/:id" do
-
-  end
+  # it "DELETE /api/v1/laundry_histories/:id" do
+  #   delete "/api/v1/laundry_histories/#{laundry_id}", headers: auth_tokens
+  #
+  #   json = JSON.parse(response.body)
+  #   expect(json['data']['deleted_at']).not_to eq(nil)
+  #   expect(response.status).to eq(200)
+  # end
 end
