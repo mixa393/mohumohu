@@ -22,8 +22,6 @@ RSpec.describe "LaundryHistories", type: :request do
     }
   end
 
-  let(:laundry_history) { FactoryBot.create(:laundry_history, user_id: user.id, laundry_id: @laundries.sample.id) }
-
   it "GET /api/v1/laundry_histories" do
     get "/api/v1/laundry_histories", headers: auth_tokens
 
@@ -42,6 +40,7 @@ RSpec.describe "LaundryHistories", type: :request do
     expect(response.status).to eq(200)
 
     json = JSON.parse(response.body)
+
     if json["data"].first
       expect(json['data'].first["laundry_id"]).to eq(laundry_id)
     end
@@ -55,7 +54,8 @@ RSpec.describe "LaundryHistories", type: :request do
   end
 
   it "DELETE /api/v1/laundry_histories/:id" do
-    delete "/api/v1/laundry_histories/#{laundry_id}", headers: auth_tokens
+    laundry_history = FactoryBot.create(:laundry_history, user_id: users.first.id, laundry_id: @laundries.sample.id)
+    delete "/api/v1/laundry_histories/#{laundry_history.id}", headers: auth_tokens
 
     json = JSON.parse(response.body)
     expect(json['data']['deleted_at']).not_to eq(nil)
