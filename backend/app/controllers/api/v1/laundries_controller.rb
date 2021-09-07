@@ -1,5 +1,5 @@
 class Api::V1::LaundriesController < ApplicationController
-  before_action :login?
+  before_action :authenticate_api_v1_user!
   before_action :set_laundry, only: [:show, :update, :destroy]
 
   def show
