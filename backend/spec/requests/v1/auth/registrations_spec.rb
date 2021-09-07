@@ -11,15 +11,14 @@ RSpec.describe "API::V1::Registrations", type: :request do
                      password: password,
                      password_confirmation: password,
                      team_id: team.id } }
-    before do
-      post "/api/v1/auth", headers: header, params: params
-    end
 
     it '200 ok' do
+      post "/api/v1/auth", headers: header, params: params
       expect(response.status).to eq(200)
     end
 
     it '特定データの作成' do
+      post "/api/v1/auth", headers: header, params: params
       json = JSON.parse(response.body)
       expect(json['data']['name']).to eq(params[:name])
     end
@@ -37,9 +36,12 @@ RSpec.describe "API::V1::Registrations", type: :request do
   end
 
   context "PUT api/v1/auth/password パスワードの変更" do
+    # サインイン
     include AuthorizationSpecHelper
     let!(:user) { FactoryBot.create(:user) }
     let(:auth_tokens) { sign_in(user) }
+
+    # 変更するパスワードをリクエストボディに与える
     let(:password) { Faker::Internet.password }
     let(:update_params) { { "password" => password, "password_confirmation" => password } }
 
@@ -57,9 +59,12 @@ RSpec.describe "API::V1::Registrations", type: :request do
   end
 
   context "PUT api/v1/auth ユーザー情報の変更" do
+    # サインイン
     include AuthorizationSpecHelper
     let!(:user) { FactoryBot.create(:user) }
     let(:auth_tokens) { sign_in(user) }
+
+    # 変更する情報をリクエストボディに与える
     let(:update_params) { { "name" => Faker::Internet.username, "email" => Faker::Internet.unique.email } }
 
     it '200 ok' do
@@ -76,6 +81,7 @@ RSpec.describe "API::V1::Registrations", type: :request do
   end
 
   context "DELETE api/v1/auth ユーザー情報の論理削除" do
+    # サインイン
     include AuthorizationSpecHelper
     let!(:user) { FactoryBot.create(:user) }
     let(:auth_tokens) { sign_in(user) }
