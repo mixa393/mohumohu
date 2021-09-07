@@ -8,7 +8,7 @@ class ApplicationController < ActionController::API
   helper_method :current_api_v1_user, :user_signed_in?, :authenticate_api_v1_user!, :current_team
 
   def current_team
-    @current_team = Team.find(current_user.team_id)
+    @current_team = Team.find(current_api_v1_user.team_id)
   end
 
   private
