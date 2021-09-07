@@ -1,28 +1,28 @@
 require 'rails_helper'
 
 RSpec.describe "LaundryHistories", type: :request do
-  # まずはチームを作る
   let!(:team) { FactoryBot.create(:team) }
-
-  # サインイン
-  let(:user) { FactoryBot.create(:user, team_id: team.id) }
-  include AuthorizationSpecHelper
-  let(:auth_tokens) { sign_in(user) }
-
   let!(:users) { FactoryBot.create_list(:user, 3, team_id: team.id) }
+
+  # 1人目のユーザーでサインイン
+  include AuthorizationSpecHelper
+  let(:auth_tokens) { sign_in(users.first) }
 
   before :each do
     @laundries = []
-    5.times do
-      @laundries << FactoryBot.create(:laundry, team_id: team.id, user_id: users.sample.id)
-    end
+    users.each { |user|
+      @laundries << FactoryBot.create(:laundry, team_id: team.id, user_id: user.id)
+    }
 
     @laundry_histories = []
-    15.times do
-      @laundry_histories << FactoryBot.create(:laundry_history, user_id: users.sample.id, laundry_id: @laundries.sample.id)
-    end
-
+    @laundries.each { |laundry|
+      users.each { |user|
+        @laundry_histories << FactoryBot.create(:laundry_history, user_id: user.id, laundry_id: laundry.id)
+      }
+    }
   end
+
+  let(:laundry_history) { FactoryBot.create(:laundry_history, user_id: user.id, laundry_id: @laundries.sample.id) }
 
   it "GET /api/v1/laundry_histories" do
     get "/api/v1/laundry_histories", headers: auth_tokens
@@ -32,20 +32,16 @@ RSpec.describe "LaundryHistories", type: :request do
 
     # 他のユーザーが作成した履歴でも、同じチームに属する履歴は取得できている
     json = JSON.parse(response.body)
-    expect(json['data'].length).to eq(15)
+    expect(json['data'].length).to eq(@laundry_histories.length)
   end
 
   it "GET /api/v1/laundry_histories/:id" do
     laundry_id = @laundries.sample.id
-
     get "/api/v1/laundry_histories/#{laundry_id}", headers: auth_tokens
 
-    # status:200 ok
     expect(response.status).to eq(200)
 
-    # 他のユーザーが作成した履歴でも、同じチームに属する履歴は取得できている
     json = JSON.parse(response.body)
-
     if json["data"].first
       expect(json['data'].first["laundry_id"]).to eq(laundry_id)
     end
@@ -58,11 +54,11 @@ RSpec.describe "LaundryHistories", type: :request do
     expect(response.status).to eq(200)
   end
 
-  # it "DELETE /api/v1/laundry_histories/:id" do
-  #   delete "/api/v1/laundry_histories/#{laundry_id}", headers: auth_tokens
-  #
-  #   json = JSON.parse(response.body)
-  #   expect(json['data']['deleted_at']).not_to eq(nil)
-  #   expect(response.status).to eq(200)
-  # end
+  it "DELETE /api/v1/laundry_histories/:id" do
+    delete "/api/v1/laundry_histories/#{laundry_id}", headers: auth_tokens
+
+    json = JSON.parse(response.body)
+    expect(json['data']['deleted_at']).not_to eq(nil)
+    expect(response.status).to eq(200)
+  end
 end
