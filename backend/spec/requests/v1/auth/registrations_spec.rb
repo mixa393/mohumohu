@@ -37,25 +37,10 @@ RSpec.describe "API::V1::Registrations", type: :request do
   end
 
   context "PUT api/v1/auth/password パスワードの変更" do
-    let!(:team) { FactoryBot.create(:team) }
-    let!(:sign_up_header) { { "X-Requested-With" => "XMLHttpRequest" } }
-    let(:sign_up_params) { { name: Faker::Internet.username,
-                             email: Faker::Internet.unique.email,
-                             password: "password",
-                             password_confirmation: "password",
-                             team_id: team.id } }
-
-    before do
-      # サインアップ
-      post "/api/v1/auth", headers: sign_up_header, params: sign_up_params
-    end
-
-    # サインアップの値をヘッダーに含む
+    include AuthorizationSpecHelper
+    let!(:user) { FactoryBot.create(:user) }
+    let(:update_headers) { sign_in(user) }
     let(:password) { Faker::Internet.password }
-    let(:update_headers) { { "X-Requested-With" => "XMLHttpRequest",
-                             "access-token" => response.header["access-token"],
-                             "uid" => response.header["uid"],
-                             "client" => response.header["client"] } }
     let(:update_params) { { "password" => password, "password_confirmation" => password } }
 
     it '200 ok' do
@@ -72,23 +57,9 @@ RSpec.describe "API::V1::Registrations", type: :request do
   end
 
   context "PUT api/v1/auth ユーザー情報の変更" do
-    let(:password) { Faker::Internet.password }
-    let!(:team) { FactoryBot.create(:team) }
-    let!(:sign_up_header) { { "X-Requested-With" => "XMLHttpRequest" } }
-    let(:sign_up_params) { { name: Faker::Internet.username,
-                             email: Faker::Internet.unique.email,
-                             password: password,
-                             password_confirmation: password,
-                             team_id: team.id } }
-    before do
-      # サインアップ
-      post "/api/v1/auth", headers: sign_up_header, params: sign_up_params
-    end
-
-    let(:update_headers) { { "X-Requested-With" => "XMLHttpRequest",
-                             "access-token" => response.header["access-token"],
-                             "uid" => response.header["uid"],
-                             "client" => response.header["client"] } }
+    include AuthorizationSpecHelper
+    let!(:user) { FactoryBot.create(:user) }
+    let(:update_headers) { sign_in(user) }
     let(:update_params) { { "name" => Faker::Internet.username, "email" => Faker::Internet.unique.email } }
 
     it '200 ok' do
