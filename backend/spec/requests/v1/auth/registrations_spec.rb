@@ -73,32 +73,36 @@ RSpec.describe "API::V1::Registrations", type: :request do
   end
 
   context "PUT api/v1/auth ユーザー情報の変更" do
-    team = FactoryBot.create(:team)
-    header = { "X-Requested-With" => "XMLHttpRequest" }
-    password = Faker::Internet.password
-    sign_up_params = { name: Faker::Internet.username,
-                       email: Faker::Internet.unique.email,
-                       password: password,
-                       password_confirmation: password,
-                       team_id: team.id
-    }
+    let(:password) { Faker::Internet.password }
+    let!(:team) { FactoryBot.create(:team) }
+    let!(:sign_up_header) { { "X-Requested-With" => "XMLHttpRequest" } }
+    let(:sign_up_params) { { name: Faker::Internet.username,
+                             email: Faker::Internet.unique.email,
+                             password: password,
+                             password_confirmation: password,
+                             team_id: team.id } }
+    before do
+      # サインアップ
+      post "/api/v1/auth", headers: sign_up_header, params: sign_up_params
+    end
+
+    let(:update_headers) { { "X-Requested-With" => "XMLHttpRequest",
+                             "access-token" => response.header["access-token"],
+                             "uid" => response.header["uid"],
+                             "client" => response.header["client"] } }
+    let(:update_params) { { "name" => Faker::Internet.username, "email" => Faker::Internet.unique.email } }
+
     it '200 ok' do
-      # 一度サインアップする
-      post "/api/v1/auth", headers: header, params: sign_up_params
-
-      # サインアップの値をヘッダーに含む
-      headers = { "X-Requested-With" => "XMLHttpRequest",
-                  "access-token" => response.header["access-token"],
-                  "uid" => response.header["uid"],
-                  "client" => response.header["client"]
-      }
-      update_params = { "name" => "updated_name", "email" => "updated@email.com" }
-
-      # パスワード変更のリクエスト
-      put "/api/v1/auth", headers: headers, params: update_params
+      put "/api/v1/auth", headers: update_headers, params: update_params
       expect(response.status).to eq(200)
     end
 
+    it '特定データに変更' do
+      put "/api/v1/auth", headers: update_headers, params: update_params
+      json = JSON.parse(response.body)
+      expect(json["data"]["name"]).to eq(update_params["name"])
+      expect(json["data"]["email"]).to eq(update_params["email"])
+    end
   end
 end
 
