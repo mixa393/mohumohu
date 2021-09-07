@@ -3,7 +3,7 @@ class Api::V1::LaundryHistoriesController < ApplicationController
   before_action :current_team, only: [:index]
 
   #ユーザーの所属しているチームに属する洗濯物の履歴を全件取得する
-  # @return [json] status,data
+  # @return [json] status,data(Array)
   def index
     laundry_histories = []
 
@@ -29,7 +29,7 @@ class Api::V1::LaundryHistoriesController < ApplicationController
 
   # 洗濯履歴を作成
   # @params [Integer] laundry_id,リクエストボディから取得
-  # @return [json] status,data
+  # @return [json] status,data(Array)
   def create
     laundry_history = LaundryHistory.new(user_id: current_api_v1_user.id, laundry_id: params[:laundry_id])
 
