@@ -4,7 +4,6 @@ Rails.application.routes.draw do
       get "/weather", to: "weather#get"
 
       resources :teams, only: [:show, :create, :update, :destroy]
-      resources :users, only: [:show, :create, :update, :destroy]
       resources :laundries
 
       # ログイン用
