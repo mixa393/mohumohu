@@ -7,5 +7,6 @@ module AuthorizationSpecHelper
 
     res = response.headers.slice('client', 'access-token', 'uid')
     res.store("X-Requested-With", "XMLHttpRequest")
+    res
   end
 end
