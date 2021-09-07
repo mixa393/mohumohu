@@ -4,8 +4,12 @@ class ApplicationController < ActionController::API
 
   # devise_token_auth
   include DeviseTokenAuth::Concerns::SetUserByToken
-  skip_before_action :verify_authenticity_token
-  helper_method :current_user, :user_signed_in?
+  # skip_before_action :verify_authenticity_token
+  helper_method :current_api_v1_user, :user_signed_in?, :authenticate_api_v1_user!, :current_team
+
+  def current_team
+    @current_team = Team.find(current_user.team_id)
+  end
 
   private
 
