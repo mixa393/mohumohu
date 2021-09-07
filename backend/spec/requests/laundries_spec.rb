@@ -3,7 +3,6 @@ require 'rails_helper'
 RSpec.describe "Laundries", type: :request do
   let(:request_header) { { "X-Requested-With" => "XMLHttpRequest" } }
 
-
   # laundries#index
   context "GET /laundries" do
     let!(:team) { FactoryBot.create(:team) }
@@ -29,13 +28,10 @@ RSpec.describe "Laundries", type: :request do
       end
     end
 
-    it "200 OK" do
-      get "/api/v1/laundries", headers: request_header, params: { team_id: team.id }
-      expect(response.status).to eq(200)
-    end
-
     it '特定データの取得' do
       get "/api/v1/laundries", headers: request_header, params: { team_id: team.id }
+      expect(response.status).to eq(200)
+
       json = JSON.parse(response.body)
       expect(json["data"].first["name"]).to eq(laundries.first.name)
     end
@@ -51,11 +47,6 @@ RSpec.describe "Laundries", type: :request do
         laundry["weekly"].each_with_index { |n, index|
 
           case index
-
-            # 今日：laundry["weekly"][0]
-            # 今日 + 洗濯期間：laundry["weekly"][days(laundry)]
-            # 今日 + 2*洗濯期間：laundry["weekly"][2 * days(laundry) + 1]
-            # 今日 + 3*洗濯期間：laundry["weekly"][3 * days(laundry) + 2]
 
             # 当日か洗濯期間が2or3回過ぎた日は 2 が格納されている
           when days(laundry), 2 * days(laundry) + 1, 3 * days(laundry) + 2
@@ -85,12 +76,8 @@ RSpec.describe "Laundries", type: :request do
                             user_id: user.id,
                             team_id: user.team_id } }
 
-    it '200 ok' do
-      post '/api/v1/laundries', headers: request_header, params: valid_params
-      expect(response.status).to eq(200)
-    end
-
     it 'Laundryモデルの数が1つ増える' do
+      expect(response.status).to eq(200)
       expect { post '/api/v1/laundries', headers: request_header, params: valid_params }.to change(Laundry, :count).by(+1)
     end
   end
@@ -100,13 +87,10 @@ RSpec.describe "Laundries", type: :request do
   context "GET /api/v1/laundries/:id" do
     let(:laundry) { FactoryBot.create(:laundry) }
 
-    it '200 ok' do
-      get "/api/v1/laundries/#{laundry.id}", headers: request_header
-      expect(response.status).to eq(200)
-    end
-
     it '特定のデータの取得' do
       get "/api/v1/laundries/#{laundry.id}", headers: request_header
+      expect(response.status).to eq(200)
+
       json = JSON.parse(response.body)
       expect(json['data']['name']).to eq(laundry.name)
     end
@@ -122,13 +106,10 @@ RSpec.describe "Laundries", type: :request do
                             team_id: user.team_id } }
     let(:laundry) { FactoryBot.create(:laundry) }
 
-    it '200 ok' do
-      put "/api/v1/laundries/#{laundry.id}", headers: request_header, params: valid_params
-      expect(response.status).to eq(200)
-    end
-
     it 'データの更新' do
       put "/api/v1/laundries/#{laundry.id}", headers: request_header, params: valid_params
+      expect(response.status).to eq(200)
+
       json = JSON.parse(response.body)
       expect(json['data']['name']).to eq(valid_params[:name])
     end
@@ -139,13 +120,10 @@ RSpec.describe "Laundries", type: :request do
   context "DELETE /api/v1/laundries/:id" do
     let(:laundry) { FactoryBot.create(:laundry) }
 
-    it '200 ok' do
-      delete "/api/v1/laundries/#{laundry.id}", headers: request_header
-      expect(response.status).to eq(200)
-    end
-
     it '論理削除 deleted_atカラムの更新' do
       delete "/api/v1/laundries/#{laundry.id}", headers: request_header
+      expect(response.status).to eq(200)
+
       json = JSON.parse(response.body)
       expect(json['data']['deleted_at']).not_to eq(nil)
     end
