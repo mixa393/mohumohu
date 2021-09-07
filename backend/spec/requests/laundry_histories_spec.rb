@@ -1,13 +1,15 @@
 require 'rails_helper'
 
 RSpec.describe "LaundryHistories", type: :request do
+  # まずはチームを作る
   let!(:team) { FactoryBot.create(:team) }
+
+  # サインイン
+  let(:user) { FactoryBot.create(:user, team_id: team.id) }
+  include AuthorizationSpecHelper
+  let(:auth_tokens) { sign_in(user) }
+
   let!(:users) { FactoryBot.create_list(:user, 3, team_id: team.id) }
-  # let!(:laundries) { users.each { |user| FactoryBot.create_list(:laundry, rand(1..3), user_id: user.id) } }
-  # let!(:laundry_histories) { laundries.each { |laundry| FactoryBot.create_list(:laundry_history, rand(1..5),
-  #                                                                              user_id: users.first.id,
-  #                                                                              laundry_id: laundry.id) } }
-  let(:request_header) { { "X-Requested-With" => "XMLHttpRequest" } }
 
   before :each do
     @laundries = []
@@ -23,7 +25,6 @@ RSpec.describe "LaundryHistories", type: :request do
   end
 
   it "GET /api/v1/laundry_histories" do
-    debugger
     get "/api/v1/laundry_histories", headers: request_header, params: { team_id: team.id }
     json = JSON.parse(response.body)
     # expect(json['data']['name']).to eq(laundry.name)
