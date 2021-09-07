@@ -1,32 +1,21 @@
 class ApplicationController < ActionController::API
   before_action :check_xhr_header
+  include ActionController::Cookies
 
-  helper_method :login!, :current_user
+  # devise_token_auth
+  include DeviseTokenAuth::Concerns::SetUserByToken
+  # skip_before_action :verify_authenticity_token
+  helper_method :current_api_v1_user, :user_signed_in?, :authenticate_api_v1_user!, :current_team
 
-  # セッションを使用してユーザーログイン
-  def login!
-    session[:user_id] = @user.id
-  end
-
-  # ログイン中のユーザーを取得するインスタンス変数
-  def current_user
-    if session[:user_id]
-      @current_user ||= User.find(session[:user_id])
-    end
-  end
-
-  # チームを取得するインスタンス変数
   def current_team
-    if session[:team_id]
-      @current_team ||= Team.find(session[:team_id])
-    end
+    @current_team = Team.find(current_api_v1_user.team_id)
   end
 
   private
 
   def check_xhr_header
     return if request.xhr?
-
     render json: { error: 'forbidden' }, status: :forbidden
   end
+
 end

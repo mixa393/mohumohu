@@ -12,7 +12,7 @@ class Api::V1::WeatherController < ApplicationController
     #         chance_of_rain_pm: 午後の降水確率,
     #         image_url: 天気画像のURL}
 
-    location_id = params[:location_id]
+    location_id = @current_team.location_id
 
     uri = URI.parse("https://weather.tsukumijima.net/api/forecast/city/#{location_id}")
 
