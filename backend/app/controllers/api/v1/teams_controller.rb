@@ -1,5 +1,6 @@
 class Api::V1::TeamsController < ApplicationController
-  before_action :login?, only: [:show, :update, :destroy]
+  before_action :authenticate_api_v1_user!, only: [:show, :update, :destroy]
+  before_action :current_team, only: [:show, :update, :destroy]
   before_action :set_team, only: [:show, :update, :destroy]
 
   def show
