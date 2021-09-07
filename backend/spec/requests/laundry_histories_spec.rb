@@ -25,10 +25,14 @@ RSpec.describe "LaundryHistories", type: :request do
   end
 
   it "GET /api/v1/laundry_histories" do
-    get "/api/v1/laundry_histories", headers: request_header, params: { team_id: team.id }
-    json = JSON.parse(response.body)
-    # expect(json['data']['name']).to eq(laundry.name)
+    get "/api/v1/laundry_histories", headers: auth_tokens
+
+    # status:200 ok
     expect(response.status).to eq(200)
+
+    # 他のユーザーが作成した履歴でも、同じチームに属する履歴は取得できている
+    json = JSON.parse(response.body)
+    expect(json['data'].length).to eq(15)
   end
 
   it "POST /api/v1/laundry_histories" do
