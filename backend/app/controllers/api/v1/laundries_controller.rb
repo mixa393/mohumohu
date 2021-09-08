@@ -44,19 +44,29 @@ class Api::V1::LaundriesController < ApplicationController
     week_data = [0, 0, 0, 0, 0, 0, 0]
 
     # 洗濯当日は2
-    week_data[diff] = 2
-    week_data[diff_plus_days] = 2
-    week_data[diff_plus_twice_days] = 2
+    if diff < 7
+      week_data[diff] = 2
+      week_data[diff - 1] = 1
+      if diff < 8
+        week_data[diff + 1] = 1
+      end
+    end
 
-    # 洗濯前後の日は1
-    week_data[diff - 1] = 1
-    week_data[diff_plus_days - 1] = 1
-    week_data[diff_plus_twice_days - 1] = 1
+    if diff_plus_days < 7
+      week_data[diff_plus_days] = 2
+      week_data[diff_plus_days - 1] = 1
+      if diff_plus_days < 8
+        week_data[diff_plus_days + 1] = 1
+      end
+    end
 
-    # 上記以外は0
-    week_data[diff + 1] = 1
-    week_data[diff_plus_days + 1] = 1
-    week_data[diff_plus_twice_days + 1] = 1
+    if diff_plus_twice_days < 7
+      week_data[diff_plus_twice_days] = 2
+      week_data[diff_plus_twice_days - 1] = 1
+      if diff_plus_twice_days < 8
+        week_data[diff_plus_twice_days + 1] = 1
+      end
+    end
 
     week_data
   end
@@ -67,18 +77,18 @@ class Api::V1::LaundriesController < ApplicationController
   # @param [Object] laundry
   # @return [Integer] 2 or 1 or 0
   # def wash_day_type(day, laundry)
-    # wash_at = laundry.wash_at
-    # wash_at_plus_days = wash_at + laundry.days
-    # wash_at_plus_twice_days = wash_at + (2 * laundry.days)
-    #
-    # case day
-    # when wash_at, wash_at_plus_days, wash_at_plus_twice_days
-    #   2
-    # when wash_at + 1, wash_at - 1, wash_at_plus_days - 1, wash_at_plus_days + 1, wash_at_plus_twice_days - 1, wash_at_plus_twice_days + 1
-    #   1
-    # else
-    #   0
-    # end
+  # wash_at = laundry.wash_at
+  # wash_at_plus_days = wash_at + laundry.days
+  # wash_at_plus_twice_days = wash_at + (2 * laundry.days)
+  #
+  # case day
+  # when wash_at, wash_at_plus_days, wash_at_plus_twice_days
+  #   2
+  # when wash_at + 1, wash_at - 1, wash_at_plus_days - 1, wash_at_plus_days + 1, wash_at_plus_twice_days - 1, wash_at_plus_twice_days + 1
+  #   1
+  # else
+  #   0
+  # end
   # end
 
   def show
