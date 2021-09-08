@@ -29,11 +29,34 @@ class Api::V1::LaundriesController < ApplicationController
   # @params [Object] laundry
   def weekly(laundry)
     week_data = []
-    today = Time.now.to_date
+    # today = Time.now.to_date
+    #
+    # (0...7).each { |day|
+    #   week_data.push(wash_day_type(today + day, laundry))
+    # }
 
-    (0...7).each { |day|
-      week_data.push(wash_day_type(today + day, laundry))
-    }
+    # 洗濯日と現在の差を出す
+    diff = (laundry.wash_at - Time.current.to_date).to_i
+    diff_plus_days = (laundry.wash_at - Time.current.to_date).to_i + laundry.days
+    diff_plus_twice_days = (laundry.wash_at - Time.current.to_date).to_i + 2 * laundry.days
+
+    # 初期データ
+    week_data = [0, 0, 0, 0, 0, 0, 0]
+
+    # 洗濯当日は2
+    week_data[diff] = 2
+    week_data[diff_plus_days] = 2
+    week_data[diff_plus_twice_days] = 2
+
+    # 洗濯前後の日は1
+    week_data[diff - 1] = 1
+    week_data[diff_plus_days - 1] = 1
+    week_data[diff_plus_twice_days - 1] = 1
+
+    # 上記以外は0
+    week_data[diff + 1] = 1
+    week_data[diff_plus_days + 1] = 1
+    week_data[diff_plus_twice_days + 1] = 1
 
     week_data
   end
@@ -43,20 +66,20 @@ class Api::V1::LaundriesController < ApplicationController
   # @param [Date] day
   # @param [Object] laundry
   # @return [Integer] 2 or 1 or 0
-  def wash_day_type(day, laundry)
-    wash_at = laundry.wash_at
-    wash_at_plus_days = wash_at + laundry.days
-    wash_at_plus_twice_days = wash_at + (2 * laundry.days)
-
-    case day
-    when wash_at, wash_at_plus_days, wash_at_plus_twice_days
-      2
-    when wash_at + 1, wash_at - 1, wash_at_plus_days - 1, wash_at_plus_days + 1, wash_at_plus_twice_days - 1, wash_at_plus_twice_days + 1
-      1
-    else
-      0
-    end
-  end
+  # def wash_day_type(day, laundry)
+    # wash_at = laundry.wash_at
+    # wash_at_plus_days = wash_at + laundry.days
+    # wash_at_plus_twice_days = wash_at + (2 * laundry.days)
+    #
+    # case day
+    # when wash_at, wash_at_plus_days, wash_at_plus_twice_days
+    #   2
+    # when wash_at + 1, wash_at - 1, wash_at_plus_days - 1, wash_at_plus_days + 1, wash_at_plus_twice_days - 1, wash_at_plus_twice_days + 1
+    #   1
+    # else
+    #   0
+    # end
+  # end
 
   def show
     render json: { status: 200, data: @laundry }
