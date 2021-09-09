@@ -20,6 +20,45 @@ class Api::V1::LaundriesController < ApplicationController
     render json: { status: 200, data: data }
   end
 
+  # def weekly(laundry)
+  #   # [Date] 次に洗濯する日
+  #   wash_at = laundry.wash_at
+  #
+  #   # [Integer] 洗濯までの日数
+  #   wash_term_day = laundry.days
+  #
+  #   # [Date] 今日の日付
+  #   now = Date.today
+  #
+  #   # [Date] 1週間最後の日付
+  #   last_day_of_week = now + 1.week - 1
+  #
+  #   # ハッシュを1週間分作成
+  #   # "今日の日付" => 0, "明日の日付" => 0, "明後日の日付" => 0, ...
+  #   wash_day_schedules = {}
+  #   7.times do |i|
+  #     wash_day_schedules.store((now + i.days).to_s, 0)
+  #   end
+  #
+  #   while true do
+  #     # 洗濯日は2を代入
+  #     wash_day_schedules[wash_at.to_s] = 2
+  #
+  #     # 前後の日は1を代入
+  #     wash_day_schedules[(wash_at - 1).to_s] = 1
+  #
+  #     # 洗濯日+1日が1週間後を超えたら脱出
+  #     wash_day_schedules[(wash_at + 1).to_s] = 1
+  #
+  #     # 次回洗濯日を算出
+  #     wash_at = wash_at + wash_term_day.days
+  #     break if wash_at > last_day_of_week
+  #   end
+  #
+  #   # 日付のkeyを除き、数字のみの配列を返却
+  #   wash_day_schedules.values
+  # end
+
   # ある洗濯物について、今日を含む1週間の中で洗濯する日orその前後の日を数字で返却する
   # index内で呼び出す
   # 洗濯する日:2, その前後の日:1, それ以外の日:0
@@ -28,74 +67,44 @@ class Api::V1::LaundriesController < ApplicationController
   # @return [Array] integer
   # @params [Object] laundry
   def weekly(laundry)
-    # [Date] 次に洗濯する日
-    wash_at = laundry.wash_at
+    week_data = []
+    today = Time.now.to_date
 
-    # [Integer] 洗濯までの日数
-    wash_term_day = laundry.days
+    (0...7).each { |day|
+      week_data.push(wash_day_type(today + day, laundry))
+    }
 
-    # [Date] 今日の日付
-    now = Date.today
-
-    # [Date] 1週間最後の日付
-    last_day_of_week = now + 1.week - 1
-
-    # ハッシュを1週間分作成
-    # "今日の日付" => 0, "明日の日付" => 0, "明後日の日付" => 0, ...
-    wash_day_schedules = {}
-    7.times do |i|
-      wash_day_schedules.store((now + i.days).to_s, 0)
-    end
-
-    print wash_day_schedules
-
-    while true do
-      # 洗濯日は2を代入
-      wash_day_schedules[wash_at.to_s] = 2
-
-      # 前後の日は1を代入
-      wash_day_schedules[(wash_at - 1).to_s] = 1
-
-      # 洗濯日+1日が1週間後を超えたら脱出
-      wash_day_schedules[(wash_at + 1).to_s] = 1
-
-      # 次回洗濯日を算出
-      wash_at = wash_at + wash_term_day.days
-      break if wash_at > last_day_of_week
-    end
-
-    # 日付のkeyを除き、数字のみの配列を返却
-    wash_day_schedules.values
+    week_data
   end
-
-  # def weekly
-  # week_data = []
-  # today = Time.now.to_date
-  #
-  # (0...7).each { |day|
-  #   week_data.push(wash_day_type(today + day, laundry))
-  # }
-  # end
 
   # 日付と比較して2,1,0のいずれかを返す
   # 洗濯する日 = 2, その前後の日 = 1, それ以外の日 = 0
   # @param [Date] day
   # @param [Object] laundry
   # @return [Integer] 2 or 1 or 0
-  # def wash_day_type(day, laundry)
-  # wash_at = laundry.wash_at
-  # wash_at_plus_days = wash_at + laundry.days
-  # wash_at_plus_twice_days = wash_at + (2 * laundry.days)
-  #
-  # case day
-  # when wash_at, wash_at_plus_days, wash_at_plus_twice_days
-  #   2
-  # when wash_at + 1, wash_at - 1, wash_at_plus_days - 1, wash_at_plus_days + 1, wash_at_plus_twice_days - 1, wash_at_plus_twice_days + 1
-  #   1
-  # else
-  #   0
-  # end
-  # end
+  def wash_day_type(day, laundry)
+    wash_at = laundry.wash_at
+
+    case day
+
+    when wash_at #洗濯日
+      2
+    when wash_at + laundry.days #洗濯日+洗濯期間の日
+      2
+    when wash_at + 2 * laundry.days #洗濯日+2*洗濯期間の日
+      2
+
+    when wash_at + 1, wash_at - 1 #洗濯日前後
+      1
+    when wash_at + laundry.days + 1, wash_at + laundry.days - 1 #洗濯日+洗濯期間 前後の日
+      1
+    when wash_at + 2 * laundry.days + 1, wash_at + 2 * laundry.days - 1 #洗濯日+2*洗濯期間 前後の日
+      1
+
+    else #それ以外の日
+      0
+    end
+  end
 
   def show
     render json: { status: 200, data: @laundry }
@@ -128,9 +137,7 @@ class Api::V1::LaundriesController < ApplicationController
     end
   end
 
-
   private
-
 
   def set_laundry
     @laundry = Laundry.where(deleted_at: nil).find(params[:id])
