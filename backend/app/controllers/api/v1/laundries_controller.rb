@@ -88,6 +88,7 @@ class Api::V1::LaundriesController < ApplicationController
     # 順々に渡される日付が洗濯日と比較
     case day
 
+      # 洗濯する日は 2
     when wash_at #洗濯日
       2
     when wash_at + laundry.days #洗濯日+洗濯期間の日
@@ -95,6 +96,7 @@ class Api::V1::LaundriesController < ApplicationController
     when wash_at + 2 * laundry.days #洗濯日+2*洗濯期間の日
       2
 
+      # 洗濯する日の前後は 1
     when wash_at + 1, wash_at - 1 #洗濯日前後
       1
     when wash_at + laundry.days + 1, wash_at + laundry.days - 1 #洗濯日+洗濯期間 前後の日
@@ -102,7 +104,8 @@ class Api::V1::LaundriesController < ApplicationController
     when wash_at + 2 * laundry.days + 1, wash_at + 2 * laundry.days - 1 #洗濯日+2*洗濯期間 前後の日
       1
 
-    else #それ以外の日
+      # それ以外の日は 0
+    else
       0
     end
   end
