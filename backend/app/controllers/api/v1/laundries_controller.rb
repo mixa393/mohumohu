@@ -85,6 +85,7 @@ class Api::V1::LaundriesController < ApplicationController
   def wash_day_type(day, laundry)
     wash_at = laundry.wash_at
 
+    # 順々に渡される日付が洗濯日と比較
     case day
 
     when wash_at #洗濯日
