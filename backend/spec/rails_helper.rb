@@ -66,4 +66,6 @@ RSpec.configure do |config|
 
   # サインイン機能をまとめておく
   Dir[Rails.root.join('spec', 'support', '**', '*.rb')].each { |f| require f }
+
+  config.include AuthorizationSpecHelper, type: :request
 end

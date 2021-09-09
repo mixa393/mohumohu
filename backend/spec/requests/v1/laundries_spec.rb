@@ -3,7 +3,6 @@ require 'rails_helper'
 RSpec.describe "Laundries", type: :request do
   # サインイン
   let(:user) { FactoryBot.create(:user) }
-  include AuthorizationSpecHelper
   let(:auth_tokens) { sign_in(user) }
 
   let(:laundry) { FactoryBot.create(:laundry) }
