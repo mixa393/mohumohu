@@ -49,3 +49,4 @@
 
 ### React
 - [導入](https://github.com/reactjs/react-rails)
+- [スライドメニュー](https://www.kirupa.com/react/smooth_sliding_menu_react_motion.htm)
