@@ -39,30 +39,18 @@ RSpec.describe "Laundries", type: :request do
     it 'weeklyの取得' do
       get "/api/v1/laundries", headers: request_header, params: { team_id: team.id }
       json = JSON.parse(response.body)
-      #
-      # # dataまで掘る
-      # json["data"].each { |laundry|
-      #
-      #   # 1つの洗濯物データ中のweekly配列の値を1つ1つチェック
-      #   laundry["weekly"].each_with_index { |n, index|
-      #
-      #     case index
-      #
-      #       # 当日か洗濯期間が2or3回過ぎた日は 2 が格納されている
-      #     when days(laundry), 2 * days(laundry) + 1, 3 * days(laundry) + 2
-      #       expect(n).to eq(2)
-      #
-      #       # 上記の前後の日は 1 が格納されている
-      #     when days(laundry) - 1, days(laundry) + 1, 2 * days(laundry), 2 * days(laundry) + 2, 3 * days(laundry) + 1, 3 * days(laundry) + 3
-      #       expect(n).to eq(1)
-      #
-      #       # それ以外の日は 0 が格納されている
-      #     else
-      #       expect(n).to eq(0)
-      #     end
-      #   }
-      # }
 
+      # dataまで掘る
+      json["data"].each { |laundry|
+
+        # 1つの洗濯物データ中のweekly配列の値を1つ1つチェック
+        laundry["weekly"].each { |n|
+          # 2か1か0が格納されていることをチェック
+          expect(n).to eq(2) | eq(1) | eq(0)
+        }
+      }
+
+      # weeklyの要素が7つであることをチェック
       expect(json["data"].first["weekly"].length).to eq(7)
     end
   end
