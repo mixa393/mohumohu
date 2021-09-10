@@ -17,7 +17,8 @@ package phase1{
     # team_id [FK]
     name : varchar(31)
     email : varchar(127)
-    password : varchar(255)
+    password_digest : varchar(255)
+    remember_digest : varchar(255)
     image_path : varchar(255)
     remind_at : time
     created_at : datetime
@@ -45,6 +46,7 @@ package phase1{
     description : varchar(255)
     days : int
     notice : text
+    image : varchar(127)
     created_at : datetime
     updated_at : datetime
     deleted_at : datetime
