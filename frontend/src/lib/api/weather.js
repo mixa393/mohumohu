@@ -1,11 +1,12 @@
-import axios from "axios"
+import client from "./client"
 
-const weatherBase = axios.create({
-    baseURL: "https://weather.tsukumijima.net/api/forecast/city"
-})
-
-export const getWeather = (id) => {
-    return weatherBase.get(`/${id}`)
+/**
+ * 天気情報取得
+ * @param params {locationId}
+ * @returns {Promise<AxiosResponse<any>>}
+ */
+export const getWeather = (params) => {
+    return client.get(`/weather`,params)
 }
 
 export const getWeatherFormat = async (id) => {
