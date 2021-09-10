@@ -37,7 +37,6 @@ RSpec.describe "API::V1::Registrations", type: :request do
 
   context "PUT api/v1/auth/password パスワードの変更" do
     # サインイン
-    include AuthorizationSpecHelper
     let!(:user) { FactoryBot.create(:user) }
     let(:auth_tokens) { sign_in(user) }
 
@@ -60,7 +59,6 @@ RSpec.describe "API::V1::Registrations", type: :request do
 
   context "PUT api/v1/auth ユーザー情報の変更" do
     # サインイン
-    include AuthorizationSpecHelper
     let!(:user) { FactoryBot.create(:user) }
     let(:auth_tokens) { sign_in(user) }
 
@@ -82,7 +80,6 @@ RSpec.describe "API::V1::Registrations", type: :request do
 
   context "DELETE api/v1/auth ユーザー情報の論理削除" do
     # サインイン
-    include AuthorizationSpecHelper
     let!(:user) { FactoryBot.create(:user) }
     let(:auth_tokens) { sign_in(user) }
 
