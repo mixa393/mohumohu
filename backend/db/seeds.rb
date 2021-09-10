@@ -15,7 +15,6 @@ locations = [{ id: "016010", city: "札幌" },
   )
 end
 
-
 # user作成
 Team.all.each do |team|
   rand(1..3).times do |n|
@@ -26,7 +25,8 @@ Team.all.each do |team|
       email: Faker::Internet.unique.email,
       password: password,
       password_confirmation: password,
-      remind_at: Random.rand(Time.parse("08:00:00")..Time.parse("22:00:00"))
+      remind_at: Random.rand(Time.parse("08:00:00")..Time.parse("22:00:00")),
+      team_id: team.id
     )
   end
 end
