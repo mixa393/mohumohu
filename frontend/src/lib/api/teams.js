@@ -1,21 +1,44 @@
 import client from "./client"
 
-// 情報取得
+const headers = {
+    "access-token": Cookies.get("_access_token"),
+    "client": Cookies.get("_client"),
+    "uid": Cookies.get("_uid"),
+    "X-Requested-With": "XMLHttpRequest"
+}
+
+/**
+ * チーム情報作成
+ * @param params {name, locationId}
+ * @returns {Promise<AxiosResponse<any>>}
+ */
+export const createTeam = (params) => {
+    return client.post("/teams", {headers: {"X-Requested-With": "XMLHttpRequest"},params})
+}
+
+/**
+ * チーム情報取得
+ * @param id
+ * @returns {Promise<AxiosResponse<any>>}
+ */
 export const getTeam = (id) => {
-    return client.get(`/teams/${id}`)
+    return client.get(`/teams/${id}`, {headers})
 }
 
-// 作成
-export const createTeam = (data) => {
-    return client.post("/teams", data)
+/**
+ * チーム情報更新
+ * @param params {name, locationId}
+ * @returns {Promise<AxiosResponse<any>>}
+ */
+export const updateTeam = (params) => {
+    return client.put("/teams", {headers, params})
 }
 
-// user情報更新
-export const updateTeam = (data) => {
-    return client.put("/teams", data)
-}
-
-// user削除
+/**
+ * チーム削除
+ * @param id
+ * @returns {Promise<AxiosResponse<any>>}
+ */
 export const deleteTeam = (id) => {
-    return client.delete(`/teams/${id}`)
+    return client.delete(`/teams/${id}`, {headers})
 }
