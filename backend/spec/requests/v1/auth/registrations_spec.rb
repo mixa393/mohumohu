@@ -12,13 +12,10 @@ RSpec.describe "API::V1::Registrations", type: :request do
                      password_confirmation: password,
                      team_id: team.id } }
 
-    it '200 ok' do
-      post "/api/v1/auth", headers: header, params: params
-      expect(response.status).to eq(200)
-    end
-
     it '特定データの作成' do
       post "/api/v1/auth", headers: header, params: params
+      expect(response.status).to eq(200)
+
       json = JSON.parse(response.body)
       expect(json['data']['name']).to eq(params[:name])
     end
@@ -44,14 +41,10 @@ RSpec.describe "API::V1::Registrations", type: :request do
     let(:password) { Faker::Internet.password }
     let(:update_params) { { "password" => password, "password_confirmation" => password } }
 
-    it '200 ok' do
-      # パスワード変更のリクエスト
-      put "/api/v1/auth/password", headers: auth_tokens, params: update_params
-      expect(response.status).to eq(200)
-    end
-
     it '更新に成功' do
       put "/api/v1/auth/password", headers: auth_tokens, params: update_params
+      expect(response.status).to eq(200)
+
       json = JSON.parse(response.body)
       expect(json["message"]).to include("更新に成功")
     end
@@ -65,13 +58,10 @@ RSpec.describe "API::V1::Registrations", type: :request do
     # 変更する情報をリクエストボディに与える
     let(:update_params) { { "name" => Faker::Internet.username, "email" => Faker::Internet.unique.email } }
 
-    it '200 ok' do
-      put "/api/v1/auth", headers: auth_tokens, params: update_params
-      expect(response.status).to eq(200)
-    end
-
     it '特定データに変更' do
       put "/api/v1/auth", headers: auth_tokens, params: update_params
+      expect(response.status).to eq(200)
+
       json = JSON.parse(response.body)
       expect(json["data"]["name"]).to eq(update_params["name"])
       expect(json["data"]["email"]).to eq(update_params["email"])
@@ -83,13 +73,10 @@ RSpec.describe "API::V1::Registrations", type: :request do
     let!(:user) { FactoryBot.create(:user) }
     let(:auth_tokens) { sign_in(user) }
 
-    it '200 ok' do
-      delete "/api/v1/auth", headers: auth_tokens
-      expect(response.status).to eq(200)
-    end
-
     it 'deleted_atの更新' do
       delete "/api/v1/auth", headers: auth_tokens
+      expect(response.status).to eq(200)
+
       json = JSON.parse(response.body)
       expect(json["data"]["deleted_at"]).not_to eq(nil)
     end
