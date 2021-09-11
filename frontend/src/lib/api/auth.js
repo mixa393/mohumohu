@@ -12,7 +12,7 @@ const headers = {
  * @returns {Promise<AxiosResponse<any>>}
  */
 export const getCurrentUser = () => {
-    if (!Cookies.get("_access_token") || !Cookies.get("_client") || !Cookies.get("_uid")) return
+    if (!Cookies.get("_access_token") || !Cookies.get("_client") || !Cookies.get("_uid"))
     return client.get("/auth/sessions", {headers})
 }
 
