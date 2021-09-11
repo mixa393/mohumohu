@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe "API::V1::Registrations", type: :request do
+RSpec.describe "ユーザー認証API", type: :request do
 
   context "POST /api/v1/auth サインアップ" do
     let!(:team) { FactoryBot.create(:team) }

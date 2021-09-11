@@ -1,7 +1,7 @@
 require 'rails_helper'
 require 'net/http'
 
-RSpec.describe "Weathers", type: :request do
+RSpec.describe "WeatherAPI", type: :request do
   # サインイン
   let(:user) { FactoryBot.create(:user) }
   let(:auth_tokens) { sign_in(user) }
