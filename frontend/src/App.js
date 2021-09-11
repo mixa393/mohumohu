@@ -9,6 +9,8 @@ import Footer from './components/common/footer'
 import UsersIndex from "./pages/users/index";
 import LaundriesIndex from "./pages/laundries";
 
+import {getCurrentUser} from "./lib/api/auth";
+
 function App() {
     return (
         <BrowserRouter>
