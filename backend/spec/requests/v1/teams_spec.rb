@@ -24,7 +24,6 @@ RSpec.describe "TeamsAPI", type: :request do
 
     # ユーザー作成とサインイン
     let!(:user) { FactoryBot.create(:user, team_id: team.id) }
-    include AuthorizationSpecHelper
     let(:auth_tokens) { sign_in(user) }
 
     let(:valid_params) { { name: Faker::Team.name,
