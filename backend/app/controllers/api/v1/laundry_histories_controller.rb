@@ -23,7 +23,7 @@ class Api::V1::LaundryHistoriesController < ApplicationController
   # @params [Integer] laundry_id,URLから取得
   # @return [json] status,data(Array)
   def show
-    laundry_histories = LaundryHistory.where(deleted_at: nil, laundry_id: params[:id])
+    laundry_histories = LaundryHistory.where(deleted_at: nil, team_id: @current_team.id, laundry_id: params[:id])
     render json: { status: 200, data: laundry_histories }
   end
 
