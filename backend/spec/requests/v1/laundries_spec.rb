@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe "Laundries", type: :request do
+RSpec.describe "LaundriesAPI", type: :request do
 
   # laundries#index
   context "GET /laundries" do
