@@ -94,5 +94,21 @@ RSpec.describe "API::V1::Registrations", type: :request do
       expect(json["data"]["deleted_at"]).not_to eq(nil)
     end
   end
+
+  context "GET api/v1/auth/session ログイン中のユーザー情報表示" do
+    # サインイン
+    let!(:user) { FactoryBot.create(:user) }
+    let(:auth_tokens) { sign_in(user) }
+    it "特定ユーザー情報の表示" do
+      get "/api/v1/auth/sessions", headers: auth_tokens
+
+      # 200 ok
+      expect(response.status).to eq(200)
+
+      json = JSON.parse(response.body)
+      expect(json["is_login"]).to eq(true)
+      expect(json["data"]["name"]).to eq(user.name)
+    end
+  end
 end
 
