@@ -8,6 +8,7 @@
     "@testing-library/user-event": "^12.1.10",
     "autoprefixer": "^9",
     "axios": "^0.21.1",
+    "axios-case-converter": "^0.8.1",
     "craco": "^0.0.3",
     "dayjs": "^1.10.6",
     "js-cookie": "^3.0.1",
