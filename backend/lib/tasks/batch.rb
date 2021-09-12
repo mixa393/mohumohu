@@ -1,7 +1,6 @@
-module UpdateWash_at
-  extend self
+module Batch
 
-  def batch
+  def update_wash_at
     today = Time.now.to_date
 
     # wash_atが今日のものを取得
