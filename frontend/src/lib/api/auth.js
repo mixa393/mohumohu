@@ -13,12 +13,12 @@ const headers = {
  */
 export const getCurrentUser = () => {
     if (!Cookies.get("_access_token") || !Cookies.get("_client") || !Cookies.get("_uid"))
-    return client.get("/auth/sessions", {headers})
+        return client.get("/auth/sessions", {headers})
 }
 
 /**
  * サインアップ
- * @param params {name, email, password, password_confirmation, remind_at, team.id}
+ * @param params {{name:string, email:string, password:string, password_confirmation:string, remind_at:date, team_id:BigInt}}
  * @returns {Promise<AxiosResponse<any>>}
  */
 export const signUp = (params) => {
@@ -27,29 +27,30 @@ export const signUp = (params) => {
 
 /**
  * サインイン
- * @param params {email, password}
+ * @param params {{email:string, password:string}}
  * @returns {Promise<AxiosResponse<any>>}
  */
 export const signIn = (params) => {
-    return client.post(`/auth/sign_in`, {headers: {"X-Requested-With": "XMLHttpRequest", params}})
+    return client.post(`/auth/sign_in`, params, {headers: {"X-Requested-With": "XMLHttpRequest"}})
 }
 
 /**
  * ログインした上でのパスワード変更
- * @param params { password, password_confirmation }
+ * @param params {{ password:string, password_confirmation:string }}
  * @returns {Promise<AxiosResponse<any>>}
  */
 export const changePassword = (params) => {
-    return client.put(`/auth/password`, {headers, params})
+    return client.put(`/auth/password`, params, {headers})
 }
 
 /**
  * ユーザー情報の変更
- * @param params { name || email || team.id || remind_at }
+ * @param params {{ name?: string, email?:string, team_id?:BigInt, remind_at?:string}}
  * @returns {Promise<AxiosResponse<any>>}
  */
 export const updateUser = (params) => {
-    return client.put(`/auth`, {headers,params})
+    return client.put(`/auth`, params, {headers}
+    )
 }
 
 /**
