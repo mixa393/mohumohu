@@ -17,6 +17,9 @@ class Laundry < ApplicationRecord
     errors.add(:wash_at, "は現在の日時より遅い時間を選択してください") if self.wash_at < Time.now.to_date
   end
 
+  # wash_atの値を1日ごとに確認して修正する
+  # バッチ処理で1日1回呼び出す
+  # 昨日の日付のものを抽出して、days日後に修正して格納し直す
   def update_wash_at
     # 昨日の日時
     yesterday = Time.now.to_date - 1
