@@ -33,7 +33,7 @@ services:
       dockerfile: Dockerfile
     volumes:
       - ./frontend:/usr/src/app
-    command: sh -c "yarn start"
+    command: sh -c "yarn && yarn start"
     ports:
       - "3000:3000"
 volumes:
