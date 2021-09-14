@@ -43,53 +43,36 @@ RSpec.describe "LaundryHistoriesAPI", type: :request do
     end
   end
 
+  context do
+    let!(:user) { FactoryBot.create(:user) }
+    let!(:laundry) { FactoryBot.create(:laundry, user_id: user.id, team_id: user.team_id) }
+    let!(:laundry_history){ FactoryBot.create(:laundry_history, user_id: user.id, laundry_id: laundry.id)}
 
-  #
-  #
-  # let!(:team) { FactoryBot.create(:team) }
-  # let!(:users) { FactoryBot.create_list(:user, 3, team_id: team.id) }
-  # let(:another_team_user){FactoryBot.create(:user)}
-  # let!(:laundries) { FactoryBot.create_list(:laundry, 5, team_id: team.id) }
-  # let!(:laundry_histories) { [] }
-  #
-  # # 1人目のユーザーでサインイン
-  # let(:auth_tokens) { sign_in(users.first) }
-  #
-  # before :each do
-  #   laundries.each { |laundry|
-  #     users.each { |user|
-  #       laundry_histories << FactoryBot.create(:laundry_history, user_id: user.id, laundry_id: laundry.id)
-  #     }
-  #   }
-  # end
-  #
-  #
-  # it "GET /api/v1/laundry_histories/:id" do
-  #   laundry_id = laundries.sample.id
-  #   get "/api/v1/laundry_histories/#{laundry_id}", headers: auth_tokens
-  #
-  #   expect(response.status).to eq(200)
-  #
-  #   json = JSON.parse(response.body)
-  #
-  #   if json["data"].first
-  #     expect(json['data'].first["laundry_id"]).to eq(laundry_id)
-  #   end
-  # end
-  #
-  # it "POST /api/v1/laundry_histories" do
-  #   expect { post "/api/v1/laundry_histories", headers: auth_tokens, params: { laundry_id: laundries.sample.id } }
-  #     .to change(LaundryHistory, :count).by(+1)
-  #
-  #   expect(response.status).to eq(200)
-  # end
-  #
-  # it "DELETE /api/v1/laundry_histories/:id" do
-  #   laundry_history = FactoryBot.create(:laundry_history, user_id: users.first.id, laundry_id: laundries.sample.id)
-  #   delete "/api/v1/laundry_histories/#{laundry_history.id}", headers: auth_tokens
-  #
-  #   json = JSON.parse(response.body)
-  #   expect(json['data']['deleted_at']).not_to eq(nil)
-  #   expect(response.status).to eq(200)
-  # end
+    let(:auth_tokens) { sign_in(user) }
+    let(:json) { JSON.parse(response.body) }
+
+    it "GET /api/v1/laundry_histories/:id" do
+      get "/api/v1/laundry_histories/#{laundry.id}", headers: auth_tokens
+
+      expect(response.status).to eq(200)
+
+      if json["data"].first
+        expect(json['data'].first["laundry_id"]).to eq(laundry.id)
+      end
+    end
+
+    it "POST /api/v1/laundry_histories" do
+      expect { post "/api/v1/laundry_histories", headers: auth_tokens, params: { laundry_id: laundry.id } }
+        .to change(LaundryHistory, :count).by(+1)
+
+      expect(response.status).to eq(200)
+    end
+
+    it "DELETE /api/v1/laundry_histories/:id" do
+      delete "/api/v1/laundry_histories/#{laundry_history.id}", headers: auth_tokens
+
+      expect(json['data']['deleted_at']).not_to eq(nil)
+      expect(response.status).to eq(200)
+    end
+  end
 end
