@@ -1,13 +1,14 @@
 import React, {useEffect, useState} from "react";
 import {Link, useLocation} from "react-router-dom"
 import sun from "../../images/common/sun.svg";
-import tshirt from "../../images/common/tshirts.svg"
-import menu from "../../images/common/menu.svg";
+import tshirt from "../../images/common/tshirt.png"
 import MenuButton from "../common/menuButton"
 import Menu from "../common/menu"
 import "../../css/menu.css"
 
+
 const Header = ({date}) => {
+
 
     //headerの幅を変える
     const [width, setWidth] = useState({
