@@ -76,7 +76,7 @@ function App() {
                     <Header/>
                     <div className="flex-1">
                         <Switch>
-                            <Route exact path="/signup" component={SignUp}/>
+                            {/*<Route exact path="/signup" component={SignUp}/>*/}
                             <Route exact path="/signin" component={SignIn}/>
                             <Private>
                                 <Route exact path="/">
