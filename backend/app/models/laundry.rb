@@ -21,7 +21,7 @@ class Laundry < ApplicationRecord
   # バッチ処理で1日1回呼び出す
   # 昨日の日付のものを抽出して、days日後or30日後に修正して格納し直す
   def self.update_wash_at
-    yesterday = Time.now.to_date - 1
+    yesterday = Time.current.yesterday.to_date
 
     # wash_atが昨日のものを取得
     laundries = Laundry.where(deleted_at: nil, wash_at: yesterday)
