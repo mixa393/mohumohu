@@ -1,11 +1,12 @@
 import React, {useState, useEffect,useContext} from "react";
-import {Link} from "react-router-dom"
+import {Link,Redirect} from "react-router-dom"
 import Cookies from "js-cookie"
 
 import "../../css/menu.css"
 
 import {AuthContext} from "../../App";
 import {signOut} from "../../lib/api/auth";
+import SignIn from "../../pages/signIn";
 
 const Menu = ({menuVisibility, handleMouseDown}) => {
     const { isSignedIn, setIsSignedIn } = useContext(AuthContext)
@@ -21,6 +22,8 @@ const Menu = ({menuVisibility, handleMouseDown}) => {
 
                 setIsSignedIn(false)
                 console.log("Succeeded in sign out")
+
+                return <Redirect to="/signin" component={SignIn}/>
             } else {
                 console.log("Failed in sign out")
             }
@@ -51,7 +54,7 @@ const Menu = ({menuVisibility, handleMouseDown}) => {
                     ユーザー情報
                 </Link>
 
-                <button to="/logout" className="menu-item hover:bg-white p-3" onClick={handleSignOut()}>
+                <button className="menu-item hover:bg-white p-3" onClick={handleSignOut()}>
                     ログアウト
                 </button>
             </div>
