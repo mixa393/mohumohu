@@ -1,4 +1,5 @@
 import client from "./client"
+import Cookies from "js-cookie"
 
 const headers = {
     "access-token": Cookies.get("_access_token"),
