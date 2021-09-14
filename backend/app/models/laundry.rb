@@ -11,11 +11,11 @@ class Laundry < ApplicationRecord
 
   validates :image, length: { maximum: 127 }
 
-  validate :wash_at_check
+  # validate :wash_at_check
 
-  def wash_at_check
-    errors.add(:wash_at, "は現在の日時より遅い時間を選択してください") if self.wash_at < Time.now.to_date
-  end
+  # def wash_at_check
+  #   errors.add(:wash_at, "は現在の日時より遅い時間を選択してください") if self.wash_at < Time.now.to_date
+  # end
 
   # wash_atの値を1日ごとに確認して修正する
   # バッチ処理で1日1回呼び出す

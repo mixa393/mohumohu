@@ -43,4 +43,14 @@ RSpec.describe Laundry, type: :model do
     expect(laundry).not_to be_valid
   end
 
+  describe "self.update_wash_at" do
+    let(:yesterday) { Time.current.yesterday.to_date }
+    let!(:laundry) { FactoryBot.create(:laundry, wash_at: yesterday) }
+
+    it 'wash_atの更新' do
+      Laundry.update_wash_at
+      updated_laundry = Laundry.find(laundry.id)
+      expect(updated_laundry.wash_at).to eq(yesterday + laundry.days)
+    end
+  end
 end
