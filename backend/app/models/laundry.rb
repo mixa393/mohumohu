@@ -20,7 +20,7 @@ class Laundry < ApplicationRecord
   # wash_atの値を1日ごとに確認して修正する
   # バッチ処理で1日1回呼び出す
   # 昨日の日付のものを抽出して、days日後or30日後に修正して格納し直す
-  def update_wash_at
+  def self.update_wash_at
     yesterday = Time.now.to_date - 1
 
     # wash_atが昨日のものを取得
