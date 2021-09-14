@@ -1,5 +1,4 @@
 import React, {useState, useContext} from "react"
-import {Link} from "react-router-dom"
 import Cookies from "js-cookie"
 
 import {AuthContext} from "../App"
@@ -11,7 +10,6 @@ const SignIn = () => {
 
     const [email, setEmail] = useState("")
     const [password, setPassword] = useState("")
-    const [alertMessageOpen, setAlertMessageOpen] = useState(false)
 
     const handleSubmit = async (e) => {
         e.preventDefault()
