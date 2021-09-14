@@ -14,7 +14,7 @@ const Menu = ({menuVisibility, handleMouseDown}) => {
         try {
             const res = await signOut()
 
-            if (res.data.success === true) {
+            if (res.data.success) {
                 Cookies.remove("_access_token")
                 Cookies.remove("_client")
                 Cookies.remove("_uid")
