@@ -67,6 +67,6 @@ export const deleteUser = () => {
  * @returns {Promise<AxiosResponse<any>>}
  */
 export const signOut = () => {
-    return client.delete("auth/sign_out", {headers})
+    return client.delete("/auth/sign_out", {headers})
 }
 
