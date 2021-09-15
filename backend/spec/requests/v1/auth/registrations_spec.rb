@@ -26,9 +26,26 @@ RSpec.describe "ユーザー認証API", type: :request do
     let!(:user) { FactoryBot.create(:user) }
     let(:params) { { email: user.email, password: user.password } }
 
-    it '200 ok' do
+    it '指定ユーザーでのサインイン' do
       post "/api/v1/auth/sign_in", headers: header, params: params
       expect(response.status).to eq(200)
+
+      json = JSON.parse(response.body)
+      expect(json["data"]["name"]).to eq(user.name)
+    end
+  end
+
+  context "DELETE api/v1/auth/sign_out サインアウト" do
+    # サインイン
+    let!(:user) { FactoryBot.create(:user) }
+    let(:auth_tokens) { sign_in(user) }
+
+    it 'success' do
+      delete "/api/v1/auth/sign_out", headers: auth_tokens
+      expect(response.status).to eq(200)
+
+      json = JSON.parse(response.body)
+      expect(json["success"]).to eq(true)
     end
   end
 
