@@ -50,7 +50,7 @@ const SignIn = () => {
                 <label htmlFor="password">パスワード</label>
                 <input type="password" id="password" name="password"
                        value={password}
-                       onChange={event => setEmail(event.target.value)}/>
+                       onChange={event => setPassword(event.target.value)}/>
 
                 <input type="submit"
                        disabled={!email || !password} // 空欄があった場合はボタンを押せないように
