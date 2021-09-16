@@ -40,7 +40,7 @@ class Api::V1::LaundryHistoriesController < ApplicationController
       laundry_histories = LaundryHistory.where(deleted_at: nil, laundry_id: params[:id])
       render json: { status: 200, data: laundry_histories }
     else
-      render json: { status: 400, message: "洗濯履歴取得に失敗しました" }
+      render json: { status: 200, data: [] }
     end
   end
 
