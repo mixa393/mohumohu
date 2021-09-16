@@ -12,6 +12,7 @@ import Footer from './components/common/footer'
 import UsersIndex from "./pages/users/index";
 import LaundriesIndex from "./pages/laundries";
 import SignIn from "./pages/signIn";
+import SignUp from "./pages/signUp";
 
 import {getCurrentUser} from "./lib/api/auth";
 
@@ -76,8 +77,8 @@ function App() {
                     <Header/>
                     <div className="flex-1">
                         <Switch>
-                            {/*<Route exact path="/signup" component={SignUp}/>*/}
-                            <Route exact path="/signin" component={SignIn}/>
+                            <Route exact path="/signup" component={SignUp}/>
+                            {/*<Route exact path="/signin" component={SignIn}/>*/}
                             <Private>
                                 <Route exact path="/">
                                     <UsersIndex/>
