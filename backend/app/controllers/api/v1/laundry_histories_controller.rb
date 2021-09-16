@@ -62,7 +62,13 @@ class Api::V1::LaundryHistoriesController < ApplicationController
   # @params [Integer] laundry_history_id, URLから取得
   # @return [json] status,data
   def destroy
-    laundry_history = LaundryHistory.where(deleted_at: nil, user_id: current_api_v1_user.id).find(params[:id])
+    begin
+      laundry_history = LaundryHistory.where(deleted_at: nil, user_id: current_api_v1_user.id).find(params[:id])
+    rescue
+      # 自分の作成した履歴ID以外を指定された場合messageだけ返却して抜ける
+      render json: { status: 400, message: "削除できる履歴がありません" }
+      return
+    end
 
     if laundry_history.update(deleted_at: Time.now)
       render json: { status: 200, data: laundry_history }
