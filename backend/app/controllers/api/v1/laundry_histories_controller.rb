@@ -1,6 +1,6 @@
 class Api::V1::LaundryHistoriesController < ApplicationController
   before_action :authenticate_api_v1_user!
-  before_action :current_team, only: [:index, :show]
+  before_action :current_team, only: [:index, :show, :create]
 
   #ユーザーの所属しているチームに属する洗濯物の履歴を全件取得する
   # @return [json] status,data(Array)
@@ -48,13 +48,23 @@ class Api::V1::LaundryHistoriesController < ApplicationController
   # @params [Integer] laundry_id,リクエストボディから取得
   # @return [json] status,data(Array)
   def create
-    laundry_history = LaundryHistory.new(user_id: current_api_v1_user.id, laundry_id: params[:laundry_id])
+    laundry_id = params[:laundry_id]
+    laundry = Laundry.where(id: laundry_id, team_id: @current_team.id)
+
+    if laundry.empty?
+      # 洗濯物IDが不正の場合messageだけ返却して抜ける
+      render json: { status: 400, message: "洗濯履歴作成に失敗しました" }
+      return
+    end
+
+    laundry_history = LaundryHistory.new(user_id: current_api_v1_user.id, laundry_id: laundry_id)
 
     if laundry_history.save
       render json: { status: 200, data: laundry_history }
     else
       render json: { status: 400, message: "洗濯履歴作成に失敗しました", data: laundry_history.errors }
     end
+
   end
 
   # 洗濯履歴を論理削除
