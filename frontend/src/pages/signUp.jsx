@@ -15,7 +15,7 @@ const SignUp = () => {
         email: "",
         password: "",
         passwordConfirmation: "",
-        remindAt: null
+        remindAt: undefined
     })
 
     const [location, setLocation] = useState({
@@ -23,7 +23,6 @@ const SignUp = () => {
         pref: "",
         city: ""
     })
-
 
     const handleCreateUser = async (e) => {
         e.preventDefault()
@@ -71,6 +70,7 @@ const SignUp = () => {
         <>
             <form onSubmit={handleCreateUser} className="w-3/4 mx-auto">
                 <table className="mx-auto table-fixed text-right">
+                    <tbody>
                     <tr className="h-16">
                         <th className="w-2/5 h-full">
                             <label htmlFor={"name"}>名前</label>
@@ -173,6 +173,7 @@ const SignUp = () => {
                         </td>
 
                     </tr>
+                    </tbody>
                 </table>
                 {/*<button type="submit" className="bg-pink-100">登録</button>*/}
                 <input type="submit" value="登録" className="bg-pink-100"/>
