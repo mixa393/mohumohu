@@ -49,11 +49,13 @@ class Api::V1::LaundryHistoriesController < ApplicationController
   # @return [json] status,data(Array)
   def create
     laundry_id = params[:laundry_id]
-    laundry = Laundry.where(id: laundry_id, team_id: @current_team.id)
 
-    if laundry.empty?
+    begin
+      # 現チーム、削除されていない洗濯物かどうかチェック
+      Laundry.where(team_id: @current_team.id, deleted_at: nil).find(laundry_id)
+    rescue
       # 洗濯物IDが不正の場合messageだけ返却して抜ける
-      render json: { status: 400, message: "洗濯履歴作成に失敗しました" }
+      render json: { status: 400, message: "洗濯物IDが不正です"  }
       return
     end
 
@@ -75,7 +77,7 @@ class Api::V1::LaundryHistoriesController < ApplicationController
     begin
       laundry_history = LaundryHistory.where(deleted_at: nil, user_id: current_api_v1_user.id).find(params[:id])
     rescue
-      # 自分の作成した履歴ID以外を指定された場合messageだけ返却して抜ける
+      # IDが不正の場合messageだけ返却して抜ける
       render json: { status: 400, message: "削除できる履歴がありません" }
       return
     end

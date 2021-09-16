@@ -97,7 +97,7 @@ RSpec.describe "LaundryHistoriesAPI", type: :request do
       it '履歴が作成できないこと' do
         subject
         json = JSON.parse(response.body)
-        expect(json["message"]).to include("失敗")
+        expect(json["message"]).to include("不正")
       end
     end
   end
