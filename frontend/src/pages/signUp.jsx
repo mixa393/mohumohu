@@ -10,11 +10,6 @@ import locationId from "../lib/api/locationId.js"
 const SignUp = () => {
     const {setIsSignedIn, setCurrentUser} = useContext(AuthContext)
 
-    // const [teamInfo, setTeamInfo] = useState({
-    //     name: "",
-    //     locationId: ""
-    // })
-
     const [userInfo, setUserInfo] = useState({
         name: "",
         email: "",
@@ -34,27 +29,22 @@ const SignUp = () => {
         e.preventDefault()
 
         try {
-            console.log(location)
-            console.log({
+            const teamParams = {
                 name: `${userInfo.name}のチーム`,
                 locationId: locationId[location.local][location.pref][location.city]
-            })
+            }
 
-            const resTeam = await createTeam({
-                name: `${userInfo.name}のチーム`,
-                locationId: locationId[location.local][location.pref][location.city]
-            })
+            const resTeam = await createTeam(teamParams)
             console.log(resTeam)
 
-            const teamId = `resTeam.data.id`
+            const teamId = resTeam.data.id
 
-            const userData = {
+            const userParams = {
                 ...userInfo,
                 teamId
             }
 
-            console.log(userData)
-            const res = await signUp(userData)
+            const res = await signUp(userParams)
             console.log(res)
 
             if (res.status === 200) {
