@@ -3,7 +3,7 @@ require 'rails_helper'
 RSpec.describe "LaundryHistoriesAPI", type: :request do
 
   describe 'GET /api/v1/laundry_histories' do
-    subject(:get_laundry_histories) { get "/api/v1/laundry_histories", headers: auth_tokens }
+    subject { get "/api/v1/laundry_histories", headers: auth_tokens }
     let(:auth_tokens) { sign_in(users.first) }
     let(:json) { JSON.parse(response.body) }
 
@@ -42,7 +42,7 @@ RSpec.describe "LaundryHistoriesAPI", type: :request do
   end
 
   describe "GET /api/v1/laundry_histories/:id" do
-    subject(:laundry_histories_show){get "/api/v1/laundry_histories/#{laundry.id}", headers: auth_tokens}
+    subject{ get "/api/v1/laundry_histories/#{laundry.id}", headers: auth_tokens }
     let(:json) { JSON.parse(response.body) }
 
     context "同じチームの履歴を指定した場合" do
@@ -72,7 +72,7 @@ RSpec.describe "LaundryHistoriesAPI", type: :request do
       end
 
       it '履歴を取得できないこと' do
-        get "/api/v1/laundry_histories/#{laundry.id}", headers: auth_tokens
+        subject
         expect(response.status).to eq(200)
         expect(json['data']).to eq([])
       end
@@ -80,14 +80,14 @@ RSpec.describe "LaundryHistoriesAPI", type: :request do
   end
 
   describe "POST /api/v1/laundry_histories" do
+    subject { post "/api/v1/laundry_histories", headers: auth_tokens, params: { laundry_id: laundry.id } }
     let(:user) { FactoryBot.create(:user) }
     let(:auth_tokens) { sign_in(user) }
 
     context "自分のチームの洗濯物IDを指定した場合" do
       let(:laundry) { FactoryBot.create(:laundry, team_id: user.team_id) }
       it "履歴が作成できること" do
-        expect { post "/api/v1/laundry_histories", headers: auth_tokens, params: { laundry_id: laundry.id } }
-          .to change(LaundryHistory, :count).by(+1)
+        expect { subject }.to change(LaundryHistory, :count).by(+1)
         expect(response.status).to eq(200)
       end
     end
@@ -95,7 +95,7 @@ RSpec.describe "LaundryHistoriesAPI", type: :request do
     context "異なるチームの洗濯物IDを指定した場合や、洗濯物IDが間違っている場合" do
       let(:laundry) { FactoryBot.create(:laundry) }
       it '履歴が作成できないこと' do
-        post "/api/v1/laundry_histories", headers: auth_tokens, params: { laundry_id: laundry.id }
+        subject
         json = JSON.parse(response.body)
         expect(json["message"]).to include("失敗")
       end
@@ -103,6 +103,7 @@ RSpec.describe "LaundryHistoriesAPI", type: :request do
   end
 
   describe "DELETE /api/v1/laundry_histories/:id" do
+    subject { delete "/api/v1/laundry_histories/#{laundry_history.id}", headers: auth_tokens }
     let(:team) { FactoryBot.create(:team) }
     let(:users) { FactoryBot.create_list(:user, 2, team_id: team.id) }
     let(:laundry) { FactoryBot.create(:laundry, team_id: team.id) }
@@ -113,7 +114,7 @@ RSpec.describe "LaundryHistoriesAPI", type: :request do
       let!(:laundry_history) { FactoryBot.create(:laundry_history, user_id: users.first.id, laundry_id: laundry.id) }
 
       it "deleted_atが更新されること" do
-        delete "/api/v1/laundry_histories/#{laundry_history.id}", headers: auth_tokens
+        subject
         expect(response.status).to eq(200)
         expect(json['data']['deleted_at']).not_to eq(nil)
       end
@@ -123,7 +124,7 @@ RSpec.describe "LaundryHistoriesAPI", type: :request do
       let!(:laundry_history) { FactoryBot.create(:laundry_history, user_id: users.last.id, laundry_id: laundry.id) }
 
       it '削除できないこと' do
-        delete "/api/v1/laundry_histories/#{laundry_history.id}", headers: auth_tokens
+        subject
         expect(response.status).to eq(200)
         expect(json["message"]).to include("履歴がありません")
       end
