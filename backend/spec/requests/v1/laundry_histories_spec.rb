@@ -42,7 +42,7 @@ RSpec.describe "LaundryHistoriesAPI", type: :request do
   end
 
   describe "GET /api/v1/laundry_histories/:id" do
-    subject{ get "/api/v1/laundry_histories/#{laundry.id}", headers: auth_tokens }
+    subject { get "/api/v1/laundry_histories/#{laundry.id}", headers: auth_tokens }
     let(:json) { JSON.parse(response.body) }
 
     context "同じチームの履歴を指定した場合" do
