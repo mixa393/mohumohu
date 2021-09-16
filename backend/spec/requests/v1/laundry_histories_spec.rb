@@ -7,7 +7,7 @@ RSpec.describe "LaundryHistoriesAPI", type: :request do
     let(:auth_tokens) { sign_in(users.first) }
     let(:json) { JSON.parse(response.body) }
 
-    context '同じチームの洗濯履歴がある場合' do
+    context '同じチームの履歴がある場合' do
       # 同じチームに属するデータを作成
       let(:team) { FactoryBot.create(:team) }
       let(:users) { FactoryBot.create_list(:user, 2, team_id: team.id) }
@@ -17,7 +17,7 @@ RSpec.describe "LaundryHistoriesAPI", type: :request do
         FactoryBot.create(:laundry_history, user_id: users.last.id, laundry_id: laundries.last.id)
       end
 
-      it '同じチームの履歴が取得できること' do
+      it '同じチームの履歴は全て取得できること' do
         subject
         expect(response.status).to eq(200)
         expect(json['data'].length).to eq(2)
@@ -44,7 +44,7 @@ RSpec.describe "LaundryHistoriesAPI", type: :request do
   end
 
   describe "GET /api/v1/laundry_histories/:id" do
-    context "同じチームの履歴がある場合" do
+    context "同じチームの履歴を指定した場合" do
       let(:team) { FactoryBot.create(:team) }
       let(:users) { FactoryBot.create_list(:user, 2, team_id: team.id) }
       let(:laundry) { FactoryBot.create(:laundry, user_id: users.second.id, team_id: team.id) }
@@ -55,7 +55,7 @@ RSpec.describe "LaundryHistoriesAPI", type: :request do
 
       let(:auth_tokens) { sign_in(users.first) }
 
-      it "履歴を取得できていること" do
+      it "履歴を取得できること" do
         get "/api/v1/laundry_histories/#{laundry.id}", headers: auth_tokens
         expect(response.status).to eq(200)
 
@@ -64,7 +64,7 @@ RSpec.describe "LaundryHistoriesAPI", type: :request do
       end
     end
 
-    context "違うチームの履歴がある場合" do
+    context "違うチームの履歴を指定した場合" do
       let(:user) { FactoryBot.create(:user) }
       let(:auth_tokens) { sign_in(user) }
 
