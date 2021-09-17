@@ -45,10 +45,8 @@ function App() {
                 console.log("No current user")
             }
         } catch (err) {
-            console.log(err)
+            console.error(err)
         }
-
-        // setLoading(false)
     }
 
     useEffect(() => {
@@ -59,15 +57,11 @@ function App() {
     // ユーザーが認証済みかどうかでルーティングを決定
     // 未認証だった場合は「/signin」ページに促す
     const Private = ({children}) => {
-        // if (!loading) {
         if (isSignedIn) {
             return children
         } else {
             return <Redirect to="/signin"/>
         }
-        // } else {
-        //     return <></>
-        // }
     }
 
     return (
@@ -78,7 +72,7 @@ function App() {
                     <div className="flex-1">
                         <Switch>
                             <Route exact path="/signup" component={SignUp}/>
-                            {/*<Route exact path="/signin" component={SignIn}/>*/}
+                            <Route exact path="/signin" component={SignIn}/>
                             <Private>
                                 <Route exact path="/">
                                     <UsersIndex/>
@@ -88,13 +82,6 @@ function App() {
                                 </Route>
                                 <Route path="/settings">
                                     <div>設定</div>
-                                </Route>
-                                {/*TODO:認証後では関連*/}
-                                <Route path="/login">
-                                    <div>ログイン画面予定</div>
-                                </Route>
-                                <Route path="/logout">
-                                    <div>ログアウト予定</div>
                                 </Route>
                             </Private>
                         </Switch>
