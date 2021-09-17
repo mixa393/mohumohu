@@ -3,7 +3,7 @@ class Api::V1::WeatherController < ApplicationController
   before_action :current_team
 
   # 本番環境では不要なもののPostmanでは以下が必要
-  # require 'net/http'
+  require 'net/http'
 
   # 天気取得利用して天気データを返却する
   # @see: 天気取得API https://weather.tsukumijima.net
@@ -37,10 +37,11 @@ class Api::V1::WeatherController < ApplicationController
         status: 200,
         data: data
       }
-    rescue
+    rescue => e
       render json: {
         status: 400,
-        message: "天気の取得に失敗しました"
+        message: "天気の取得に失敗しました",
+        response: e
       }
     end
   end
