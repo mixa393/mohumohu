@@ -7,7 +7,13 @@ const options = {
 }
 
 const client = applyCaseMiddleware(axios.create({
-    baseURL: "http://localhost:3001/api/v1"
+    baseURL: "http://localhost:3001/api/v1",
+    mode: 'cors',
+    credentials: 'include',
+    headers: {
+        ContentType: 'application/json',
+        Accept: 'application/json',
+    },
 }), options)
 
 export default client
