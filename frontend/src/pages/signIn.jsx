@@ -1,4 +1,5 @@
 import React, {useState, useContext} from "react"
+import {useHistory} from "react-router-dom";
 import Cookies from "js-cookie"
 
 import {AuthContext} from "../App"
@@ -6,6 +7,7 @@ import {signIn} from "../lib/api/auth"
 
 // サインイン用ページ
 const SignIn = () => {
+    const history = useHistory()
     const {setIsSignedIn, setCurrentUser} = useContext(AuthContext)
 
     const [email, setEmail] = useState("")
@@ -33,6 +35,7 @@ const SignIn = () => {
                 setCurrentUser(res.data.data)
 
                 console.log("Signed in successfully!")
+                history.push("/")
             }
         } catch (err) {
             console.error(err)
