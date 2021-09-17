@@ -1,14 +1,15 @@
 import React, {useState, useContext} from "react"
-import {Redirect} from "react-router-dom"
+import {useHistory} from "react-router-dom"
 import Cookies from "js-cookie";
 
 import {AuthContext} from "../App"
-import {signUp} from "../lib/api/auth"
+import {getCurrentUser, signUp} from "../lib/api/auth"
 import {createTeam} from "../lib/api/teams";
 import locationId from "../lib/api/locationId.js"
 
 const SignUp = () => {
-    const {setIsSignedIn, setCurrentUser} = useContext(AuthContext)
+    const history = useHistory()
+    const {setIsSignedIn, currentUser,setCurrentUser} = useContext(AuthContext)
 
     const [userInfo, setUserInfo] = useState({
         name: "",
@@ -51,14 +52,16 @@ const SignUp = () => {
                 Cookies.set("_uid", res.headers["uid"])
 
                 setIsSignedIn(true)
-                setCurrentUser(res.data.user)
-                return <Redirect to="/"/>
+                setCurrentUser(res.data.data)
+
+                history.push("/")
             } else {
                 console.log(res.data.message)
             }
 
         } catch (err) {
             console.log(err)
+            console.log("catchに到達")
         } finally {
             // setUserInfo("")
         }
