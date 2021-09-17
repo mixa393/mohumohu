@@ -1,23 +1,29 @@
 import client from "./client"
+import Cookies from "js-cookie"
 
+const headers = {
+    "access-token": Cookies.get("_access_token"),
+    "client": Cookies.get("_client"),
+    "uid": Cookies.get("_uid"),
+    "X-Requested-With": "XMLHttpRequest"
+}
 /**
  * 天気情報取得
- * @param params {locationId}
  * @returns {Promise<AxiosResponse<any>>}
  */
-export const getWeather = (params) => {
-    return client.get(`/weather`,params)
+export const getWeather = () => {
+    return client.get(`/weather`, {headers})
 }
 
-export const getWeatherFormat = async (id) => {
-    return await getWeather(id)
+export const getWeatherFormat = async () => {
+    return await getWeather()
         .then(({data}) => {
             return {
-                telop: data.forecasts[0].telop,
-                imageTitle: data.forecasts[0].image.title,
-                imageUrl: data.forecasts[0].image.url,
-                chanceOfRainAM: data.forecasts[0].chanceOfRain["T06_12"],
-                chanceOfRainPM: data.forecasts[0].chanceOfRain["T12_18"],
+                city: data.data.city,
+                telop: data.data.telop,
+                imageUrl: data.data.imageUrl,
+                chanceOfRainAM: data.data.chanceOfRain["T06_12"],
+                chanceOfRainPM: data.data.chanceOfRain["T12_18"],
             }
         })
         .catch(err => alert("エラーが発生しました。ページをリロードして下さい。"));
