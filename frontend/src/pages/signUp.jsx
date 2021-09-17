@@ -34,10 +34,8 @@ const SignUp = () => {
             }
 
             const resTeam = await createTeam(teamParams)
-            console.log(resTeam)
 
-            const teamId = resTeam.data.id
-
+            const teamId = resTeam.data.data.id
             const userParams = {
                 ...userInfo,
                 teamId
@@ -61,9 +59,9 @@ const SignUp = () => {
 
         } catch (err) {
             console.log(err)
+        } finally {
+            // setUserInfo("")
         }
-
-        setUserInfo("")
     }
 
     return (
@@ -145,7 +143,8 @@ const SignUp = () => {
                             }}>
                                 <option value=""/>
                                 {
-                                    Object.keys(locationId).map(local => <option value={local}>{local}</option>)
+                                    Object.keys(locationId).map(local => <option key={local}
+                                                                                 value={local}>{local}</option>)
                                 }
                             </select>
 
@@ -155,7 +154,7 @@ const SignUp = () => {
                                 <option value=""/>
                                 {
                                     (location.local?.length > 0) && (Object.keys(locationId[location.local])
-                                        .map(pref => (<option value={pref}>{pref}</option>)))
+                                        .map(pref => (<option key={pref} value={pref}>{pref}</option>)))
                                 }
                             </select>
 
@@ -167,7 +166,7 @@ const SignUp = () => {
                                 <option value=""/>
                                 {
                                     (location.pref?.length > 0) && (Object.keys(locationId[location.local][location.pref])
-                                        .map(city => (<option value={city}>{city}</option>)))
+                                        .map(city => (<option key={city} value={city}>{city}</option>)))
                                 }
                             </select>
                         </td>
