@@ -13,7 +13,7 @@ const client = applyCaseMiddleware(axios.create({
     headers: {
         ContentType: 'application/json',
         Accept: 'application/json',
-        XRequestedWith: "XMLHttpRequest"
+        "X-Requested-With": "XMLHttpRequest"
     },
 }), options)
 
