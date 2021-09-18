@@ -12,6 +12,7 @@ import Footer from './components/common/footer'
 import UsersIndex from "./pages/users/index";
 import LaundriesIndex from "./pages/laundries";
 import SignIn from "./pages/signIn";
+import SignUp from "./pages/signUp";
 
 import {getCurrentUser} from "./lib/api/auth";
 
@@ -44,10 +45,8 @@ function App() {
                 console.log("No current user")
             }
         } catch (err) {
-            console.log(err)
+            console.error(err)
         }
-
-        // setLoading(false)
     }
 
     useEffect(() => {
@@ -58,15 +57,11 @@ function App() {
     // ユーザーが認証済みかどうかでルーティングを決定
     // 未認証だった場合は「/signin」ページに促す
     const Private = ({children}) => {
-        // if (!loading) {
         if (isSignedIn) {
             return children
         } else {
             return <Redirect to="/signin"/>
         }
-        // } else {
-        //     return <></>
-        // }
     }
 
     return (
@@ -76,7 +71,7 @@ function App() {
                     <Header/>
                     <div className="flex-1">
                         <Switch>
-                            {/*<Route exact path="/signup" component={SignUp}/>*/}
+                            <Route exact path="/signup" component={SignUp}/>
                             <Route exact path="/signin" component={SignIn}/>
                             <Private>
                                 <Route exact path="/">
@@ -87,13 +82,6 @@ function App() {
                                 </Route>
                                 <Route path="/settings">
                                     <div>設定</div>
-                                </Route>
-                                {/*TODO:認証後では関連*/}
-                                <Route path="/login">
-                                    <div>ログイン画面予定</div>
-                                </Route>
-                                <Route path="/logout">
-                                    <div>ログアウト予定</div>
                                 </Route>
                             </Private>
                         </Switch>

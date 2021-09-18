@@ -1,4 +1,5 @@
 import React, {useState, useContext} from "react"
+import {useHistory} from "react-router-dom";
 import Cookies from "js-cookie"
 
 import {AuthContext} from "../App"
@@ -6,6 +7,7 @@ import {signIn} from "../lib/api/auth"
 
 // サインイン用ページ
 const SignIn = () => {
+    const history = useHistory()
     const {setIsSignedIn, setCurrentUser} = useContext(AuthContext)
 
     const [email, setEmail] = useState("")
@@ -33,6 +35,7 @@ const SignIn = () => {
                 setCurrentUser(res.data.data)
 
                 console.log("Signed in successfully!")
+                history.push("/")
             }
         } catch (err) {
             console.error(err)
@@ -50,7 +53,7 @@ const SignIn = () => {
                 <label htmlFor="password">パスワード</label>
                 <input type="password" id="password" name="password"
                        value={password}
-                       onChange={event => setEmail(event.target.value)}/>
+                       onChange={event => setPassword(event.target.value)}/>
 
                 <input type="submit"
                        disabled={!email || !password} // 空欄があった場合はボタンを押せないように

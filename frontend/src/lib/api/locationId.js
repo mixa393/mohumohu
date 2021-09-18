@@ -1,4 +1,4 @@
-{
+const locationId =`{
   "北海道": {
     "道北": {
       "稚内": "011000",
@@ -255,5 +255,7 @@
       "与那国島": "474020"
     }
   }
-}
+}`
+
+export default JSON.parse(locationId)
 

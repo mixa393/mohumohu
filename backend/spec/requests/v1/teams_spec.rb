@@ -5,14 +5,16 @@ RSpec.describe "TeamsAPI", type: :request do
     let(:team) { FactoryBot.create(:team) }
     let(:request_header) { { "X-Requested-With" => "XMLHttpRequest" } }
     let(:valid_params) { { name: Faker::Team.name,
-                           location_id: 280010 } }
+                           location_id: "280010" } }
 
     # teams#create
     it "POST /api/v1/teams" do
-      post '/api/v1/teams', headers: request_header, params: valid_params
-
       # 新規データの作成
       expect { post '/api/v1/teams', headers: request_header, params: valid_params }.to change(Team, :count).by(+1)
+
+      # 特定データの作成
+      json = JSON.parse(response.body)
+      expect(json['data']['name']).to eq(valid_params.name)
 
       # status:200を返す
       expect(response.status).to eq(200)

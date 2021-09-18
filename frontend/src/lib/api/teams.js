@@ -1,19 +1,19 @@
 import client from "./client"
+import Cookies from "js-cookie"
 
 const headers = {
     "access-token": Cookies.get("_access_token"),
     "client": Cookies.get("_client"),
-    "uid": Cookies.get("_uid"),
-    "X-Requested-With": "XMLHttpRequest"
+    "uid": Cookies.get("_uid")
 }
 
 /**
  * チーム情報作成
- * @param params {name, locationId}
+ * @param params {{name:string, locationId: string}}
  * @returns {Promise<AxiosResponse<any>>}
  */
 export const createTeam = (params) => {
-    return client.post("/teams", {headers: {"X-Requested-With": "XMLHttpRequest"},params})
+    return client.post("/teams" ,params)
 }
 
 /**
@@ -31,7 +31,7 @@ export const getTeam = (id) => {
  * @returns {Promise<AxiosResponse<any>>}
  */
 export const updateTeam = (params) => {
-    return client.put("/teams", {headers, params})
+    return client.put("/teams", params,{headers})
 }
 
 /**

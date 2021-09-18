@@ -54,7 +54,7 @@ const Menu = ({menuVisibility, handleMouseDown}) => {
                     ユーザー情報
                 </Link>
 
-                <button className="menu-item hover:bg-white p-3" onClick={handleSignOut()}>
+                <button className="menu-item hover:bg-white p-3" onClick={() => {handleSignOut()}}>
                     ログアウト
                 </button>
             </div>
