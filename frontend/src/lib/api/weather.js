@@ -16,15 +16,17 @@ export const getWeather = () => {
 }
 
 export const getWeatherFormat = async () => {
-    return await getWeather()
-        .then(({data}) => {
-            return {
-                city: data.data.city,
-                telop: data.data.telop,
-                imageUrl: data.data.imageUrl,
-                chanceOfRainAM: data.data.chanceOfRain["T06_12"],
-                chanceOfRainPM: data.data.chanceOfRain["T12_18"],
-            }
-        })
-        .catch(err => alert("エラーが発生しました。ページをリロードして下さい。"));
+    try {
+        const {data} = await getWeather()
+
+        return {
+            city: data.data.city,
+            telop: data.data.telop,
+            imageUrl: data.data.imageUrl,
+            chanceOfRainAM: data.data.chanceOfRainAm,
+            chanceOfRainPM: data.data.chanceOfRainPm
+        }
+    } catch (e) {
+        alert("エラーが発生しました。ページをリロードして下さい。")
+    }
 }
