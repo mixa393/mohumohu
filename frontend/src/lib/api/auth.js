@@ -23,7 +23,7 @@ export const getCurrentUser = () => {
  * @returns {Promise<AxiosResponse<any>>}
  */
 export const signUp = (params) => {
-    return client.post(`/auth`, params, {headers: {"X-Requested-With": "XMLHttpRequest"}})
+    return client.post(`/auth`, params)
 }
 
 /**
@@ -32,7 +32,7 @@ export const signUp = (params) => {
  * @returns {Promise<AxiosResponse<any>>}
  */
 export const signIn = (params) => {
-    return client.post(`/auth/sign_in`, params, {headers: {"X-Requested-With": "XMLHttpRequest"}})
+    return client.post(`/auth/sign_in`, params)
 }
 
 /**

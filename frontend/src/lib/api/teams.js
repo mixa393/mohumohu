@@ -13,7 +13,7 @@ const headers = {
  * @returns {Promise<AxiosResponse<any>>}
  */
 export const createTeam = (params) => {
-    return client.post("/teams" ,params,{headers: {"X-Requested-With": "XMLHttpRequest"}})
+    return client.post("/teams" ,params)
 }
 
 /**
