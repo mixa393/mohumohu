@@ -11,6 +11,15 @@ const headers = {
  * @param id
  * @returns {Promise<AxiosResponse<any>>}
  */
+export const getLaundryIndex = () => {
+    return client.get(`/laundries`,{headers})
+}
+
+/**
+ * 洗濯情報取得
+ * @param id
+ * @returns {Promise<AxiosResponse<any>>}
+ */
 export const getLaundry = (id) => {
     return client.get(`/laundries/${id}`,{headers})
 }
@@ -21,7 +30,7 @@ export const getLaundry = (id) => {
  * @returns {Promise<AxiosResponse<any>>}
  */
 export const createLaundry = (params) => {
-    return client.post("/laundries", {headers,params})
+    return client.post("/laundries", params,{headers})
 }
 
 /**
@@ -30,7 +39,7 @@ export const createLaundry = (params) => {
  * @returns {Promise<AxiosResponse<any>>}
  */
 export const updateLaundry = (params) => {
-    return client.put("/laundries", {headers,params})
+    return client.put("/laundries", params,{headers})
 }
 
 /**
