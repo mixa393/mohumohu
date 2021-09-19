@@ -101,9 +101,7 @@ RSpec.describe "LaundriesAPI", type: :request do
 
     let!(:laundry) { FactoryBot.create(:laundry) }
     let!(:valid_params) { { name: "#{user.name}の洗濯物",
-                            wash_at: Time.now.to_date + 5,
-                            user_id: user.id,
-                            team_id: user.team_id } }
+                            wash_at: Time.now.to_date + 5} }
     let(:json) { JSON.parse(response.body) }
 
     # laundries#create
