@@ -5,6 +5,7 @@ Rails.application.routes.draw do
 
       resources :teams, only: [:show, :create, :update, :destroy]
       resources :laundries
+      get "/laundries/list", to: "laundries#list"
 
       # ログイン用
       mount_devise_token_auth_for 'User', at: 'auth', controllers: { registrations: 'api/v1/auth/registrations' }
