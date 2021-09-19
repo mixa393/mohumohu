@@ -99,7 +99,10 @@ class Api::V1::LaundriesController < ApplicationController
   end
 
   def create
-    laundry = Laundry.new(laundry_params)
+    ids = {user_id:current_api_v1_user.id,team_id:current_api_v1_user.team_id}
+    params = laundry_params.merge(ids)
+
+    laundry = Laundry.new(params)
 
     if laundry.save
       render json: { status: 200, data: laundry }
@@ -132,6 +135,6 @@ class Api::V1::LaundriesController < ApplicationController
   end
 
   def laundry_params
-    params.permit(:name, :description, :days, :notice, :wash_at, :team_id, :user_id, :deleted_at)
+    params.permit(:name, :description, :days, :notice, :wash_at, :deleted_at)
   end
 end
