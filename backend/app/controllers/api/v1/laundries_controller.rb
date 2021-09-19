@@ -1,12 +1,11 @@
 class Api::V1::LaundriesController < ApplicationController
   before_action :authenticate_api_v1_user!
-  before_action :set_laundry, only: [:show, :update, :destroy]
+  before_action :set_laundry, only: [:show, :update, :dest]
 
   # statusと、チームに所属する洗濯物全てについてデータをjsonで返却する
   # @return [json] status,data = {id: 洗濯物ID, name: 洗濯物名, image: 画像, weekly: その週の洗濯する日か否かの配列}
-  # @param [Integer] team_id チームID
   def index
-    laundries = Laundry.where(deleted_at: nil).where(team_id: params[:team_id])
+    laundries = Laundry.where(deleted_at: nil).where(team_id: current_api_v1_user.team.id)
     data = []
 
     laundries.each do |laundry|
@@ -20,45 +19,6 @@ class Api::V1::LaundriesController < ApplicationController
 
     render json: { status: 200, data: data }
   end
-
-  # def weekly(laundry)
-  #   # [Date] 次に洗濯する日
-  #   wash_at = laundry.wash_at
-  #
-  #   # [Integer] 洗濯までの日数
-  #   wash_term_day = laundry.days
-  #
-  #   # [Date] 今日の日付
-  #   now = Date.today
-  #
-  #   # [Date] 1週間最後の日付
-  #   last_day_of_week = now + 1.week - 1
-  #
-  #   # ハッシュを1週間分作成
-  #   # "今日の日付" => 0, "明日の日付" => 0, "明後日の日付" => 0, ...
-  #   wash_day_schedules = {}
-  #   7.times do |i|
-  #     wash_day_schedules.store((now + i.days).to_s, 0)
-  #   end
-  #
-  #   while true do
-  #     # 洗濯日は2を代入
-  #     wash_day_schedules[wash_at.to_s] = 2
-  #
-  #     # 前後の日は1を代入
-  #     wash_day_schedules[(wash_at - 1).to_s] = 1
-  #
-  #     # 洗濯日+1日が1週間後を超えたら脱出
-  #     wash_day_schedules[(wash_at + 1).to_s] = 1
-  #
-  #     # 次回洗濯日を算出
-  #     wash_at = wash_at + wash_term_day.days
-  #     break if wash_at > last_day_of_week
-  #   end
-  #
-  #   # 日付のkeyを除き、数字のみの配列を返却
-  #   wash_day_schedules.values
-  # end
 
   # ある洗濯物について、今日を含む1週間の中で洗濯する日orその前後の日を数字で返却する
   # index内で呼び出す
@@ -109,6 +69,29 @@ class Api::V1::LaundriesController < ApplicationController
     else
       0
     end
+  end
+
+  # 現在から3日以内にwash_atが来る洗濯物一覧を取得
+  # @return [json] status,data = {id: 洗濯物ID, name: 洗濯物名, image: 画像, limit: 洗濯日まであと何日か}
+  def list
+    today = Time.now().to_date
+    three_days_later = today + 3
+
+    laundries = Laundry.where(deleted_at: nil, team_id: current_api_v1_user.team.id)
+                       .where("wash_at <= ?", three_days_later).order(:wash_at)
+
+    data = []
+
+    laundries.each do |laundry|
+      data.push({ id: laundry.id,
+                  name: laundry.name,
+                  image: laundry.image,
+                  limit_days: (laundry.wash_at - today).to_i
+                }
+      )
+    end
+
+    render json: { status: 200, data: data }
   end
 
   def show
