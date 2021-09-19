@@ -1,6 +1,6 @@
 class Api::V1::LaundriesController < ApplicationController
   before_action :authenticate_api_v1_user!
-  before_action :set_laundry, only: [:show, :update, :dest]
+  before_action :set_laundry, only: [:show, :update, :destroy]
 
   # statusと、チームに所属する洗濯物全てについてデータをjsonで返却する
   # @return [json] status,data = {id: 洗濯物ID, name: 洗濯物名, image: 画像, weekly: その週の洗濯する日か否かの配列}
