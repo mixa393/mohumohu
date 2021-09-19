@@ -3,12 +3,12 @@ require 'rails_helper'
 RSpec.describe "LaundriesAPI", type: :request do
 
   # laundries#index
-  context "GET /laundries" do
+  describe "GET /laundries" do
+    let(:team) { FactoryBot.create(:team) }
     # サインイン
-    let(:user) { FactoryBot.create(:user) }
+    let(:user) { FactoryBot.create(:user, team_id: team.id) }
     let(:auth_tokens) { sign_in(user) }
 
-    let!(:team) { FactoryBot.create(:team) }
     let!(:laundry_days) { {} }
     let!(:laundries) { [] }
 
@@ -32,7 +32,7 @@ RSpec.describe "LaundriesAPI", type: :request do
     end
 
     it '特定チームのデータの取得' do
-      get "/api/v1/laundries", headers: auth_tokens, params: { team_id: team.id }
+      get "/api/v1/laundries", headers: auth_tokens
       expect(response.status).to eq(200)
 
       json = JSON.parse(response.body)
@@ -40,7 +40,7 @@ RSpec.describe "LaundriesAPI", type: :request do
     end
 
     it 'weeklyの取得' do
-      get "/api/v1/laundries", headers: auth_tokens, params: { team_id: team.id }
+      get "/api/v1/laundries", headers: auth_tokens
       json = JSON.parse(response.body)
 
       # dataまで掘る
@@ -58,49 +58,86 @@ RSpec.describe "LaundriesAPI", type: :request do
     end
   end
 
-  # laundries#create
-  context "laundry#index以外" do
-    # サインイン
-    let(:user) { FactoryBot.create(:user) }
+  describe "GET /laundries/list" do
+    let(:team) { FactoryBot.create(:team) }
+    let(:user) { FactoryBot.create(:user, team_id: team.id) }
     let(:auth_tokens) { sign_in(user) }
+    let(:json) { JSON.parse(response.body) }
 
-    let(:laundry) { FactoryBot.create(:laundry) }
-    let!(:valid_params) { { name: Faker::String.random(length: 3..12),
-                            wash_at: Time.now.to_date + 5,
-                            user_id: user.id,
-                            team_id: user.team_id } }
+    context "wash_at当日の場合" do
+      let!(:laundry) { FactoryBot.create(:laundry, wash_at: Time.now().to_date, team_id: team.id) }
 
-    # laundries#create
-    it "POST /api/v1/laundries" do
-      expect { post '/api/v1/laundries', headers: auth_tokens, params: valid_params }.to change(Laundry, :count).by(+1)
-      expect(response.status).to eq(200)
+      it "limit_daysが0" do
+        get "/api/v1/laundries/list", headers: auth_tokens
+        expect(json['data'].first["limit_days"]).to eq(0)
+        expect(response.status).to eq(200)
+      end
     end
 
-    # laundries#show
-    it "GET /api/v1/laundries/:id" do
-      get "/api/v1/laundries/#{laundry.id}", headers: auth_tokens
-      json = JSON.parse(response.body)
+    context "wash_atが3日後の場合" do
+      let!(:laundry) { FactoryBot.create(:laundry, wash_at: Time.now().to_date + 3, team_id: team.id) }
 
-      expect(json['data']['name']).to eq(laundry.name)
-      expect(response.status).to eq(200)
+      it "limit_daysが3" do
+        get "/api/v1/laundries/list", headers: auth_tokens
+        expect(json['data'].first["limit_days"]).to eq(3)
+        expect(response.status).to eq(200)
+      end
     end
 
-    # laundries#update
-    it "PUT /api/v1/laundries/:id" do
-      put "/api/v1/laundries/#{laundry.id}", headers: auth_tokens, params: valid_params
-      expect(response.status).to eq(200)
+    context "wash_atが4日後の場合" do
+      let!(:laundry) { FactoryBot.create(:laundry, wash_at: Time.now().to_date + 4, team_id: team.id) }
 
-      json = JSON.parse(response.body)
-      expect(json['data']['name']).to eq(valid_params[:name])
+      it "データが取得されない" do
+        get "/api/v1/laundries/list", headers: auth_tokens
+        expect(json['data'].length).to eq(0)
+        expect(response.status).to eq(200)
+      end
     end
-
-    # laundries#destroy
-    it "DELETE /api/v1/laundries/:id" do
-      delete "/api/v1/laundries/#{laundry.id}", headers: auth_tokens
-      json = JSON.parse(response.body)
-      expect(json['data']['deleted_at']).not_to eq(nil)
-      expect(response.status).to eq(200)
-    end
-
   end
+
+  # laundries#create
+  # context "laundry#index以外" do
+  #   # サインイン
+  #   let(:user) { FactoryBot.create(:user) }
+  #   let(:auth_tokens) { sign_in(user) }
+  #
+  #   let(:laundry) { FactoryBot.create(:laundry) }
+  #   let!(:valid_params) { { name: Faker::String.random(length: 3..12),
+  #                           wash_at: Time.now.to_date + 5,
+  #                           user_id: user.id,
+  #                           team_id: user.team_id } }
+  #
+  #   # laundries#create
+  #   it "POST /api/v1/laundries" do
+  #     expect { post '/api/v1/laundries', headers: auth_tokens, params: valid_params }.to change(Laundry, :count).by(+1)
+  #     expect(response.status).to eq(200)
+  #   end
+  #
+  #   # laundries#show
+  #   it "GET /api/v1/laundries/:id" do
+  #     get "/api/v1/laundries/#{laundry.id}", headers: auth_tokens
+  #     json = JSON.parse(response.body)
+  #
+  #     expect(json['data']['name']).to eq(laundry.name)
+  #     expect(response.status).to eq(200)
+  #   end
+  #
+  #   # laundries#update
+  #   it "PUT /api/v1/laundries/:id" do
+  #     put "/api/v1/laundries/#{laundry.id}", headers: auth_tokens, params: valid_params
+  #     expect(response.status).to eq(200)
+  #
+  #     json = JSON.parse(response.body)
+  #     expect(json['data']['name']).to eq(valid_params[:name])
+  #   end
+  #
+  #   # laundries#destroy
+  #   it "DELETE /api/v1/laundries/:id" do
+  #     delete "/api/v1/laundries/#{laundry.id}", headers: auth_tokens
+  #     json = JSON.parse(response.body)
+  #     expect(json['data']['deleted_at']).not_to eq(nil)
+  #     expect(response.status).to eq(200)
+  #   end
+  #
+  # end
 end
