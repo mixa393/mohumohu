@@ -4,7 +4,7 @@ Rails.application.routes.draw do
       get "/weather", to: "weather#get"
 
       resources :teams, only: [:show, :create, :update, :destroy]
-      resources :laundries
+      resources :laundries, constraints: { id: /\d+/ }
       get "/laundries/list", to: "laundries#list"
 
       # ログイン用
