@@ -145,7 +145,7 @@ class Api::V1::LaundriesController < ApplicationController
     begin
       # 自分のチームに所属する洗濯物のみを取得可能
       @laundry = Laundry.where(deleted_at: nil, team_id: current_api_v1_user.team_id).find(params[:id])
-    rescue
+    rescue ActiveRecord::RecordNotFound
       render json: { status: 400, message: "データの取得に失敗しました" }
     end
   end
