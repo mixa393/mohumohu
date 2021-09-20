@@ -99,7 +99,7 @@ class Api::V1::LaundriesController < ApplicationController
   end
 
   def create
-    ids = {user_id:current_api_v1_user.id,team_id:current_api_v1_user.team_id}
+    ids = { user_id: current_api_v1_user.id, team_id: current_api_v1_user.team_id }
     params = laundry_params.merge(ids)
 
     laundry = Laundry.new(params)
@@ -131,7 +131,11 @@ class Api::V1::LaundriesController < ApplicationController
   private
 
   def set_laundry
-    @laundry = Laundry.where(deleted_at: nil).find(params[:id])
+    begin
+      @laundry = Laundry.where(deleted_at: nil, team_id: current_api_v1_user.team_id).find(params[:id])
+    rescue
+      render json: { status: 400, message: "データの取得に失敗しました" }
+    end
   end
 
   def laundry_params
