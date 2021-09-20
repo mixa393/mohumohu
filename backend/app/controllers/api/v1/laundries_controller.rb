@@ -1,6 +1,6 @@
 class Api::V1::LaundriesController < ApplicationController
   before_action :authenticate_api_v1_user!
-  before_action :set_laundry, only: [:show, :update, :destroy]
+  before_action :set_laundry, only: [:show, :update, :destroy, :washed]
 
   # statusと、チームに所属する洗濯物全てについてデータをjsonで返却する
   # @return [json] status,data = {id: 洗濯物ID, name: 洗濯物名, image: 画像, weekly: その週の洗濯する日か否かの配列}
@@ -72,7 +72,6 @@ class Api::V1::LaundriesController < ApplicationController
     end
   end
 
-
   # 現在から3日以内にwash_atが来る洗濯物一覧を取得
   # @return [json] status,data = {id: 洗濯物ID, name: 洗濯物名, image: 画像, limit: 洗濯日まであと何日か}
   def list
@@ -99,11 +98,19 @@ class Api::V1::LaundriesController < ApplicationController
     render json: { status: 200, data: data }
   end
 
-
   def show
     render json: { status: 200, data: @laundry }
   end
 
+  def washed
+    today = Time.now.to_date
+
+    if @laundry.update(wash_at: today + @laundry.days)
+      render json: { status: 200, data: @laundry.wash_at.strftime("%m月%d日") }
+    else
+      render json: { status: 400, data: @laundry.errors }
+    end
+  end
 
   def create
     # ユーザーIDとチームIDはトークンから用意
@@ -120,7 +127,6 @@ class Api::V1::LaundriesController < ApplicationController
     end
   end
 
-
   def update
     if @laundry.update(laundry_params)
       render json: { status: 200, data: @laundry }
@@ -128,7 +134,6 @@ class Api::V1::LaundriesController < ApplicationController
       render json: { status: 400, data: @laundry.errors }
     end
   end
-
 
   # 論理削除
   def destroy

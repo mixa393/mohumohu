@@ -82,6 +82,21 @@ RSpec.describe "LaundriesAPI", type: :request do
     end
   end
 
+  describe "PUT /api/v1/laundries/:id/washed" do
+    subject { put "/api/v1/laundries/#{laundry.id}/washed", headers: auth_tokens }
+    let(:user) { FactoryBot.create(:user) }
+    let(:auth_tokens) { sign_in(user) }
+    let(:json) { JSON.parse(response.body) }
+    let!(:laundry) { FactoryBot.create(:laundry, team_id: user.team_id) }
+
+    it 'wash_atの更新' do
+      updated_wash_at = (Time.now.to_date + laundry[:days]).strftime("%m月%d日")
+      subject
+      expect(response.status).to eq(200)
+      expect(json['data']).to eq(updated_wash_at)
+    end
+  end
+
   describe "POST /api/v1/laundries" do
     subject { post '/api/v1/laundries', headers: auth_tokens, params: valid_params }
     let(:user) { FactoryBot.create(:user) }
