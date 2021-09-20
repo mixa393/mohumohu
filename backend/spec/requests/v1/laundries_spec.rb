@@ -46,6 +46,7 @@ RSpec.describe "LaundriesAPI", type: :request do
   end
 
   describe "GET /laundries/list" do
+    subject{get "/api/v1/laundries/list", headers: auth_tokens}
     let(:team) { FactoryBot.create(:team) }
     let(:user) { FactoryBot.create(:user, team_id: team.id) }
     let(:auth_tokens) { sign_in(user) }
@@ -55,7 +56,7 @@ RSpec.describe "LaundriesAPI", type: :request do
       let!(:laundry) { FactoryBot.create(:laundry, wash_at: Time.now().to_date, team_id: team.id) }
 
       it "limit_daysが0" do
-        get "/api/v1/laundries/list", headers: auth_tokens
+        subject
         expect(json['data'].first["limit_days"]).to eq(0)
         expect(response.status).to eq(200)
       end
@@ -65,7 +66,7 @@ RSpec.describe "LaundriesAPI", type: :request do
       let!(:laundry) { FactoryBot.create(:laundry, wash_at: Time.now().to_date + 3, team_id: team.id) }
 
       it "limit_daysが3" do
-        get "/api/v1/laundries/list", headers: auth_tokens
+        subject
         expect(json['data'].first["limit_days"]).to eq(3)
         expect(response.status).to eq(200)
       end
@@ -75,7 +76,7 @@ RSpec.describe "LaundriesAPI", type: :request do
       let!(:laundry) { FactoryBot.create(:laundry, wash_at: Time.now().to_date + 4, team_id: team.id) }
 
       it "データが取得されない" do
-        get "/api/v1/laundries/list", headers: auth_tokens
+        subject
         expect(json['data'].length).to eq(0)
         expect(response.status).to eq(200)
       end
@@ -83,6 +84,7 @@ RSpec.describe "LaundriesAPI", type: :request do
   end
 
   describe "POST /api/v1/laundries" do
+    subject{post '/api/v1/laundries', headers: auth_tokens, params: valid_params}
     let(:user) { FactoryBot.create(:user) }
     let(:auth_tokens) { sign_in(user) }
     let!(:valid_params) { { name: "#{user.name}の洗濯物",
@@ -90,7 +92,7 @@ RSpec.describe "LaundriesAPI", type: :request do
     let(:json) { JSON.parse(response.body) }
 
     it "新しいデータの作成" do
-      expect { post '/api/v1/laundries', headers: auth_tokens, params: valid_params }.to change(Laundry, :count).by(+1)
+      expect { subject }.to change(Laundry, :count).by(+1)
       expect(response.status).to eq(200)
     end
 
