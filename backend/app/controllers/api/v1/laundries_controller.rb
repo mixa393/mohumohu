@@ -5,7 +5,8 @@ class Api::V1::LaundriesController < ApplicationController
   # statusと、チームに所属する洗濯物全てについてデータをjsonで返却する
   # @return [json] status,data = {id: 洗濯物ID, name: 洗濯物名, image: 画像, weekly: その週の洗濯する日か否かの配列}
   def index
-    laundries = Laundry.where(deleted_at: nil).where(team_id: current_api_v1_user.team.id)
+    laundries = Laundry.where(deleted_at: nil,
+                              team_id: current_api_v1_user.team.id)
     data = []
 
     laundries.each do |laundry|
@@ -71,17 +72,21 @@ class Api::V1::LaundriesController < ApplicationController
     end
   end
 
+
   # 現在から3日以内にwash_atが来る洗濯物一覧を取得
   # @return [json] status,data = {id: 洗濯物ID, name: 洗濯物名, image: 画像, limit: 洗濯日まであと何日か}
   def list
     today = Time.now().to_date
     three_days_later = today + 3
-
-    laundries = Laundry.where(deleted_at: nil, team_id: current_api_v1_user.team.id)
-                       .where("wash_at <= ?", three_days_later).order(:wash_at)
-
     data = []
 
+    # wash_atが今から3日以内のもののみを検索
+    laundries = Laundry.where(deleted_at: nil,
+                              team_id: current_api_v1_user.team.id)
+                       .where("wash_at <= ?", three_days_later)
+                       .order(:wash_at)
+
+    # フォーマット化してdataに入れる
     laundries.each do |laundry|
       data.push({ id: laundry.id,
                   name: laundry.name,
@@ -94,22 +99,27 @@ class Api::V1::LaundriesController < ApplicationController
     render json: { status: 200, data: data }
   end
 
+
   def show
     render json: { status: 200, data: @laundry }
   end
 
+
   def create
+    # ユーザーIDとチームIDはトークンから用意
     ids = { user_id: current_api_v1_user.id, team_id: current_api_v1_user.team_id }
+
+    # 送られてきたパラメータに用意したものを混ぜる
     params = laundry_params.merge(ids)
 
     laundry = Laundry.new(params)
-
     if laundry.save
       render json: { status: 200, data: laundry }
     else
       render json: { status: 400, message: "Laundryの作成に失敗しました", data: laundry.errors }
     end
   end
+
 
   def update
     if @laundry.update(laundry_params)
@@ -118,6 +128,7 @@ class Api::V1::LaundriesController < ApplicationController
       render json: { status: 400, data: @laundry.errors }
     end
   end
+
 
   # 論理削除
   def destroy
@@ -132,6 +143,7 @@ class Api::V1::LaundriesController < ApplicationController
 
   def set_laundry
     begin
+      # 自分のチームに所属する洗濯物のみを取得可能
       @laundry = Laundry.where(deleted_at: nil, team_id: current_api_v1_user.team_id).find(params[:id])
     rescue
       render json: { status: 400, message: "データの取得に失敗しました" }
