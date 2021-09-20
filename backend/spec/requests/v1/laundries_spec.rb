@@ -95,41 +95,68 @@ RSpec.describe "LaundriesAPI", type: :request do
     end
   end
 
-  describe "laundry#index以外" do
+  describe "POST /api/v1/laundries" do
     let(:user) { FactoryBot.create(:user) }
     let(:auth_tokens) { sign_in(user) }
-
-    let!(:laundry) { FactoryBot.create(:laundry) }
     let!(:valid_params) { { name: "#{user.name}の洗濯物",
-                            wash_at: Time.now.to_date + 5} }
+                            wash_at: Time.now.to_date + 5 } }
     let(:json) { JSON.parse(response.body) }
 
-    # laundries#create
-    it "POST /api/v1/laundries" do
+    it "新しいデータの作成" do
       expect { post '/api/v1/laundries', headers: auth_tokens, params: valid_params }.to change(Laundry, :count).by(+1)
       expect(response.status).to eq(200)
     end
 
-    # laundries#show
-    it "GET /api/v1/laundries/:id" do
-      get "/api/v1/laundries/#{laundry.id}", headers: auth_tokens
-      expect(json['data']['name']).to eq(laundry.name)
-      expect(response.status).to eq(200)
-    end
+    it 'should ' do
 
-    # laundries#update
-    it "PUT /api/v1/laundries/:id" do
-      put "/api/v1/laundries/#{laundry.id}", headers: auth_tokens, params: valid_params
-      expect(response.status).to eq(200)
-      expect(json['data']['name']).to eq(valid_params[:name])
     end
-
-    # laundries#destroy
-    it "DELETE /api/v1/laundries/:id" do
-      delete "/api/v1/laundries/#{laundry.id}", headers: auth_tokens
-      expect(json['data']['deleted_at']).not_to eq(nil)
-      expect(response.status).to eq(200)
-    end
-
   end
+
+  describe "GET /api/v1/laundries/:id" do
+    subject{get "/api/v1/laundries/#{laundry.id}", headers: auth_tokens}
+    let(:user) { FactoryBot.create(:user) }
+    let(:auth_tokens) { sign_in(user) }
+    let(:json){JSON.parse(response.body)}
+
+    context "自分のチームのデータを指定した場合" do
+      let!(:laundry) { FactoryBot.create(:laundry, team_id: user.team_id) }
+      it "特定データの取得" do
+        subject
+        expect(json['data']['name']).to eq(laundry.name)
+        expect(response.status).to eq(200)
+      end
+    end
+
+    context "洗濯物IDが不正の場合" do
+      let!(:laundry) { FactoryBot.create(:laundry) }
+      it 'データが取得されないこと' do
+        subject
+        expect(json['message']).to include("失敗")
+        expect(response.status).to eq(200)
+      end
+    end
+  end
+
+  let(:user) { FactoryBot.create(:user) }
+  let(:auth_tokens) { sign_in(user) }
+
+  let!(:laundry) { FactoryBot.create(:laundry) }
+  let!(:valid_params) { { name: "#{user.name}の洗濯物",
+                          wash_at: Time.now.to_date + 5 } }
+  let(:json) { JSON.parse(response.body) }
+
+  # laundries#update
+  it "PUT /api/v1/laundries/:id" do
+    put "/api/v1/laundries/#{laundry.id}", headers: auth_tokens, params: valid_params
+    expect(response.status).to eq(200)
+    expect(json['data']['name']).to eq(valid_params[:name])
+  end
+
+  # laundries#destroy
+  it "DELETE /api/v1/laundries/:id" do
+    delete "/api/v1/laundries/#{laundry.id}", headers: auth_tokens
+    expect(json['data']['deleted_at']).not_to eq(nil)
+    expect(response.status).to eq(200)
+  end
+
 end
