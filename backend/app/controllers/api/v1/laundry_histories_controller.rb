@@ -51,7 +51,7 @@ class Api::V1::LaundryHistoriesController < ApplicationController
   end
 
   # 洗濯履歴を作成
-  # @params [Integer] laundry_id,リクエストボディから取得
+  # @params [Integer] id,リクエストボディから取得
   # @return [json] status,data(Array)
   def create
     laundry_history = LaundryHistory.new(user_id: current_api_v1_user.id, laundry_id: @laundry.id)
@@ -90,10 +90,11 @@ class Api::V1::LaundryHistoriesController < ApplicationController
   # 洗濯物IDが不正の場合messageだけ返却して抜ける
   def laundry_check
     begin
-      # 自分のチームに所属する洗濯物のみを取得可能
       @laundry = Laundry.where(deleted_at: nil, team_id: current_api_v1_user.team_id).find(params[:id])
     rescue ActiveRecord::RecordNotFound
       render json: { status: 400, message: "データの取得に失敗しました" }
     end
+
+    @laundry
   end
 end
