@@ -2,60 +2,47 @@ require 'rails_helper'
 
 RSpec.describe "LaundriesAPI", type: :request do
 
-  # laundries#index
   describe "GET /laundries" do
-    let(:team) { FactoryBot.create(:team) }
-    # サインイン
-    let(:user) { FactoryBot.create(:user, team_id: team.id) }
+    subject { get "/api/v1/laundries", headers: auth_tokens }
+    let(:user) { FactoryBot.create(:user) }
     let(:auth_tokens) { sign_in(user) }
+    let(:json) { JSON.parse(response.body) }
 
-    let!(:laundry_days) { {} }
-    let!(:laundries) { [] }
+    context "自分のチームの洗濯物を取得する場合" do
+      let!(:laundries) { FactoryBot.create_list(:laundry,5,team_id: user.team_id) }
 
-    before do
-      # 洗濯期間daysを1〜5でデータ作成
-      (1..5).each { |n|
-        laundry = FactoryBot.create(:laundry, wash_at: Time.now.to_date + n, days: n + 1, team_id: team.id)
-        laundries << laundry
+      it '特定チームのデータの取得' do
+        subject
+        expect(response.status).to eq(200)
+        expect(json["data"].first["name"]).to eq(laundries.first.name)
+      end
 
-        # 洗濯物のidをキー、期間をvalueとして作成する配列
-        # { id:期間, id:期間, id:期間, ...}
-        laundry_days.store(laundry.id, n)
-      }
+      it 'weeklyの取得' do
+        subject
 
-      # 洗濯物のidを与えるとその洗濯期間を返却する
-      # @param [Integer] laundry_id
-      # @return [Integer] days
-      def days(laundry)
-        laundry_days[laundry["id"]]
+        # dataまで掘る
+        json["data"].each { |laundry|
+          # 1つの洗濯物データ中のweekly配列の値を1つ1つチェック
+          laundry["weekly"].each { |n|
+            # 2か1か0が格納されていることをチェック
+            expect(n).to eq(2) | eq(1) | eq(0)
+          }
+        }
+
+        # weeklyの要素が7つであることをチェック
+        expect(json["data"].first["weekly"].length).to eq(7)
       end
     end
 
-    it '特定チームのデータの取得' do
-      get "/api/v1/laundries", headers: auth_tokens
-      expect(response.status).to eq(200)
-
-      json = JSON.parse(response.body)
-      expect(json["data"].first["name"]).to eq(laundries.first.name)
+    context "異なるチームの洗濯物がある場合" do
+      let!(:laundries) { FactoryBot.create_list(:laundry,5) }
+      it '洗濯物は取得されないこと' do
+        subject
+        expect(response.status).to eq(200)
+        expect(json["data"].length).to eq(0)
+      end
     end
 
-    it 'weeklyの取得' do
-      get "/api/v1/laundries", headers: auth_tokens
-      json = JSON.parse(response.body)
-
-      # dataまで掘る
-      json["data"].each { |laundry|
-
-        # 1つの洗濯物データ中のweekly配列の値を1つ1つチェック
-        laundry["weekly"].each { |n|
-          # 2か1か0が格納されていることをチェック
-          expect(n).to eq(2) | eq(1) | eq(0)
-        }
-      }
-
-      # weeklyの要素が7つであることをチェック
-      expect(json["data"].first["weekly"].length).to eq(7)
-    end
   end
 
   describe "GET /laundries/list" do
@@ -113,10 +100,10 @@ RSpec.describe "LaundriesAPI", type: :request do
   end
 
   describe "GET /api/v1/laundries/:id" do
-    subject{get "/api/v1/laundries/#{laundry.id}", headers: auth_tokens}
+    subject { get "/api/v1/laundries/#{laundry.id}", headers: auth_tokens }
     let(:user) { FactoryBot.create(:user) }
     let(:auth_tokens) { sign_in(user) }
-    let(:json){JSON.parse(response.body)}
+    let(:json) { JSON.parse(response.body) }
 
     context "自分のチームのデータを指定した場合" do
       let!(:laundry) { FactoryBot.create(:laundry, team_id: user.team_id) }
