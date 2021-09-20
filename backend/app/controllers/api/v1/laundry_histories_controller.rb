@@ -1,6 +1,5 @@
 class Api::V1::LaundryHistoriesController < ApplicationController
   before_action :authenticate_api_v1_user!
-  before_action :current_team, only: [:index, :show, :create]
   before_action :laundry_check, only: [:create, :show]
   before_action :before_destroy_check, only: [:destroy]
 
@@ -10,7 +9,7 @@ class Api::V1::LaundryHistoriesController < ApplicationController
     laundry_histories = []
 
     # 所属チームの洗濯物を取得
-    laundries = Laundry.where(deleted_at: nil, team_id: @current_team.id)
+    laundries = Laundry.where(deleted_at: nil, team_id: current_api_v1_user.team_id)
 
     # 所属チームの洗濯物の履歴を全件表示
     laundries.each { |laundry|
