@@ -1,12 +1,13 @@
 require 'rails_helper'
 
 RSpec.describe "LaundriesAPI", type: :request do
+  let(:user) { FactoryBot.create(:user) }
+  let(:auth_tokens) { sign_in(user) }
+  let(:json) { JSON.parse(response.body) }
+
 
   describe "GET /laundries" do
     subject { get "/api/v1/laundries", headers: auth_tokens }
-    let(:user) { FactoryBot.create(:user) }
-    let(:auth_tokens) { sign_in(user) }
-    let(:json) { JSON.parse(response.body) }
 
     context "自分のチームの洗濯物を取得する場合" do
       let!(:laundries) { FactoryBot.create_list(:laundry, 5, team_id: user.team_id) }
@@ -47,13 +48,9 @@ RSpec.describe "LaundriesAPI", type: :request do
 
   describe "GET /laundries/list" do
     subject { get "/api/v1/laundries/list", headers: auth_tokens }
-    let(:user) { FactoryBot.create(:user) }
-    let(:auth_tokens) { sign_in(user) }
-    let(:json) { JSON.parse(response.body) }
 
     context "wash_at当日の場合" do
-      let!(:laundry) { FactoryBot.create(:laundry, wash_at: Time.now().to_date, team_id: user.team_id) }
-
+      let!(:laundry) { FactoryBot.create(:laundry, wash_at: Time.now.to_date, team_id: user.team_id) }
       it "limit_daysが0" do
         subject
         expect(json['data'].first["limit_days"]).to eq(0)
@@ -62,8 +59,7 @@ RSpec.describe "LaundriesAPI", type: :request do
     end
 
     context "wash_atが3日後の場合" do
-      let!(:laundry) { FactoryBot.create(:laundry, wash_at: Time.now().to_date + 3, team_id: user.team_id) }
-
+      let!(:laundry) { FactoryBot.create(:laundry, wash_at: Time.now.to_date + 3, team_id: user.team_id) }
       it "limit_daysが3" do
         subject
         expect(json['data'].first["limit_days"]).to eq(3)
@@ -72,8 +68,7 @@ RSpec.describe "LaundriesAPI", type: :request do
     end
 
     context "wash_atが4日後の場合" do
-      let!(:laundry) { FactoryBot.create(:laundry, wash_at: Time.now().to_date + 4, team_id: user.team_id) }
-
+      let!(:laundry) { FactoryBot.create(:laundry, wash_at: Time.now.to_date + 4, team_id: user.team_id) }
       it "データが取得されない" do
         subject
         expect(json['data'].length).to eq(0)
@@ -84,9 +79,6 @@ RSpec.describe "LaundriesAPI", type: :request do
 
   describe "PUT /api/v1/laundries/:id/washed" do
     subject { put "/api/v1/laundries/#{laundry.id}/washed", headers: auth_tokens }
-    let(:user) { FactoryBot.create(:user) }
-    let(:auth_tokens) { sign_in(user) }
-    let(:json) { JSON.parse(response.body) }
     let!(:laundry) { FactoryBot.create(:laundry, team_id: user.team_id) }
 
     it 'wash_atの更新' do
@@ -99,11 +91,8 @@ RSpec.describe "LaundriesAPI", type: :request do
 
   describe "POST /api/v1/laundries" do
     subject { post '/api/v1/laundries', headers: auth_tokens, params: valid_params }
-    let(:user) { FactoryBot.create(:user) }
-    let(:auth_tokens) { sign_in(user) }
     let!(:valid_params) { { name: "#{user.name}の洗濯物",
                             wash_at: Time.now.to_date + 5 } }
-    let(:json) { JSON.parse(response.body) }
 
     it "新しいデータの作成" do
       expect { subject }.to change(Laundry, :count).by(+1)
@@ -113,9 +102,6 @@ RSpec.describe "LaundriesAPI", type: :request do
 
   describe "GET /api/v1/laundries/:id" do
     subject { get "/api/v1/laundries/#{laundry.id}", headers: auth_tokens }
-    let(:user) { FactoryBot.create(:user) }
-    let(:auth_tokens) { sign_in(user) }
-    let(:json) { JSON.parse(response.body) }
 
     context "自分のチームのデータを指定した場合" do
       let!(:laundry) { FactoryBot.create(:laundry, team_id: user.team_id) }
@@ -138,11 +124,8 @@ RSpec.describe "LaundriesAPI", type: :request do
 
   describe "PUT /api/v1/laundries/:id" do
     subject { put "/api/v1/laundries/#{laundry.id}", headers: auth_tokens, params: valid_params }
-    let(:user) { FactoryBot.create(:user) }
-    let(:auth_tokens) { sign_in(user) }
     let(:valid_params) { { name: "#{user.name}の洗濯物",
                            wash_at: Time.now.to_date + 5 } }
-    let(:json) { JSON.parse(response.body) }
 
     context "自分のチームの洗濯物を指定した場合" do
       let!(:laundry) { FactoryBot.create(:laundry, team_id: user.team_id) }
@@ -165,9 +148,6 @@ RSpec.describe "LaundriesAPI", type: :request do
 
   describe "DELETE /api/v1/laundries/:id" do
     subject { delete "/api/v1/laundries/#{laundry.id}", headers: auth_tokens }
-    let(:user) { FactoryBot.create(:user) }
-    let(:auth_tokens) { sign_in(user) }
-    let(:json) { JSON.parse(response.body) }
 
     context "自分のチームの洗濯物を指定した場合" do
       let!(:laundry) { FactoryBot.create(:laundry, team_id: user.team_id) }
