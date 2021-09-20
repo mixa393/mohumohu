@@ -53,7 +53,7 @@ class Api::V1::LaundryHistoriesController < ApplicationController
     begin
       # 現チーム、削除されていない洗濯物かどうかチェック
       Laundry.where(team_id: @current_team.id, deleted_at: nil).find(laundry_id)
-    rescue
+    rescue ActiveRecord::RecordNotFound
       # 洗濯物IDが不正の場合messageだけ返却して抜ける
       render json: { status: 400, message: "洗濯物IDが不正です"  }
       return
@@ -76,7 +76,7 @@ class Api::V1::LaundryHistoriesController < ApplicationController
   def destroy
     begin
       laundry_history = LaundryHistory.where(deleted_at: nil, user_id: current_api_v1_user.id).find(params[:id])
-    rescue
+    rescue ActiveRecord::RecordNotFound
       # IDが不正の場合messageだけ返却して抜ける
       render json: { status: 400, message: "削除できる履歴がありません" }
       return
