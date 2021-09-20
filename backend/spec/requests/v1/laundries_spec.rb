@@ -9,7 +9,7 @@ RSpec.describe "LaundriesAPI", type: :request do
     let(:json) { JSON.parse(response.body) }
 
     context "自分のチームの洗濯物を取得する場合" do
-      let!(:laundries) { FactoryBot.create_list(:laundry,5,team_id: user.team_id) }
+      let!(:laundries) { FactoryBot.create_list(:laundry, 5, team_id: user.team_id) }
 
       it '特定チームのデータの取得' do
         subject
@@ -35,7 +35,7 @@ RSpec.describe "LaundriesAPI", type: :request do
     end
 
     context "異なるチームの洗濯物がある場合" do
-      let!(:laundries) { FactoryBot.create_list(:laundry,5) }
+      let!(:laundries) { FactoryBot.create_list(:laundry, 5) }
       it '洗濯物は取得されないこと' do
         subject
         expect(response.status).to eq(200)
@@ -46,7 +46,7 @@ RSpec.describe "LaundriesAPI", type: :request do
   end
 
   describe "GET /laundries/list" do
-    subject{get "/api/v1/laundries/list", headers: auth_tokens}
+    subject { get "/api/v1/laundries/list", headers: auth_tokens }
     let(:team) { FactoryBot.create(:team) }
     let(:user) { FactoryBot.create(:user, team_id: team.id) }
     let(:auth_tokens) { sign_in(user) }
@@ -84,7 +84,7 @@ RSpec.describe "LaundriesAPI", type: :request do
   end
 
   describe "POST /api/v1/laundries" do
-    subject{post '/api/v1/laundries', headers: auth_tokens, params: valid_params}
+    subject { post '/api/v1/laundries', headers: auth_tokens, params: valid_params }
     let(:user) { FactoryBot.create(:user) }
     let(:auth_tokens) { sign_in(user) }
     let!(:valid_params) { { name: "#{user.name}の洗濯物",
@@ -94,10 +94,6 @@ RSpec.describe "LaundriesAPI", type: :request do
     it "新しいデータの作成" do
       expect { subject }.to change(Laundry, :count).by(+1)
       expect(response.status).to eq(200)
-    end
-
-    it 'should ' do
-
     end
   end
 
@@ -126,26 +122,48 @@ RSpec.describe "LaundriesAPI", type: :request do
     end
   end
 
-  let(:user) { FactoryBot.create(:user) }
-  let(:auth_tokens) { sign_in(user) }
+  describe "PUT /api/v1/laundries/:id" do
+    subject { put "/api/v1/laundries/#{laundry.id}", headers: auth_tokens, params: valid_params }
+    let(:user) { FactoryBot.create(:user) }
+    let(:auth_tokens) { sign_in(user) }
+    let(:valid_params) { { name: "#{user.name}の洗濯物",
+                           wash_at: Time.now.to_date + 5 } }
+    let(:json) { JSON.parse(response.body) }
 
-  let!(:laundry) { FactoryBot.create(:laundry) }
-  let!(:valid_params) { { name: "#{user.name}の洗濯物",
-                          wash_at: Time.now.to_date + 5 } }
-  let(:json) { JSON.parse(response.body) }
+    context "自分のチームの洗濯物を指定した場合" do
+      let!(:laundry) { FactoryBot.create(:laundry, team_id: user.team_id) }
+      it "データが変更される" do
+        subject
+        expect(response.status).to eq(200)
+        expect(json['data']['name']).to eq(valid_params[:name])
+      end
+    end
 
-  # laundries#update
-  it "PUT /api/v1/laundries/:id" do
-    put "/api/v1/laundries/#{laundry.id}", headers: auth_tokens, params: valid_params
-    expect(response.status).to eq(200)
-    expect(json['data']['name']).to eq(valid_params[:name])
+    context "異なるチームの洗濯物ID 又は 不正なIDを指定した場合" do
+      let!(:laundry) { FactoryBot.create(:laundry) }
+      it 'データが変更されないこと' do
+        subject
+        expect(json['message']).to include("失敗")
+        expect(response.status).to eq(200)
+      end
+    end
   end
 
-  # laundries#destroy
-  it "DELETE /api/v1/laundries/:id" do
-    delete "/api/v1/laundries/#{laundry.id}", headers: auth_tokens
-    expect(json['data']['deleted_at']).not_to eq(nil)
-    expect(response.status).to eq(200)
-  end
+  #
+  # let(:user) { FactoryBot.create(:user) }
+  # let(:auth_tokens) { sign_in(user) }
+  #
+  # let!(:laundry) { FactoryBot.create(:laundry) }
+  # let!(:valid_params) { { name: "#{user.name}の洗濯物",
+  #                         wash_at: Time.now.to_date + 5 } }
+  # let(:json) { JSON.parse(response.body) }
+  #
+  #
+  # # laundries#destroy
+  # it "DELETE /api/v1/laundries/:id" do
+  #   delete "/api/v1/laundries/#{laundry.id}", headers: auth_tokens
+  #   expect(json['data']['deleted_at']).not_to eq(nil)
+  #   expect(response.status).to eq(200)
+  # end
 
 end
