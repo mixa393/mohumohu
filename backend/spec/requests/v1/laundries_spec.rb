@@ -47,13 +47,12 @@ RSpec.describe "LaundriesAPI", type: :request do
 
   describe "GET /laundries/list" do
     subject { get "/api/v1/laundries/list", headers: auth_tokens }
-    let(:team) { FactoryBot.create(:team) }
-    let(:user) { FactoryBot.create(:user, team_id: team.id) }
+    let(:user) { FactoryBot.create(:user) }
     let(:auth_tokens) { sign_in(user) }
     let(:json) { JSON.parse(response.body) }
 
     context "wash_at当日の場合" do
-      let!(:laundry) { FactoryBot.create(:laundry, wash_at: Time.now().to_date, team_id: team.id) }
+      let!(:laundry) { FactoryBot.create(:laundry, wash_at: Time.now().to_date, team_id: user.team_id) }
 
       it "limit_daysが0" do
         subject
@@ -63,7 +62,7 @@ RSpec.describe "LaundriesAPI", type: :request do
     end
 
     context "wash_atが3日後の場合" do
-      let!(:laundry) { FactoryBot.create(:laundry, wash_at: Time.now().to_date + 3, team_id: team.id) }
+      let!(:laundry) { FactoryBot.create(:laundry, wash_at: Time.now().to_date + 3, team_id: user.team_id) }
 
       it "limit_daysが3" do
         subject
@@ -73,7 +72,7 @@ RSpec.describe "LaundriesAPI", type: :request do
     end
 
     context "wash_atが4日後の場合" do
-      let!(:laundry) { FactoryBot.create(:laundry, wash_at: Time.now().to_date + 4, team_id: team.id) }
+      let!(:laundry) { FactoryBot.create(:laundry, wash_at: Time.now().to_date + 4, team_id: user.team_id) }
 
       it "データが取得されない" do
         subject
