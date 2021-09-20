@@ -24,28 +24,8 @@ class Api::V1::LaundryHistoriesController < ApplicationController
   # @params [Integer] laundry_id,URLから取得
   # @return [json] status,data(Array)
   def show
-    # # URLからIDを取得
-    # laundry_id = params[:id].to_i
-    #
-    # # 同チームに属する洗濯物一覧を取得
-    # laundries = Laundry.where(deleted_at: nil, team_id: @current_team.id)
-    #
-    # # 同チームの洗濯物一覧のIDを配列にする
-    # laundry_ids = []
-    # laundries.each do |laundry|
-    #   laundry_ids << laundry.id
-    # end
-    #
-    # # 洗濯物IDが洗濯物一覧のいずれかのIDと合致したら値を返す
-    # if laundry_ids.include?(laundry_id)
-    #   laundry_histories = LaundryHistory.where(deleted_at: nil, laundry_id: params[:id])
-    #   render json: { status: 200, data: laundry_histories }
-    # else
-    #   render json: { status: 200, data: [] }
-    # end
-
     if @laundry
-      laundry_histories = LaundryHistory.where(deleted_at: nil, laundry_id: params[:id])
+      laundry_histories = LaundryHistory.where(deleted_at: nil, laundry_id: @laundry.id)
       render json: { status: 200, data: laundry_histories }
     end
   end
@@ -94,7 +74,5 @@ class Api::V1::LaundryHistoriesController < ApplicationController
     rescue ActiveRecord::RecordNotFound
       render json: { status: 400, message: "データの取得に失敗しました" }
     end
-
-    @laundry
   end
 end
