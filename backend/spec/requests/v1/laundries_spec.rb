@@ -112,7 +112,7 @@ RSpec.describe "LaundriesAPI", type: :request do
       end
     end
 
-    context "洗濯物IDが不正の場合" do
+    context "異なるチームの洗濯物ID 又は 不正なIDを指定した場合" do
       let!(:laundry) { FactoryBot.create(:laundry) }
       it 'データが取得されないこと' do
         subject
