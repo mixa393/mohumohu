@@ -82,7 +82,7 @@ class Api::V1::LaundriesController < ApplicationController
 
     # wash_atが今から3日以内のもののみを検索
     laundries = Laundry.where(deleted_at: nil,
-                              team_id: current_api_v1_user.team.id)
+                              team_id: current_api_v1_user.team_id)
                        .where("wash_at <= ?", three_days_later)
                        .order(:wash_at)
 
