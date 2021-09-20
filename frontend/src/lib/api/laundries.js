@@ -7,8 +7,7 @@ const headers = {
 }
 
 /**
- * 洗濯情報取得
- * @param id
+ * 洗濯情報一覧
  * @returns {Promise<AxiosResponse<any>>}
  */
 export const getLaundryIndex = () => {
@@ -16,7 +15,15 @@ export const getLaundryIndex = () => {
 }
 
 /**
- * 洗濯情報取得
+ * 3日以内の洗濯物情報
+ * @returns {Promise<AxiosResponse<any>>}
+ */
+export const getLaundryList = () => {
+    return client.get(`/laundries/list`,{headers})
+}
+
+/**
+ * ある1つの洗濯物情報
  * @param id
  * @returns {Promise<AxiosResponse<any>>}
  */
@@ -34,7 +41,7 @@ export const createLaundry = (params) => {
 }
 
 /**
- * 洗濯物情報更新
+ * 洗濯物更新
  * @param params
  * @returns {Promise<AxiosResponse<any>>}
  */
