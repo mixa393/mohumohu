@@ -1,7 +1,8 @@
 class Api::V1::LaundryHistoriesController < ApplicationController
   before_action :authenticate_api_v1_user!
   before_action :current_team, only: [:index, :show, :create]
-  before_action :laundry_check, only: [:create,:show]
+  before_action :laundry_check, only: [:create, :show]
+  before_action :before_destroy_check, only: [:destroy]
 
   #ユーザーの所属しているチームに属する洗濯物の履歴を全件取得する
   # @return [json] status,data(Array)
@@ -49,28 +50,43 @@ class Api::V1::LaundryHistoriesController < ApplicationController
   # @params [Integer] laundry_history_id, URLから取得
   # @return [json] status,data
   def destroy
-    begin
-      laundry_history = LaundryHistory.where(deleted_at: nil, user_id: current_api_v1_user.id).find(params[:id])
-    rescue ActiveRecord::RecordNotFound
-      # IDが不正の場合messageだけ返却して抜ける
-      render json: { status: 400, message: "削除できる履歴がありません" }
-      return
-    end
-
-    if laundry_history.update(deleted_at: Time.now)
-      render json: { status: 200, data: laundry_history }
+    if @laundry_history.update(deleted_at: Time.now)
+      render json: { status: 200, data: @laundry_history }
     else
-      render json: { status: 400, message: "履歴削除に失敗しました", data: laundry_history.errors }
+      render json: { status: 400, message: "履歴削除に失敗しました", data: @laundry_history.errors }
     end
   end
 
   private
 
   # 現チーム、削除されていない洗濯物かどうかチェック
+  # @params [Integer] laundry_id,洗濯物ID,URLから取得
   # 洗濯物IDが不正の場合messageだけ返却して抜ける
   def laundry_check
     begin
       @laundry = Laundry.where(deleted_at: nil, team_id: current_api_v1_user.team_id).find(params[:id])
+    rescue ActiveRecord::RecordNotFound
+      render json: { status: 400, message: "データの取得に失敗しました" }
+    end
+  end
+
+  # 洗濯物と洗濯物履歴のチェック
+  # @params [Integer] laundry_history_id,URLから取得
+  # 洗濯物履歴：削除されていない／自分の作成したもの
+  # 洗濯物：削除されていない／自分のチームに所属していること
+  def before_destroy_check
+    begin
+      @laundry_history = LaundryHistory.where(deleted_at: nil, user_id: current_api_v1_user.id)
+                                       .find(params[:id])
+    rescue ActiveRecord::RecordNotFound
+      # IDが不正の場合messageだけ返却して抜ける
+      render json: { status: 400, message: "削除できる履歴がありません" }
+      return
+    end
+
+    begin
+      Laundry.where(deleted_at: nil, team_id: current_api_v1_user.team_id)
+             .find(@laundry_history.laundry_id)
     rescue ActiveRecord::RecordNotFound
       render json: { status: 400, message: "データの取得に失敗しました" }
     end
