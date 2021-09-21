@@ -78,13 +78,24 @@ RSpec.describe "LaundriesAPI", type: :request do
 
   describe "PUT /api/v1/laundries/:id/washed" do
     subject { put "/api/v1/laundries/#{laundry.id}/washed", headers: auth_tokens}
-    let!(:laundry) { FactoryBot.create(:laundry, team_id: user.team_id) }
 
-    it 'wash_atの更新' do
-      updated_wash_at = (Time.now.to_date + laundry[:days]).strftime("%m月%d日")
-      subject
-      expect(response.status).to eq(200)
-      expect(json['data']).to eq(updated_wash_at)
+    context "正しい洗濯物IDを指定した場合" do
+      let!(:laundry) { FactoryBot.create(:laundry, team_id: user.team_id) }
+      it 'wash_atの更新' do
+        updated_wash_at = (Time.now.to_date + laundry[:days]).strftime("%m月%d日")
+        subject
+        expect(response.status).to eq(200)
+        expect(json['data']).to eq(updated_wash_at)
+      end
+    end
+
+    context "異なるチームの洗濯物ID 又は 不正なIDを指定した場合" do
+      let!(:laundry) { FactoryBot.create(:laundry) }
+      it 'データが変更されないこと' do
+        subject
+        expect(json['message']).to include("失敗")
+        expect(response.status).to eq(200)
+      end
     end
   end
 
