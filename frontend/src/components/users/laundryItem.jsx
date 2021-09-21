@@ -39,15 +39,15 @@ const LaundryItem = ({id, name, image, limitDays}) => {
 
     // 洗濯するボタン
     const handleWashing = async (e, laundryId) => {
-        // e.preventDefault()
+        e.preventDefault()
 
         // 洗濯履歴を作る
-        try {
-            const res = await createLaundryHistories(laundryId)
-            console.log(res)
-        } catch (err) {
-            console.error(err)
-        }
+        // try {
+        //     const res = await createLaundryHistories(laundryId)
+        //     console.log(res)
+        // } catch (err) {
+        //     console.error(err)
+        // }
 
         // 洗濯物のwashAtを更新
         try {
@@ -93,7 +93,7 @@ const LaundryItem = ({id, name, image, limitDays}) => {
                 <p>{howManyDays(limitDays)}</p>
                 <div className="flex h-4/5 items-center">
                     <img src={washing} alt={`${name}を今日洗濯する`} className="h-3/5 w-auto"
-                         onClick={handleWashing({id})}/>
+                         onClick={(e) => {handleWashing(e,id)}}/>
                     <img src={right} alt={`${name}を今日は洗濯しない`} className="h-3/5 w-auto"
                     onClick={handleDontWash(id,limitDays)}/>
                 </div>
