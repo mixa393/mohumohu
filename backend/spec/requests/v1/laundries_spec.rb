@@ -77,7 +77,7 @@ RSpec.describe "LaundriesAPI", type: :request do
   end
 
   describe "PUT /api/v1/laundries/:id/washed" do
-    subject { put "/api/v1/laundries/washed", headers: auth_tokens, params: { id: laundry.id } }
+    subject { put "/api/v1/laundries/#{laundry.id}/washed", headers: auth_tokens}
     let!(:laundry) { FactoryBot.create(:laundry, team_id: user.team_id) }
 
     it 'wash_atの更新' do

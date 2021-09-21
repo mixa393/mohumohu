@@ -104,7 +104,7 @@ class Api::V1::LaundriesController < ApplicationController
 
   # 「洗濯した」用のメソッド
   # wash_atを今日からdays日後に更新
-  # @params [Integer] laundry_id,リクエストボディから取得
+  # @params [Integer] laundry_id,URLから取得
   # @return [json] 更新後wash_at(XX月YY日に変換)
   def washed
     today = Time.now.to_date
