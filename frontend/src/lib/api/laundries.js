@@ -48,8 +48,8 @@ export const createLaundry = (params) => {
  * @param params
  * @returns {Promise<AxiosResponse<any>>}
  */
-export const updateLaundry = (params) => {
-    return client.put("/laundries", params, {headers})
+export const updateLaundry = (id,params) => {
+    return client.put(`/laundries/${id}`, params, {headers})
 }
 
 /**
@@ -62,7 +62,7 @@ export const deleteLaundry = (id) => {
 }
 
 /**
- * 洗濯物更新
+ * 洗濯した
  * @param laundry_id
  * @returns {Promise<AxiosResponse<any>>}
  */
