@@ -87,23 +87,25 @@ const LaundryItem = ({id, name, image, limitDays}) => {
     }
     return (
         <>
-            <div className="flex bg-pink-200 h-full w-full justify-around items-center">
-                <img src={laundryImage(image)} alt={`${name}の画像`} className="h-3/5 w-auto"/>
-                <p>{name}</p>
-                <p>{howManyDays(limitDays)}</p>
-                <div className="flex h-4/5 items-center">
-                    <img src={washing} alt={`${name}を今日洗濯する`} className="h-3/5 w-auto mr-2"
-                         onClick={(e) => {
-                             handleWashing(e, id)
-                         }}/>
-                    {/*<img src={right} alt={`${name}を今日は洗濯しない`} className="h-3/5 w-auto"*/}
-                    {/*     onClick={(e) => {*/}
-                    {/*         handleDontWash(e, id, limitDays)*/}
-                    {/*     }}/>*/}
-                </div>
-            </div>
-        </>
-    )
+        <div className="flex bg-pink-200 h-full w-full justify-around items-center">
+            <img src={laundryImage(image)} alt={`${name}の画像`} className="h-3/5 w-auto"/>
+            <p>{name}</p>
+            <p>{howManyDays(limitDays)}</p>
+            <button className="border-2 p-2 rounded-lg"
+                onClick={(e) => {handleWashing(e, id)}}>洗濯する</button>
+        {/*<div className="flex h-4/5 items-center">*/}
+        {/*    <img src={washing} alt={`${name}を今日洗濯する`} className="h-3/5 w-auto mr-2"*/}
+        {/*         onClick={(e) => {*/}
+        {/*             handleWashing(e, id)*/}
+        {/*         }}/>*/}
+        {/*<img src={right} alt={`${name}を今日は洗濯しない`} className="h-3/5 w-auto"*/}
+        {/*     onClick={(e) => {*/}
+        {/*         handleDontWash(e, id, limitDays)*/}
+        {/*     }}/>*/}
+        {/*</div>*/}
+        </div>
+</>
+)
 }
 
 export default LaundryItem
