@@ -5,6 +5,12 @@ import curtains from "../../images/laundries/curtains.svg"
 import washing from "../../images/laundries/washing.svg"
 import right from "../../images/laundries/right.svg"
 
+// 洗濯するボタン
+import {createLaundryHistories} from "../../lib/api/laundry_histories";
+import {washed} from "../../lib/api/laundries";
+
+import Cookies from "js-cookie";
+
 const laundryImage = (image) => {
     switch (image) {
         case "curtains":
@@ -32,10 +38,27 @@ const laundryImage = (image) => {
 };
 
 const LaundryItem = ({id, name, image, limitDays}) => {
-    //
-    // const handleWashing = ()=>{
-    //
-    // }
+
+    // 洗濯するボタン
+    const handleWashing = async (e, laundryId) => {
+        // e.preventDefault()
+
+        // 洗濯履歴を作る
+        try {
+            const res = await createLaundryHistories(laundryId)
+            console.log(res)
+        } catch (err) {
+            console.error(err)
+        }
+
+        // 洗濯物のwashAtを更新
+        try {
+            const res = await washed(laundryId)
+            console.log(res)
+        } catch (err) {
+            console.error(err)
+        }
+    }
 
     return (
         <>
@@ -43,8 +66,11 @@ const LaundryItem = ({id, name, image, limitDays}) => {
                 <img src={curtains} alt={`${name}の画像`} className="h-3/5 w-auto"/>
                 <p>{name}</p>
                 <p>あと{limitDays}日</p>
-                <img src={washing} alt={`${name}を今日洗濯する`} className="h-3/5 w-auto"/>
-                <img src={right} alt={`${name}は明日洗濯する`} className="h-3/5 w-auto"/>
+                <div className="flex h-4/5 items-center">
+                    <img src={washing} alt={`${name}を今日洗濯する`} className="h-3/5 w-auto"
+                         onClick={handleWashing({id})}/>
+                    <img src={right} alt={`${name}は明日洗濯する`} className="h-3/5 w-auto"/>
+                </div>
             </div>
         </>
     )
