@@ -47,6 +47,7 @@ const LaundryItem = ({id, name, image, limitDays}) => {
     const handleWashing = async (e, laundryId) => {
         e.preventDefault()
 
+        // TODO:laundry_history実装後動作確認
         // 洗濯履歴を作る
         // try {
         //     const res = await createLaundryHistories(laundryId)
