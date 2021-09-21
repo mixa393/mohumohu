@@ -3,31 +3,37 @@ import React from "react"
 import bear from "../../images/laundries/bear.svg"
 import curtains from "../../images/laundries/curtains.svg"
 import defaultImage from "../../images/laundries/tops01.png"
-import washing from "../../images/laundries/washing.svg"
-import right from "../../images/laundries/right.svg"
+import duvet from '../../images/laundries/duvet.svg'
+import mat from '../../images/laundries/mattress.svg'
+import pillow from '../../images/laundries/pillow01.png'
+import blanket from '../../images/laundries/blanket.png'
+import cushions from '../../images/laundries/cushions.svg'
+import sheets from '../../images/laundries/sheets.svg'
+
+// 洗濯ボタンを画像でする場合
+// import washing from "../../images/laundries/washing.svg"
+// import right from "../../images/laundries/right.svg"
 
 // 洗濯するボタン
 import {createLaundryHistories} from "../../lib/api/laundry_histories";
 import {updateLaundry, washed} from "../../lib/api/laundries";
 
-import Cookies from "js-cookie";
-
 const laundryImage = (image) => {
     switch (image) {
         case "curtains":
             return curtains;
-        // case "duvet-cover":
-        //     return duvet;
-        // case "blanket":
-        //     return blanket;
-        // case "pillow":
-        //     return pillow;
-        // case "cushion":
-        //     return cushion;
-        // case "sheets":
-        //     return sheets;
-        // case "mat":
-        //     return mattress;
+        case "duvet-cover":
+            return duvet;
+        case "blanket":
+            return blanket;
+        case "pillow":
+            return pillow;
+        case "cushions":
+            return cushions;
+        case "sheets":
+            return sheets;
+        case "mat":
+            return mat;
         case "bear":
             return bear;
         default:
