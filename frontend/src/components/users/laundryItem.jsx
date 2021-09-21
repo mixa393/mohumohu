@@ -60,16 +60,30 @@ const LaundryItem = ({id, name, image, limitDays}) => {
         }
     }
 
+    // const handleDontWash = async (e,limit,laundryId)=>{
+    //
+    // }
+    //
+
+    const howManyDays = (limit) => {
+        if (limit <= 0) {
+            return "今日"
+        } else if (limit === 1) {
+            return "明日"
+        } else {
+            return `あと${limit}日`
+        }
+    }
     return (
         <>
             <div className="flex bg-pink-200 h-full w-full justify-around items-center">
                 <img src={curtains} alt={`${name}の画像`} className="h-3/5 w-auto"/>
                 <p>{name}</p>
-                <p>あと{limitDays}日</p>
+                <p>{howManyDays(limitDays)}</p>
                 <div className="flex h-4/5 items-center">
                     <img src={washing} alt={`${name}を今日洗濯する`} className="h-3/5 w-auto"
                          onClick={handleWashing({id})}/>
-                    <img src={right} alt={`${name}は明日洗濯する`} className="h-3/5 w-auto"/>
+                    <img src={right} alt={`${name}を今日は洗濯しない`} className="h-3/5 w-auto"/>
                 </div>
             </div>
         </>
