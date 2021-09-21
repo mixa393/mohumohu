@@ -7,7 +7,7 @@ import right from "../../images/laundries/right.svg"
 
 // 洗濯するボタン
 import {createLaundryHistories} from "../../lib/api/laundry_histories";
-import {washed} from "../../lib/api/laundries";
+import {updateLaundry, washed} from "../../lib/api/laundries";
 
 import Cookies from "js-cookie";
 
@@ -60,10 +60,23 @@ const LaundryItem = ({id, name, image, limitDays}) => {
         }
     }
 
-    // const handleDontWash = async (e,limit,laundryId)=>{
-    //
-    // }
-    //
+    const handleDontWash = async (e, laundryId,limit) => {
+        // 洗濯日が今日だったらwash_atを明日にする
+        if (limit > 0) {
+            const today = new Date();
+            const tomorrow = today.setDate(today.getDate() + 1);
+
+            try {
+                const res = await updateLaundry(laundryId,{wash_at: tomorrow})
+                console.log(res)
+            } catch (err) {
+                console.error(err)
+            }
+        }else{
+        // 今日はグレー表示にする
+        }
+    }
+
 
     const howManyDays = (limit) => {
         if (limit <= 0) {
@@ -83,7 +96,8 @@ const LaundryItem = ({id, name, image, limitDays}) => {
                 <div className="flex h-4/5 items-center">
                     <img src={washing} alt={`${name}を今日洗濯する`} className="h-3/5 w-auto"
                          onClick={handleWashing({id})}/>
-                    <img src={right} alt={`${name}を今日は洗濯しない`} className="h-3/5 w-auto"/>
+                    <img src={right} alt={`${name}を今日は洗濯しない`} className="h-3/5 w-auto"
+                    onClick={handleDontWash(id,limitDays)}/>
                 </div>
             </div>
         </>
