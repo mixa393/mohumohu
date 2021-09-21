@@ -1,4 +1,5 @@
 import client from "./client"
+import Cookies from "js-cookie"
 
 const headers = {
     "access-token": Cookies.get("_access_token"),
@@ -8,18 +9,20 @@ const headers = {
 
 /**
  * 洗濯情報一覧
+ * laundries#index用
  * @returns {Promise<AxiosResponse<any>>}
  */
 export const getLaundryIndex = () => {
-    return client.get(`/laundries`,{headers})
+    return client.get(`/laundries`, {headers})
 }
 
 /**
  * 3日以内の洗濯物情報
+ * usersIndex用
  * @returns {Promise<AxiosResponse<any>>}
  */
 export const getLaundryList = () => {
-    return client.get(`/laundries/list`,{headers})
+    return client.get(`/laundries/list`, {headers})
 }
 
 /**
@@ -28,7 +31,7 @@ export const getLaundryList = () => {
  * @returns {Promise<AxiosResponse<any>>}
  */
 export const getLaundry = (id) => {
-    return client.get(`/laundries/${id}`,{headers})
+    return client.get(`/laundries/${id}`, {headers})
 }
 
 /**
@@ -37,7 +40,7 @@ export const getLaundry = (id) => {
  * @returns {Promise<AxiosResponse<any>>}
  */
 export const createLaundry = (params) => {
-    return client.post("/laundries", params,{headers})
+    return client.post("/laundries", params, {headers})
 }
 
 /**
@@ -46,7 +49,7 @@ export const createLaundry = (params) => {
  * @returns {Promise<AxiosResponse<any>>}
  */
 export const updateLaundry = (params) => {
-    return client.put("/laundries", params,{headers})
+    return client.put("/laundries", params, {headers})
 }
 
 /**
@@ -55,5 +58,14 @@ export const updateLaundry = (params) => {
  * @returns {Promise<AxiosResponse<any>>}
  */
 export const deleteLaundry = (id) => {
-    return client.delete(`/laundries/${id}`,{headers})
+    return client.delete(`/laundries/${id}`, {headers})
+}
+
+/**
+ * 洗濯物更新
+ * @param laundry_id
+ * @returns {Promise<AxiosResponse<any>>}
+ */
+export const washed = (laundry_id) => {
+    return client.put(`/laundries/washed`, {id: laundry_id}, {headers})
 }
