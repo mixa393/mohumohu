@@ -12,14 +12,6 @@ const LaundryList = () => {
             const res = await getLaundryList()
             console.log(res)
             setLaundries(res.data.data)
-            // data: Array(6)
-            // 0: {id: 15, name: '彩花のシーツ', image: 'sheets', limitDays: -6}
-            // 1: {id: 13, name: '空のマット', image: 'mat', limitDays: -5}
-            // 2: {id: 14, name: '空のクッション', image: 'cushion', limitDays: -5}
-            // 3: {id: 16, name: '彩花のタオル', image: 'bath-towel', limitDays: -5}
-            // 4: {id: 10, name: '亮太の服', image: 'default', limitDays: -4}
-            // 5: {id: 11, name: '亮太のカーテン', image: 'curtains', limitDays: 2}
-
         }catch (err){
             console.error(err)
         }
@@ -32,7 +24,7 @@ const LaundryList = () => {
     return (
         <>
             <ul>
-                    <li>{
+                    <li className="h-20 max-h-20">{
                         laundries.map((laundry,index) => {
                             return (
                                 <LaundryItem
