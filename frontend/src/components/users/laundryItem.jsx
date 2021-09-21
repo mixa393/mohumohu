@@ -1,11 +1,12 @@
 import React from "react"
 
-const LaundryItem = () => {
+const LaundryItem = ({id,name,image,limitDays}) => {
     return (
         <>
             <div className="flex bg-pink-200">
-                <p>トップス</p>
-                <p>あと3日</p>
+                <img src={image} alt={`${name}の画像`}/>
+                <p>{name}</p>
+                <p>あと{limitDays}日</p>
             </div>
         </>
     )
