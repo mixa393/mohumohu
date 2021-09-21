@@ -75,7 +75,8 @@ class Api::V1::LaundriesController < ApplicationController
   # 現在から3日以内にwash_atが来る洗濯物一覧を取得
   # @return [json] status,data = {id: 洗濯物ID, name: 洗濯物名, image: 画像, limit: 洗濯日まであと何日か}
   def list
-    today = Time.now().to_date
+    today = Time.now.to_date
+    yesterday = Time.current.yesterday #バッチ処理未完成のため一時的に表記
     three_days_later = today + 3
     data = []
 
@@ -83,7 +84,8 @@ class Api::V1::LaundriesController < ApplicationController
     laundries = Laundry.where(deleted_at: nil,
                               team_id: current_api_v1_user.team_id)
                        .where("wash_at <= ?", three_days_later)
-                       .order(:wash_at)
+                       .where("wash_at > ?", yesterday) #バッチ処理未完成のため過去の表示を消すために一時的に表記
+                       .order(id: :desc, wash_at: :asc)
 
     # フォーマット化してdataに入れる
     laundries.each do |laundry|
