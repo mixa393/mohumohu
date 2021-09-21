@@ -58,22 +58,22 @@ const LaundryItem = ({id, name, image, limitDays}) => {
         }
     }
 
-    const handleDontWash = async (e, laundryId,limit) => {
-        // 洗濯日が今日だったらwash_atを明日にする
-        if (limit > 0) {
-            const today = new Date();
-            const tomorrow = today.setDate(today.getDate() + 1);
-
-            try {
-                const res = await updateLaundry(laundryId,{wash_at: tomorrow})
-                console.log(res)
-            } catch (err) {
-                console.error(err)
-            }
-        }else{
-        // 今日はグレー表示にする
-        }
-    }
+    // const handleDontWash = async (e, laundryId, limit) => {
+    //     // 洗濯日が今日だったらwash_atを明日にする
+    //     if (limit <= 0) {
+    //         const today = new Date();
+    //         const tomorrow = today.setDate(today.getDate() + 1);
+    //
+    //         try {
+    //             const res = await updateLaundry(laundryId, {wash_at: tomorrow})
+    //             console.log(res)
+    //         } catch (err) {
+    //             console.error(err)
+    //         }
+    //     } else {
+    //         // 今日はグレー表示にする
+    //     }
+    // }
 
 
     const howManyDays = (limit) => {
@@ -92,10 +92,14 @@ const LaundryItem = ({id, name, image, limitDays}) => {
                 <p>{name}</p>
                 <p>{howManyDays(limitDays)}</p>
                 <div className="flex h-4/5 items-center">
-                    <img src={washing} alt={`${name}を今日洗濯する`} className="h-3/5 w-auto"
-                         onClick={(e) => {handleWashing(e,id)}}/>
-                    <img src={right} alt={`${name}を今日は洗濯しない`} className="h-3/5 w-auto"
-                    onClick={handleDontWash(id,limitDays)}/>
+                    <img src={washing} alt={`${name}を今日洗濯する`} className="h-3/5 w-auto mr-2"
+                         onClick={(e) => {
+                             handleWashing(e, id)
+                         }}/>
+                    {/*<img src={right} alt={`${name}を今日は洗濯しない`} className="h-3/5 w-auto"*/}
+                    {/*     onClick={(e) => {*/}
+                    {/*         handleDontWash(e, id, limitDays)*/}
+                    {/*     }}/>*/}
                 </div>
             </div>
         </>
