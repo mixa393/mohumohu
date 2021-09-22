@@ -110,7 +110,7 @@ class Api::V1::LaundriesController < ApplicationController
     if @laundry.update(wash_at: today + @laundry.days)
       render json: { status: 200, data: @laundry.wash_at.strftime("%m月%d日") }
     else
-      render json: { status: 400, data: @laundry.errors }
+      render json: { status: 400,message: "洗濯日の更新に失敗しました", data: @laundry.errors }
     end
   end
 
@@ -125,7 +125,7 @@ class Api::V1::LaundriesController < ApplicationController
     if laundry.save
       render json: { status: 200, data: laundry }
     else
-      render json: { status: 400, message: "Laundryの作成に失敗しました", data: laundry.errors }
+      render json: { status: 400, message: "洗濯物の作成に失敗しました", data: laundry.errors }
     end
   end
 
@@ -133,7 +133,7 @@ class Api::V1::LaundriesController < ApplicationController
     if @laundry.update(laundry_params)
       render json: { status: 200, data: @laundry }
     else
-      render json: { status: 400, data: @laundry.errors }
+      render json: { status: 400, message: "洗濯物の更新に失敗しました", data: @laundry.errors }
     end
   end
 
@@ -142,7 +142,7 @@ class Api::V1::LaundriesController < ApplicationController
     if @laundry.update(deleted_at: Time.now)
       render json: { status: 200, data: @laundry }
     else
-      render json: { status: 400, message: "Laundryの削除に失敗しました", data: @laundry.errors }
+      render json: { status: 400, message: "洗濯物の削除に失敗しました", data: @laundry.errors }
     end
   end
 
@@ -153,7 +153,7 @@ class Api::V1::LaundriesController < ApplicationController
       # 自分のチームに所属する洗濯物のみを取得可能
       @laundry = Laundry.valid_team(current_api_v1_user.team_id).find(params[:id])
     rescue ActiveRecord::RecordNotFound
-      render json: { status: 400, message: "データの取得に失敗しました" }
+      render json: { status: 400, message: "洗濯物データの取得に失敗しました" }
     end
   end
 
