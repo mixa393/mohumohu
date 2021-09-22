@@ -70,7 +70,7 @@ const List = () => {
                                         id={laundry.id}
                                         name={laundry.name}
                                         image={laundry.image}
-                                        limitDays={laundry.limitDays}
+                                        weekly={laundry.weekly}
                                     />
                                 )
                             })
