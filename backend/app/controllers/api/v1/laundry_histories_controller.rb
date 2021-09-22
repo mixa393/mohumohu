@@ -63,7 +63,7 @@ class Api::V1::LaundryHistoriesController < ApplicationController
   # 洗濯物IDが不正の場合messageだけ返却して抜ける
   def laundry_check
     begin
-      @laundry = Laundry.valid(current_api_v1_user.team_id,params[:id])
+      @laundry = Laundry.valid_team(current_api_v1_user.team_id,params[:id])
     rescue ActiveRecord::RecordNotFound
       render json: { status: 400, message: "データの取得に失敗しました" }
     end
@@ -75,8 +75,7 @@ class Api::V1::LaundryHistoriesController < ApplicationController
   # 洗濯物：削除されていない／自分のチームに所属していること
   def destroy_check
     begin
-      @laundry_history = LaundryHistory.where(deleted_at: nil, user_id: current_api_v1_user.id)
-                                       .find(params[:id])
+      @laundry_history = LaundryHistory.valid_user(current_api_v1_user.id,params[:id])
     rescue ActiveRecord::RecordNotFound
       # IDが不正の場合messageだけ返却して抜ける
       render json: { status: 400, message: "削除できる履歴がありません" }
@@ -84,7 +83,7 @@ class Api::V1::LaundryHistoriesController < ApplicationController
     end
 
     begin
-      Laundry.valid(current_api_v1_user.team_id,@laundry_history.laundry_id)
+      Laundry.valid_team(current_api_v1_user.team_id,@laundry_history.laundry_id)
     rescue ActiveRecord::RecordNotFound
       render json: { status: 400, message: "データの取得に失敗しました" }
     end
