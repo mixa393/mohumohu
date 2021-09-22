@@ -1,6 +1,7 @@
 import React, {useEffect, useState} from "react"
 import dayjs from "dayjs";
 import ListItem from "./listItem";
+import {getLaundryIndex} from "../../lib/api/laundries";
 
 const List = () => {
     const [date, setDate] = useState({
@@ -20,15 +21,32 @@ const List = () => {
             sixDaysLater: today.add(6, "d").format('MM/DD'),
             sevenDaysLater: today.add(7, "d").format('MM/DD')
         })
-
     }, [])
 
-    const [tableHeader, setTableHeader] = useState("")
+    // 洗濯物一覧
+    const [laundries, setLaundries] = useState([]);
+
+    const getLaundries = async () =>{
+        try {
+            const res = await getLaundryIndex()
+            console.log(res)
+            setLaundries(res.data.data)
+        }catch (err){
+            console.error(err)
+        }
+    }
+
+    useEffect(() => {
+        getLaundries().then()
+    }, []);
+
+    // const [tableHeader, setTableHeader] = useState("")
 
 
     return (
         <>
             <div className="relative">
+                <p>新規追加</p>
                 <div className="overflow-auto w-full">
                     <table className="table-fixed laundries-table whitespace-nowrap min-w-full"
                            style={{width: '70rem'}}>
@@ -45,19 +63,18 @@ const List = () => {
                         </tr>
                         </thead>
                         <tbody>
-
-                        <ListItem/>
-                        <ListItem/>
-                        <tr>
-                            <td>新規追加</td>
-                            <td className="border-2 border-dotted border-gray-100"></td>
-                            <td className="border-2 border-dotted border-gray-100"></td>
-                            <td className="border-2 border-dotted border-gray-100"></td>
-                            <td className="border-2 border-dotted border-gray-100"></td>
-                            <td className="border-2 border-dotted border-gray-100"></td>
-                            <td className="border-2 border-dotted border-gray-100"></td>
-                            <td className="border-2 border-dotted border-gray-100"></td>
-                        </tr>
+                        {laundries.map((laundry,index) => {
+                                return (
+                                    <ListItem
+                                        key={index}
+                                        id={laundry.id}
+                                        name={laundry.name}
+                                        image={laundry.image}
+                                        limitDays={laundry.limitDays}
+                                    />
+                                )
+                            })
+                        }
                         </tbody>
                     </table>
                 </div>
