@@ -100,6 +100,8 @@ const LaundryItem = ({id, name, image, limitDays}) => {
             <p>{howManyDays(limitDays)}</p>
             <button className="border-2 p-2 rounded-lg"
                 onClick={(e) => {handleWashing(e, id)}}>洗濯する</button>
+
+        {/*  TODO:洗濯する/しないボタンを画像にする場合は下記、しないなら消す  */}
         {/*<div className="flex h-4/5 items-center">*/}
         {/*    <img src={washing} alt={`${name}を今日洗濯する`} className="h-3/5 w-auto mr-2"*/}
         {/*         onClick={(e) => {*/}
@@ -110,6 +112,7 @@ const LaundryItem = ({id, name, image, limitDays}) => {
         {/*         handleDontWash(e, id, limitDays)*/}
         {/*     }}/>*/}
         {/*</div>*/}
+
         </div>
 </>
 )
