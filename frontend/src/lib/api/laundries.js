@@ -66,6 +66,6 @@ export const deleteLaundry = (id) => {
  * @param laundry_id
  * @returns {Promise<AxiosResponse<any>>}
  */
-export const washed = (laundry_id) => {
-    return client.put(`/laundries/washed`, {id: laundry_id}, {headers})
+export const washed = (laundryId) => {
+    return client.put(`/laundries/washed`, {id: laundryId}, {headers})
 }
