@@ -1,4 +1,6 @@
 class Laundry < ApplicationRecord
+  scope :valid, -> (team_id,id){ where(deleted_at: nil, team_id: team_id).find(id) }
+
   belongs_to :team
   belongs_to :user
   has_many :laundry_histories

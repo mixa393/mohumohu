@@ -1,7 +1,7 @@
 class Api::V1::LaundryHistoriesController < ApplicationController
   before_action :authenticate_api_v1_user!
   before_action :laundry_check, only: [:create, :show]
-  before_action :before_destroy_check, only: [:destroy]
+  before_action :destroy_check, only: [:destroy]
 
   #ユーザーの所属しているチームに属する洗濯物の履歴を全件取得する
   # @return [json] status,data(Array)
@@ -63,7 +63,7 @@ class Api::V1::LaundryHistoriesController < ApplicationController
   # 洗濯物IDが不正の場合messageだけ返却して抜ける
   def laundry_check
     begin
-      @laundry = Laundry.where(deleted_at: nil, team_id: current_api_v1_user.team_id).find(params[:id])
+      @laundry = Laundry.valid(current_api_v1_user.team_id,params[:id])
     rescue ActiveRecord::RecordNotFound
       render json: { status: 400, message: "データの取得に失敗しました" }
     end
@@ -84,8 +84,7 @@ class Api::V1::LaundryHistoriesController < ApplicationController
     end
 
     begin
-      Laundry.where(deleted_at: nil, team_id: current_api_v1_user.team_id)
-             .find(@laundry_history.laundry_id)
+      Laundry.valid(current_api_v1_user.team_id,@laundry_history.laundry_id)
     rescue ActiveRecord::RecordNotFound
       render json: { status: 400, message: "データの取得に失敗しました" }
     end
