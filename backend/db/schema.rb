@@ -18,7 +18,7 @@ ActiveRecord::Schema.define(version: 4) do
     t.string "name", limit: 127, null: false
     t.string "description"
     t.integer "days", comment: "次の洗濯までの期間"
-    t.date "wash_at", default: "2021-09-17", null: false, comment: "次回の洗濯日"
+    t.date "wash_at", default: -> { "(curdate())" }, null: false, comment: "次回の洗濯日"
     t.text "notice", comment: "洗濯期間が過ぎたときの通知文"
     t.string "image", limit: 127, default: "default", null: false
     t.datetime "deleted_at"
