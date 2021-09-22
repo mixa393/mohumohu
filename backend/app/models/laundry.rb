@@ -1,7 +1,8 @@
 class Laundry < ApplicationRecord
-  # team_idと洗濯物IDを用いて検索
-  # @params [Integer] team_id, id
-  scope :valid_team, -> (team_id,id){ where(deleted_at: nil, team_id: team_id).find(id) }
+  # team_idを用いて検索
+  # @params [Integer] team_id
+  # @return [Array]
+  scope :valid_team, -> (team_id){ where(deleted_at: nil, team_id: team_id) }
 
   belongs_to :team
   belongs_to :user

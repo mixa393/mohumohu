@@ -5,8 +5,7 @@ class Api::V1::LaundriesController < ApplicationController
   # statusと、チームに所属する洗濯物全てについてデータをjsonで返却する
   # @return [json] status,data = {id: 洗濯物ID, name: 洗濯物名, image: 画像, weekly: その週の洗濯する日か否かの配列}
   def index
-    laundries = Laundry.where(deleted_at: nil,
-                              team_id: current_api_v1_user.team.id)
+    laundries = Laundry.valid_team(current_api_v1_user.team.id)
     data = []
 
     laundries.each do |laundry|
@@ -81,8 +80,7 @@ class Api::V1::LaundriesController < ApplicationController
     data = []
 
     # wash_atが今から3日以内のもののみを検索
-    laundries = Laundry.where(deleted_at: nil,
-                              team_id: current_api_v1_user.team_id)
+    laundries = Laundry.valid_team(current_api_v1_user.team.id)
                        .where("wash_at <= ?", three_days_later)
                        .where("wash_at > ?", yesterday) #バッチ処理未完成のため過去の表示を消すために一時的に表記
                        .order(id: :desc, wash_at: :asc)
@@ -155,7 +153,7 @@ class Api::V1::LaundriesController < ApplicationController
   def set_laundry
     begin
       # 自分のチームに所属する洗濯物のみを取得可能
-      @laundry = Laundry.valid_team(current_api_v1_user.team_id,params[:id])
+      @laundry = Laundry.valid_team(current_api_v1_user.team_id).find(params[:id])
     rescue ActiveRecord::RecordNotFound
       render json: { status: 400, message: "データの取得に失敗しました" }
     end
