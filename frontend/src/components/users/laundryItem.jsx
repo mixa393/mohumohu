@@ -41,6 +41,16 @@ const laundryImage = (image) => {
     }
 };
 
+const howManyDays = (limit) => {
+    if (limit <= 0) {
+        return "今日"
+    } else if (limit === 1) {
+        return "明日"
+    } else {
+        return `あと${limit}日`
+    }
+}
+
 const LaundryItem = ({id, name, image, limitDays}) => {
 
     // 洗濯するボタン
@@ -82,16 +92,6 @@ const LaundryItem = ({id, name, image, limitDays}) => {
     //     }
     // }
 
-
-    const howManyDays = (limit) => {
-        if (limit <= 0) {
-            return "今日"
-        } else if (limit === 1) {
-            return "明日"
-        } else {
-            return `あと${limit}日`
-        }
-    }
     return (
         <>
         <div className="flex bg-pink-200 h-full w-full justify-around items-center">
