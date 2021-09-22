@@ -73,7 +73,7 @@ class Api::V1::LaundryHistoriesController < ApplicationController
   # @params [Integer] laundry_history_id,URLから取得
   # 洗濯物履歴：削除されていない／自分の作成したもの
   # 洗濯物：削除されていない／自分のチームに所属していること
-  def before_destroy_check
+  def destroy_check
     begin
       @laundry_history = LaundryHistory.where(deleted_at: nil, user_id: current_api_v1_user.id)
                                        .find(params[:id])
