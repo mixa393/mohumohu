@@ -1,12 +1,13 @@
 require 'rails_helper'
 require 'net/http'
 
-RSpec.describe "Weathers", type: :request do
-  let(:request_header) { { "X-Requested-With" => "XMLHttpRequest" } }
-  let(:valid_param) { { location_id: 130010 } }
+RSpec.describe "WeatherAPI", type: :request do
+  # サインイン
+  let(:user) { FactoryBot.create(:user) }
+  let(:auth_tokens) { sign_in(user) }
 
   it "GET /weather" do
-    get "/api/v1/weather", headers: request_header, params: valid_param
+    get "/api/v1/weather", headers: auth_tokens
 
     json = JSON.parse(response.body)
 

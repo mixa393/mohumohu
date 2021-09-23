@@ -1,19 +1,23 @@
 class Api::V1::WeatherController < ApplicationController
+  before_action :authenticate_api_v1_user!
+  before_action :current_team
+
   # 本番環境では不要なもののPostmanでは以下が必要
-  # require 'net/http'
+  require 'net/http'
 
+  # 天気取得利用して天気データを返却する
+  # @see: 天気取得API https://weather.tsukumijima.net
+  # @return [json] status,data
+  # data = {city: 都市名,
+  #         telop: 天気,
+  #         chance_of_rain_am: 午前の降水確率,
+  #         chance_of_rain_pm: 午後の降水確率,
+  #         image_url: 天気画像のURL}
   def get
-    # 天気取得API https://weather.tsukumijima.net を利用して天気データを返却する
-    # @param [VARCHAR(6)] location_id 地区ID
-    # @return [json] status,data
-    # data = {city: 都市名,
-    #         telop: 天気,
-    #         chance_of_rain_am: 午前の降水確率,
-    #         chance_of_rain_pm: 午後の降水確率,
-    #         image_url: 天気画像のURL}
-
+    # location_idの取得
     location_id = @current_team.location_id
 
+    # 天気APIへのリクエスト雛形
     uri = URI.parse("https://weather.tsukumijima.net/api/forecast/city/#{location_id}")
 
     begin
@@ -33,10 +37,11 @@ class Api::V1::WeatherController < ApplicationController
         status: 200,
         data: data
       }
-    rescue
+    rescue => e
       render json: {
         status: 400,
-        message: "天気の取得に失敗しました"
+        message: "天気の取得に失敗しました",
+        response: e
       }
     end
   end
