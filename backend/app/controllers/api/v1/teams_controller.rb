@@ -1,6 +1,5 @@
 class Api::V1::TeamsController < ApplicationController
   before_action :authenticate_api_v1_user!, only: [:show, :update, :destroy]
-  before_action :current_team, only: [:show, :update, :destroy]
   before_action :set_team, only: [:show, :update, :destroy]
 
   def show
@@ -37,7 +36,7 @@ class Api::V1::TeamsController < ApplicationController
   private
 
   def set_team
-    @team = Team.where(deleted_at: nil).find(@current_team.id)
+    @team = Team.where(deleted_at: nil).find(current_api_v1_user.team.id)
   end
 
   def team_params

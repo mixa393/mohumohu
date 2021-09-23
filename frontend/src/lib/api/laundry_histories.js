@@ -1,4 +1,5 @@
 import client from "./client"
+import Cookies from "js-cookie"
 
 const headers = {
     "access-token": Cookies.get("_access_token"),
@@ -11,7 +12,7 @@ const headers = {
  * @returns {Promise<AxiosResponse<any>>}
  */
 export const getAllLaundryHistories = () => {
-    return client.get('/laundry_histories',{headers})
+    return client.get('/laundry_histories', {headers})
 }
 
 /**
@@ -20,7 +21,7 @@ export const getAllLaundryHistories = () => {
  * @returns {Promise<AxiosResponse<any>>}
  */
 export const getLaundryHistories = (id) => {
-    return client.get(`/laundry_histories/${id}`,{headers})
+    return client.get(`/laundry_histories/${id}`, {headers})
 }
 
 /**
@@ -28,8 +29,8 @@ export const getLaundryHistories = (id) => {
  * @param params {laundryId}
  * @returns {Promise<AxiosResponse<any>>}
  */
-export const createLaundryHistories = (params) => {
-    return client.post("/laundry_histories", {headers,params})
+export const createLaundryHistories = (laundry_id) => {
+    return client.post("/laundry_histories", {id: laundry_id}, {headers})
 }
 
 /**
@@ -38,5 +39,5 @@ export const createLaundryHistories = (params) => {
  * @returns {Promise<AxiosResponse<any>>}
  */
 export const deleteLaundryHistories = (id) => {
-    return client.delete(`/laundry_histories/${id}`,{headers})
+    return client.delete(`/laundry_histories/${id}`, {headers})
 }
