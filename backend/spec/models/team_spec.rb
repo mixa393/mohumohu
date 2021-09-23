@@ -2,7 +2,7 @@ require 'rails_helper'
 
 RSpec.describe Team, type: :model do
 
-  let(:team) { FactoryBot.create(:team) }
+  let(:team) { FactoryBot.build(:team) }
 
   it "名前、location_idがあれば有効" do
     expect(team).to be_valid
