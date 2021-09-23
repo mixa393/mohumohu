@@ -1,6 +1,6 @@
 class Api::V1::LaundryHistoriesController < ApplicationController
   before_action :authenticate_api_v1_user!
-  before_action :laundry_check, only: [:create, :show]
+  before_action :team_check, only: [:create, :show]
   before_action :destroy_check, only: [:destroy]
 
   #ユーザーの所属しているチームに属する洗濯物の履歴を全件取得する
@@ -61,7 +61,7 @@ class Api::V1::LaundryHistoriesController < ApplicationController
   # 現チーム、削除されていない洗濯物かどうかチェック
   # @params [Integer] laundry_id,洗濯物ID,URLから取得
   # 洗濯物IDが不正の場合messageだけ返却して抜ける
-  def laundry_check
+  def team_check
     begin
       @laundry = Laundry.valid_team(current_api_v1_user.team_id,params[:id])
     rescue ActiveRecord::RecordNotFound
