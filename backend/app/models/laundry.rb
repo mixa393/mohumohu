@@ -30,6 +30,9 @@ class Laundry < ApplicationRecord
     end
   end
 
+  # daysがなかった場合に代入される
+  DAY_NUMBER = 30
+
   # wash_atの値を1日ごとに確認して修正する
   # バッチ処理で1日1回呼び出す
   # 昨日の日付のものを抽出して、days日後or30日後に修正して格納し直す
@@ -45,11 +48,8 @@ class Laundry < ApplicationRecord
     # その全てのwash_atを、今日からdays日後に修正し直す
     begin
       laundries.each do |laundry|
-        if laundry.days
-          laundry.update(wash_at: laundry.wash_at + laundry.days)
-        else
-          laundry.update(wash_at: laundry.wash_at + 30)
-        end
+        days = laundry.days || DAY_NUMBER
+        laundry.update(wash_at: laundry.wash_at + days)
       end
     rescue => e
       # 上手くいかなかった場合エラーをログに出力してロールバック
