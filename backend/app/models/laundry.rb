@@ -39,22 +39,24 @@ class Laundry < ApplicationRecord
     # wash_atが昨日のものを取得
     laundries = Laundry.where(deleted_at: nil, wash_at: yesterday)
 
+    # もし変更するものがなかったら何もしない
+    return unless laundries
+
     # その全てのwash_atを、今日からdays日後に修正し直す
-    if laundries
-      begin
-        laundries.each do |laundry|
-          if laundry.days
-            laundry.update(wash_at: laundry.wash_at + laundry.days)
-          else
-            laundry.update(wash_at: laundry.wash_at + 30)
-          end
+    begin
+      laundries.each do |laundry|
+        if laundry.days
+          laundry.update(wash_at: laundry.wash_at + laundry.days)
+        else
+          laundry.update(wash_at: laundry.wash_at + 30)
         end
-      rescue => e
-        # 上手くいかなかった場合エラーをログに出力してロールバック
-        print laundries
-        print e
-        raise ActiveRecord::Rollback
       end
+    rescue => e
+      # 上手くいかなかった場合エラーをログに出力してロールバック
+      print laundries
+      print e
+      raise ActiveRecord::Rollback
     end
   end
+
 end
