@@ -1,8 +1,7 @@
 class Laundry < ApplicationRecord
-  # team_idを用いて検索
-  # @params [Integer] team_id
+  # 論理削除されていないものを検索
   # @return [Array]
-  scope :valid_team, -> (team_id) { where(deleted_at: nil, team_id: team_id) }
+  scope :valid, ->  { where(deleted_at: nil) }
 
   # wash_atで今日から3日以内をソートして返却
   # @params [Integer] yesterday,three_days_later
