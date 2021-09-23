@@ -51,15 +51,15 @@ User.all.each do |user|
     laundry = laundry_categories.sample
 
     # daysはday_numbersからランダムに選出
-    # もしdaysがnullだったら次の洗濯日は10~30日後
+    # もしdaysがnullだったらwash_atもnil(自動的に7日後になる)
     days = day_numbers.sample
-    plus_days = days ? days : rand(10..30)
+    wash_at = days ? Time.now.to_date + days : nil
 
     user.laundries.create!(
       team_id: user.team_id,
       name: "#{user.name}の#{laundry[:name]}",
       days: days,
-      wash_at: Time.now.to_date + plus_days,
+      wash_at: wash_at,
       description: "#{user.name}の#{laundry[:name]}の説明文",
       notice: "#{user.name}の#{laundry[:name]}の洗濯期限になりました。",
       image: laundry[:image]
@@ -67,11 +67,3 @@ User.all.each do |user|
   end
 
 end
-
-# # laundry_history作成
-# Laundry.all.each do |n|
-#   laundry.laundry_histories.create!(
-#     user_id: User.find(n),
-#     laundry_id: Laundry.find(n)
-#   )
-# end
