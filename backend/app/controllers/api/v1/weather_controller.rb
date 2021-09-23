@@ -1,6 +1,5 @@
 class Api::V1::WeatherController < ApplicationController
   before_action :authenticate_api_v1_user!
-  before_action :current_team
 
   # 本番環境では不要なもののPostmanでは以下が必要
   require 'net/http'
@@ -15,7 +14,8 @@ class Api::V1::WeatherController < ApplicationController
   #         image_url: 天気画像のURL}
   def get
     # location_idの取得
-    location_id = @current_team.location_id
+    team = Team.find(current_api_v1_user.team_id)
+    location_id = team.location_id
 
     # 天気APIへのリクエスト雛形
     uri = URI.parse("https://weather.tsukumijima.net/api/forecast/city/#{location_id}")
