@@ -24,6 +24,12 @@ RSpec.describe Laundry, type: :model do
     expect(laundry).not_to be_valid
   end
 
+  it 'wash_atが空の場合1週間後の値が入る' do
+    laundry.wash_at = nil
+    expect(laundry).to be_valid
+    expect(Laundry.find(laundry.id).wash_at).to eq(Time.now.to_date + 7)
+  end
+
   it "日数が数字以外なら無効" do
     laundry.days = "a"
     expect(laundry).not_to be_valid
