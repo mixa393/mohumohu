@@ -49,12 +49,27 @@ RSpec.describe Laundry, type: :model do
 
   describe "self.update_wash_at" do
     let(:yesterday) { Time.current.yesterday.to_date }
-    let!(:laundry) { FactoryBot.create(:laundry, wash_at: yesterday) }
 
-    it 'wash_atの更新' do
-      Laundry.update_wash_at
-      updated_laundry = Laundry.find(laundry.id)
-      expect(updated_laundry.wash_at).to eq(yesterday + laundry.days)
+    context "wash_atが昨日のデータがあった場合" do
+      context "daysがある場合" do
+        let!(:laundry) { FactoryBot.create(:laundry, wash_at: yesterday, days: rand(1..7)) }
+
+        it 'wash_atがdays日後になる' do
+          Laundry.update_wash_at
+          updated_laundry = Laundry.find(laundry.id)
+          expect(updated_laundry.wash_at).to eq(yesterday + laundry.days)
+        end
+      end
+
+      context "daysがない場合" do
+        let!(:laundry) { FactoryBot.create(:laundry, wash_at: yesterday, days: nil) }
+
+        it 'wash_atが30日後になる' do
+          Laundry.update_wash_at
+          updated_laundry = Laundry.find(laundry.id)
+          expect(updated_laundry.wash_at).to eq(yesterday + 30)
+        end
+      end
     end
   end
 end
