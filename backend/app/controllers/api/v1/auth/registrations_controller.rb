@@ -1,5 +1,6 @@
 # ユーザー登録用コントローラ
 class Api::V1::Auth::RegistrationsController < DeviseTokenAuth::RegistrationsController
+  wrap_parameters false
 
   # registraions#destroy のオーバーライド
   # 論理削除 deleted_atカラムを現在日時に更新

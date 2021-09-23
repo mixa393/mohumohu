@@ -1,12 +1,11 @@
 class Api::V1::LaundriesController < ApplicationController
   before_action :authenticate_api_v1_user!
-  before_action :set_laundry, only: [:show, :update, :destroy]
+  before_action :set_laundry, only: [:show, :update, :destroy, :washed]
 
   # statusと、チームに所属する洗濯物全てについてデータをjsonで返却する
   # @return [json] status,data = {id: 洗濯物ID, name: 洗濯物名, image: 画像, weekly: その週の洗濯する日か否かの配列}
-  # @param [Integer] team_id チームID
   def index
-    laundries = Laundry.where(deleted_at: nil).where(team_id: params[:team_id])
+    laundries = Laundry.valid.where(team_id: current_api_v1_user.team.id)
     data = []
 
     laundries.each do |laundry|
@@ -20,45 +19,6 @@ class Api::V1::LaundriesController < ApplicationController
 
     render json: { status: 200, data: data }
   end
-
-  # def weekly(laundry)
-  #   # [Date] 次に洗濯する日
-  #   wash_at = laundry.wash_at
-  #
-  #   # [Integer] 洗濯までの日数
-  #   wash_term_day = laundry.days
-  #
-  #   # [Date] 今日の日付
-  #   now = Date.today
-  #
-  #   # [Date] 1週間最後の日付
-  #   last_day_of_week = now + 1.week - 1
-  #
-  #   # ハッシュを1週間分作成
-  #   # "今日の日付" => 0, "明日の日付" => 0, "明後日の日付" => 0, ...
-  #   wash_day_schedules = {}
-  #   7.times do |i|
-  #     wash_day_schedules.store((now + i.days).to_s, 0)
-  #   end
-  #
-  #   while true do
-  #     # 洗濯日は2を代入
-  #     wash_day_schedules[wash_at.to_s] = 2
-  #
-  #     # 前後の日は1を代入
-  #     wash_day_schedules[(wash_at - 1).to_s] = 1
-  #
-  #     # 洗濯日+1日が1週間後を超えたら脱出
-  #     wash_day_schedules[(wash_at + 1).to_s] = 1
-  #
-  #     # 次回洗濯日を算出
-  #     wash_at = wash_at + wash_term_day.days
-  #     break if wash_at > last_day_of_week
-  #   end
-  #
-  #   # 日付のkeyを除き、数字のみの配列を返却
-  #   wash_day_schedules.values
-  # end
 
   # ある洗濯物について、今日を含む1週間の中で洗濯する日orその前後の日を数字で返却する
   # index内で呼び出す
@@ -111,17 +71,62 @@ class Api::V1::LaundriesController < ApplicationController
     end
   end
 
+  # 現在から3日以内にwash_atが来る洗濯物一覧を取得
+  # @return [json] status,data = {id: 洗濯物ID, name: 洗濯物名, image: 画像, limit: 洗濯日まであと何日か}
+  def list
+    today = Time.now.to_date
+    yesterday = Time.current.yesterday #バッチ処理未完成のため一時的に表記
+    three_days_later = today + 3
+    data = []
+
+    # wash_atが今から3日以内のもののみを検索
+    laundries = Laundry.valid
+                       .where(team_id: current_api_v1_user.team.id)
+                       .recent(yesterday,three_days_later)
+
+    # フォーマット化してdataに入れる
+    laundries.each do |laundry|
+      data.push({ id: laundry.id,
+                  name: laundry.name,
+                  image: laundry.image,
+                  limit_days: (laundry.wash_at - today).to_i
+                }
+      )
+    end
+
+    render json: { status: 200, data: data }
+  end
+
   def show
     render json: { status: 200, data: @laundry }
   end
 
-  def create
-    laundry = Laundry.new(laundry_params)
+  # 「洗濯した」用のメソッド
+  # wash_atを今日からdays日後に更新
+  # @params [Integer] laundry_id,リクエストボディから取得
+  # @return [json] 更新後wash_at(XX月YY日に変換)
+  def washed
+    today = Time.now.to_date
 
+    if @laundry.update(wash_at: today + @laundry.days)
+      render json: { status: 200, data: @laundry.wash_at.strftime("%m月%d日") }
+    else
+      render json: { status: 400,message: "洗濯日の更新に失敗しました", data: @laundry.errors }
+    end
+  end
+
+  def create
+    # ユーザーIDとチームIDはトークンから用意
+    ids = { user_id: current_api_v1_user.id, team_id: current_api_v1_user.team_id }
+
+    # 送られてきたパラメータに用意したものを混ぜる
+    params = laundry_params.merge(ids)
+
+    laundry = Laundry.new(params)
     if laundry.save
       render json: { status: 200, data: laundry }
     else
-      render json: { status: 400, message: "Laundryの作成に失敗しました", data: laundry.errors }
+      render json: { status: 400, message: "洗濯物の作成に失敗しました", data: laundry.errors }
     end
   end
 
@@ -129,7 +134,7 @@ class Api::V1::LaundriesController < ApplicationController
     if @laundry.update(laundry_params)
       render json: { status: 200, data: @laundry }
     else
-      render json: { status: 400, data: @laundry.errors }
+      render json: { status: 400, message: "洗濯物の更新に失敗しました", data: @laundry.errors }
     end
   end
 
@@ -138,17 +143,24 @@ class Api::V1::LaundriesController < ApplicationController
     if @laundry.update(deleted_at: Time.now)
       render json: { status: 200, data: @laundry }
     else
-      render json: { status: 400, message: "Laundryの削除に失敗しました", data: @laundry.errors }
+      render json: { status: 400, message: "洗濯物の削除に失敗しました", data: @laundry.errors }
     end
   end
 
   private
 
   def set_laundry
-    @laundry = Laundry.where(deleted_at: nil).find(params[:id])
+    begin
+      # 自分のチームに所属する洗濯物のみを取得可能
+      @laundry = Laundry.valid
+                        .where(team_id: current_api_v1_user.team_id)
+                        .find(params[:id])
+    rescue ActiveRecord::RecordNotFound
+      render json: { status: 400, message: "洗濯物データの取得に失敗しました" }
+    end
   end
 
   def laundry_params
-    params.permit(:name, :description, :days, :notice, :wash_at, :team_id, :user_id, :deleted_at)
+    params.permit(:name, :description, :days, :notice, :wash_at, :deleted_at)
   end
 end

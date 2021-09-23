@@ -1,4 +1,5 @@
 import client from "./client"
+import Cookies from "js-cookie"
 
 const headers = {
     "access-token": Cookies.get("_access_token"),
@@ -12,44 +13,45 @@ const headers = {
  * @returns {Promise<AxiosResponse<any>>}
  */
 export const getCurrentUser = () => {
-    if (!Cookies.get("_access_token") || !Cookies.get("_client") || !Cookies.get("_uid")) return
-    return client.get("/auth/sessions", {headers})
+    if (!Cookies.get("_access_token") || !Cookies.get("_client") || !Cookies.get("_uid"))
+        return client.get("/auth/sessions", {headers})
 }
 
 /**
  * サインアップ
- * @param params {name, email, password, password_confirmation, remind_at, team.id}
+ * @param params {{name:string, email:string, password:string, passwordConfirmation:string, remindAt:time, teamId:BigInt}}
  * @returns {Promise<AxiosResponse<any>>}
  */
 export const signUp = (params) => {
-    return client.post(`/auth`, params, {headers: {"X-Requested-With": "XMLHttpRequest"}})
+    return client.post(`/auth`, params)
 }
 
 /**
  * サインイン
- * @param params {email, password}
+ * @param params {{email:string, password:string}}
  * @returns {Promise<AxiosResponse<any>>}
  */
 export const signIn = (params) => {
-    return client.post(`/auth/sign_in`, {headers: {"X-Requested-With": "XMLHttpRequest", params}})
+    return client.post(`/auth/sign_in`, params)
 }
 
 /**
  * ログインした上でのパスワード変更
- * @param params { password, password_confirmation }
+ * @param params {{ password:string, password_confirmation:string }}
  * @returns {Promise<AxiosResponse<any>>}
  */
 export const changePassword = (params) => {
-    return client.put(`/auth/password`, {headers, params})
+    return client.put(`/auth/password`, params, {headers})
 }
 
 /**
  * ユーザー情報の変更
- * @param params { name || email || team.id || remind_at }
+ * @param params {{ name?: string, email?:string, team_id?:BigInt, remind_at?:string}}
  * @returns {Promise<AxiosResponse<any>>}
  */
 export const updateUser = (params) => {
-    return client.put(`/auth`, {headers,params})
+    return client.put(`/auth`, params, {headers}
+    )
 }
 
 /**
@@ -65,6 +67,6 @@ export const deleteUser = () => {
  * @returns {Promise<AxiosResponse<any>>}
  */
 export const signOut = () => {
-    return client.delete("auth/sign_out", {headers})
+    return client.delete("/auth/sign_out", {headers})
 }
 
