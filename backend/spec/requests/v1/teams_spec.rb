@@ -14,7 +14,7 @@ RSpec.describe "TeamsAPI", type: :request do
 
       # 特定データの作成
       json = JSON.parse(response.body)
-      expect(json['data']['name']).to eq(valid_params.name)
+      expect(json['data']['name']).to eq(valid_params[:name])
 
       # status:200を返す
       expect(response.status).to eq(200)

@@ -7,6 +7,7 @@ Rails.application.routes.draw do
       resources :laundries, id: /\d+/
       get "/laundries/list", to: "laundries#list"
       put "/laundries/washed", to: "laundries#washed"
+      resources :laundry_histories, only: [:index, :show, :create, :destroy]
 
       # ログイン用
       mount_devise_token_auth_for 'User', at: 'auth', controllers: { registrations: 'api/v1/auth/registrations' }
