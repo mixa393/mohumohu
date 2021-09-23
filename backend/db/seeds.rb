@@ -65,5 +65,17 @@ User.all.each do |user|
       image: laundry[:image]
     )
   end
+end
 
+# laundry_history作成
+Laundry.all.each do |laundry|
+  # 同じチームに属するユーザーを検索
+  users = User.where(team_id: laundry.team_id)
+
+  rand(1..3).times do
+    laundry.laundry_histories.create!(
+      user_id: users.sample.id,
+      laundry_id: laundry.id
+    )
+  end
 end
