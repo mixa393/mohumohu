@@ -28,7 +28,7 @@ class Api::V1::LaundryHistoriesController < ApplicationController
   def show
     if @laundry
       laundry_histories = LaundryHistory.valid
-                                        .where( laundry_id: @laundry.id)
+                                        .where(laundry_id: @laundry.id)
       render json: { status: 200, data: laundry_histories }
     end
   end
@@ -68,8 +68,8 @@ class Api::V1::LaundryHistoriesController < ApplicationController
   def team_check
     begin
       @laundry = Laundry.valid
-                        .where(team_id:current_api_v1_user.team_id)
-                        .find(@laundry_history.laundry_id)
+                        .where(team_id: current_api_v1_user.team_id)
+                        .find(params[:id])
     rescue ActiveRecord::RecordNotFound
       render json: { status: 400, message: "データの取得に失敗しました" }
     end
@@ -82,7 +82,7 @@ class Api::V1::LaundryHistoriesController < ApplicationController
   def destroy_check
     begin
       @laundry_history = LaundryHistory.valid
-                                       .where(user_id:current_api_v1_user.id)
+                                       .where(user_id: current_api_v1_user.id)
                                        .find(params[:id])
     rescue ActiveRecord::RecordNotFound
       # IDが不正の場合messageだけ返却して抜ける
@@ -92,7 +92,7 @@ class Api::V1::LaundryHistoriesController < ApplicationController
 
     begin
       Laundry.valid
-             .where(team_id:current_api_v1_user.team_id)
+             .where(team_id: current_api_v1_user.team_id)
              .find(@laundry_history.laundry_id)
     rescue ActiveRecord::RecordNotFound
       render json: { status: 400, message: "データの取得に失敗しました" }
