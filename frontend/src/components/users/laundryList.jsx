@@ -32,7 +32,7 @@ const LaundryList = () => {
                                     id={laundry.id}
                                     name={laundry.name}
                                     image={laundry.image}
-                                    isDisplayed={isDisplayed}
+                                    isDisplayed={laundry.isDisplayed}
                                     limitDays={laundry.limitDays}
                                 />
                             )
