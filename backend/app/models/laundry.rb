@@ -1,7 +1,7 @@
 class Laundry < ApplicationRecord
   # 論理削除されていないものを検索
   # @return [Array]
-  scope :valid, ->  { where(deleted_at: nil) }
+  scope :valid, -> { where(deleted_at: nil) }
 
   # wash_atで今日から3日以内をソートして返却
   # @params [Integer] yesterday,three_days_later
@@ -9,7 +9,7 @@ class Laundry < ApplicationRecord
   scope :recent, -> (yesterday, three_days_later) do
     where("wash_at <= ?", three_days_later)
       .where("wash_at > ?", yesterday) #バッチ処理未完成のため過去の表示を消すために一時的に表記
-      .order(id: :desc, wash_at: :asc)
+      .order(id: :desc, wash_at: :asc, is_displayed: :desc)
   end
 
   belongs_to :team
