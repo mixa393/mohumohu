@@ -76,7 +76,7 @@ RSpec.describe Laundry, type: :model do
       let!(:laundry) { FactoryBot.create(:laundry) }
       it '空の配列が返却され、レコードの変更は行われない' do
         expect(subject).to eq([])
-        expect{subject}.not_to change { Laundry.find(laundry.id) }
+        expect { subject }.not_to change { Laundry.find(laundry.id) }
       end
     end
   end
