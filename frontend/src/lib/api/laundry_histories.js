@@ -29,8 +29,8 @@ export const getLaundryHistories = (id) => {
  * @param params {laundryId}
  * @returns {Promise<AxiosResponse<any>>}
  */
-export const createLaundryHistories = (laundry_id) => {
-    return client.post("/laundry_histories", {id: laundry_id}, {headers})
+export const createLaundryHistories = (laundryId) => {
+    return client.post("/laundry_histories", {id: laundryId}, {headers})
 }
 
 /**
