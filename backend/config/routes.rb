@@ -7,6 +7,7 @@ Rails.application.routes.draw do
       resources :laundries, id: /\d+/
       get "/laundries/list", to: "laundries#list"
       put "/laundries/washed", to: "laundries#washed"
+      put "/laundries/un_washed", to: "laundries#un_washed"
       resources :laundry_histories, only: [:index, :show, :create, :destroy]
 
       # ログイン用
