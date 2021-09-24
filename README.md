@@ -43,6 +43,7 @@
   - [Railsで定期的に実行したい処理を、rakeタスクを使って実装する。（おまけ:Wheneverとの連携）](https://qiita.com/Tatsu88/items/0d85d2e8509632d2536b)
   - [Railsでバッチを書く時によく使うrails runnerとrake taskの違い](https://qiita.com/rllllho/items/672e336a03335cba6b34)
   - [Dockerでwheneverを扱う時No such file or directory - crontabとなる](https://qiita.com/hiroki_404_/items/f4859c67be13ed74f258)
+  - [Railsで定期実行を実現したい](https://bon-voyage23.hatenablog.com/entry/2020/12/28/095205)
 - 使わなくなった
   - [ユーザー情報更新時のhas_secure_passwordによるパスワードチェック回避](https://qiita.com/Zambiker/items/fa1680732b582a1e5098)
   - https://qiita.com/d0ne1s/items/7c4d2be3f53e34a9dec7
