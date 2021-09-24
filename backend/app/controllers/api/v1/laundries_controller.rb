@@ -28,47 +28,32 @@ class Api::V1::LaundriesController < ApplicationController
   # @return [Array] integer
   # @params [Object] laundry
   def weekly(laundry)
-    week_data = []
-    today = Time.now.to_date
-
-    (0...7).each { |day|
-      week_data.push(wash_day_type(today + day, laundry))
-    }
-
-    week_data
-  end
-
-  # 日付と比較して2,1,0のいずれかを返す
-  # 洗濯する日 = 2, その前後の日 = 1, それ以外の日 = 0
-  # @param [Date] day
-  # @param [Object] laundry
-  # @return [Integer] 2 or 1 or 0
-  def wash_day_type(day, laundry)
+    days = laundry.days
     wash_at = laundry.wash_at
 
-    # 順々に渡される日付が洗濯日と比較
-    case day
+    # 洗濯日当日
+    on_the_day = [wash_at, wash_at + days, wash_at + 2 * days]
 
-      # 洗濯する日は 2
-    when wash_at #洗濯日
-      2
-    when wash_at + laundry.days #洗濯日+洗濯期間の日
-      2
-    when wash_at + 2 * laundry.days #洗濯日+2*洗濯期間の日
-      2
+    # 洗濯日前後の日
+    days_before_and_after = [wash_at + 1, wash_at - 1,
+                             wash_at + days + 1, wash_at + days - 1,
+                             wash_at + 2 * days + 1, wash_at + 2 * days - 1]
 
-      # 洗濯する日の前後は 1
-    when wash_at + 1, wash_at - 1 #洗濯日前後
-      1
-    when wash_at + laundry.days + 1, wash_at + laundry.days - 1 #洗濯日+洗濯期間 前後の日
-      1
-    when wash_at + 2 * laundry.days + 1, wash_at + 2 * laundry.days - 1 #洗濯日+2*洗濯期間 前後の日
-      1
+    today = Time.now.to_date
 
-      # それ以外の日は 0
-    else
-      0
-    end
+    weekly = []
+
+    (0...7).each { |n|
+      if on_the_day.include?((today + n))
+        weekly.push(2)
+      elsif days_before_and_after.include?((today + n))
+        weekly.push(1)
+      else
+        weekly.push(0)
+      end
+    }
+
+    weekly
   end
 
   # 現在から3日以内にwash_atが来る洗濯物一覧を取得
@@ -82,7 +67,7 @@ class Api::V1::LaundriesController < ApplicationController
     # wash_atが今から3日以内のもののみを検索
     laundries = Laundry.valid
                        .where(team_id: current_api_v1_user.team_id)
-                       .recent(yesterday,three_days_later)
+                       .recent(yesterday, three_days_later)
 
     # フォーマット化してdataに入れる
     laundries.each do |laundry|
@@ -111,7 +96,7 @@ class Api::V1::LaundriesController < ApplicationController
     if @laundry.update(wash_at: today + @laundry.days)
       render json: { status: 200, data: @laundry.wash_at.strftime("%m月%d日") }
     else
-      render json: { status: 400,message: "洗濯日の更新に失敗しました", data: @laundry.errors }
+      render json: { status: 400, message: "洗濯日の更新に失敗しました", data: @laundry.errors }
     end
   end
 
