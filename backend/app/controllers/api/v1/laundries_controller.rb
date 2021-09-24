@@ -5,7 +5,7 @@ class Api::V1::LaundriesController < ApplicationController
   # statusと、チームに所属する洗濯物全てについてデータをjsonで返却する
   # @return [json] status,data = {id: 洗濯物ID, name: 洗濯物名, image: 画像, weekly: その週の洗濯する日か否かの配列}
   def index
-    laundries = Laundry.valid.where(team_id: current_api_v1_user.team.id)
+    laundries = Laundry.valid.where(team_id: current_api_v1_user.team_id)
     data = []
 
     laundries.each do |laundry|
@@ -81,7 +81,7 @@ class Api::V1::LaundriesController < ApplicationController
 
     # wash_atが今から3日以内のもののみを検索
     laundries = Laundry.valid
-                       .where(team_id: current_api_v1_user.team.id)
+                       .where(team_id: current_api_v1_user.team_id)
                        .recent(yesterday,three_days_later)
 
     # フォーマット化してdataに入れる
