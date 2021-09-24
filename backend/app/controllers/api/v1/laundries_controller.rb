@@ -28,7 +28,7 @@ class Api::V1::LaundriesController < ApplicationController
   # @return [Array] integer
   # @params [Object] laundry
   def weekly(laundry)
-    days = laundry.days
+    days = laundry.days || 0
     wash_at = laundry.wash_at
     today = Time.now.to_date
     weekly = []
