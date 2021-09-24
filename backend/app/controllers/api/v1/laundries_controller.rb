@@ -102,13 +102,14 @@ class Api::V1::LaundriesController < ApplicationController
   end
 
   # 「洗濯した」用のメソッド
-  # wash_atを今日からdays日後に更新
+  # wash_atを今日からdays日後に更新 & is_displayedをfalseに変更
   # @params [Integer] laundry_id,リクエストボディから取得
   # @return [json] 更新後wash_at(XX月YY日に変換)
   def washed
     today = Time.now.to_date
 
-    if @laundry.update(wash_at: today + @laundry.days)
+    if @laundry.update(wash_at: today + @laundry.days,
+                       is_displayed: false)
       render json: { status: 200, data: @laundry.wash_at.strftime("%m月%d日") }
     else
       render json: { status: 400,message: "洗濯日の更新に失敗しました", data: @laundry.errors }
