@@ -21,6 +21,7 @@ ActiveRecord::Schema.define(version: 4) do
     t.date "wash_at", default: -> { "(curdate() + interval 7 day)" }, null: false, comment: "次回の洗濯日"
     t.text "notice", comment: "洗濯期間が過ぎたときの通知文"
     t.string "image", limit: 127, default: "default", null: false
+    t.boolean "is_displayed", default: true, null: false, comment: "画面に出力するか否か"
     t.datetime "deleted_at"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false

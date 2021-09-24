@@ -45,60 +45,6 @@ RSpec.describe "LaundriesAPI", type: :request do
 
   end
 
-  describe "GET /laundries/list" do
-    subject { get "/api/v1/laundries/list", headers: auth_tokens }
-
-    context "wash_at当日の場合" do
-      let!(:laundry) { FactoryBot.create(:laundry, wash_at: Time.now.to_date, team_id: user.team_id) }
-      it "limit_daysが0" do
-        subject
-        expect(json['data'].first["limit_days"]).to eq(0)
-        expect(response.status).to eq(200)
-      end
-    end
-
-    context "wash_atが3日後の場合" do
-      let!(:laundry) { FactoryBot.create(:laundry, wash_at: Time.now.to_date + 3, team_id: user.team_id) }
-      it "limit_daysが3" do
-        subject
-        expect(json['data'].first["limit_days"]).to eq(3)
-        expect(response.status).to eq(200)
-      end
-    end
-
-    context "wash_atが4日後の場合" do
-      let!(:laundry) { FactoryBot.create(:laundry, wash_at: Time.now.to_date + 4, team_id: user.team_id) }
-      it "データが取得されない" do
-        subject
-        expect(json['data'].length).to eq(0)
-        expect(response.status).to eq(200)
-      end
-    end
-  end
-
-  describe "PUT /api/v1/laundries/washed" do
-    subject { put "/api/v1/laundries/washed", headers: auth_tokens, params: { id: laundry.id } }
-
-    context "正しい洗濯物IDを指定した場合" do
-      let!(:laundry) { FactoryBot.create(:laundry, team_id: user.team_id) }
-      it 'wash_atの更新' do
-        updated_wash_at = (Time.now.to_date + laundry[:days]).strftime("%m月%d日")
-        subject
-        expect(response.status).to eq(200)
-        expect(json['data']).to eq(updated_wash_at)
-      end
-    end
-
-    context "異なるチームの洗濯物ID 又は 不正なIDを指定した場合" do
-      let!(:laundry) { FactoryBot.create(:laundry) }
-      it 'データが変更されないこと' do
-        subject
-        expect(json['message']).to include("失敗")
-        expect(response.status).to eq(200)
-      end
-    end
-  end
-
   describe "POST /api/v1/laundries" do
     subject { post '/api/v1/laundries', headers: auth_tokens, params: valid_params }
     let!(:valid_params) { { name: "#{user.name}の洗濯物",
@@ -173,6 +119,92 @@ RSpec.describe "LaundriesAPI", type: :request do
       it "論理削除されないこと" do
         subject
         expect(json['message']).to include("失敗")
+        expect(response.status).to eq(200)
+      end
+    end
+  end
+
+  describe "GET /laundries/list" do
+    subject { get "/api/v1/laundries/list", headers: auth_tokens }
+
+    context "is_displayedがtrueの場合" do
+      context "wash_at3日前〜当日の場合" do
+        let(:limit) { rand(0...3) }
+        let!(:laundry) { FactoryBot.create(:laundry, wash_at: Time.now.to_date + limit, team_id: user.team_id) }
+        it "limit_daysと期間が同一" do
+          subject
+          expect(json['data'].first["limit_days"]).to eq(limit)
+          expect(response.status).to eq(200)
+        end
+      end
+
+      context "wash_atが4日後の場合" do
+        let!(:laundry) { FactoryBot.create(:laundry, wash_at: Time.now.to_date + 4, team_id: user.team_id) }
+        it "データが取得されない" do
+          subject
+          expect(json['data'].length).to eq(0)
+          expect(response.status).to eq(200)
+        end
+      end
+    end
+
+    context "is_displayedがfalseの場合" do
+      let(:limit) { rand(0...3) }
+      let!(:laundry) { FactoryBot.create(:laundry, wash_at: Time.now.to_date + limit, team_id: user.team_id,
+                                         is_displayed: false) }
+      it "3日以内でもデータが取得できない" do
+        subject
+        expect(json['data'].length).to eq(0)
+        expect(response.status).to eq(200)
+      end
+    end
+  end
+
+  describe "PUT /api/v1/laundries/washed" do
+    subject { put "/api/v1/laundries/washed", headers: auth_tokens, params: { id: laundry.id } }
+
+    context "正しい洗濯物IDを指定した場合" do
+      let!(:laundry) { FactoryBot.create(:laundry, team_id: user.team_id) }
+      it 'wash_atの更新' do
+        expect { subject }.to change { Laundry.find(laundry.id).wash_at }
+                                .from(laundry.wash_at)
+                                .to(Time.now.to_date + laundry[:days])
+        expect(response.status).to eq(200)
+        updated_wash_at = (Time.now.to_date + laundry[:days]).strftime("%m月%d日")
+        expect(json['data']).to eq(updated_wash_at)
+      end
+
+      it 'is_displayedをfalseに更新' do
+        expect { subject }.to change { Laundry.find(laundry.id).is_displayed }.from(true).to(false)
+        expect(response.status).to eq(200)
+      end
+    end
+
+    context "異なるチームの洗濯物ID 又は 不正なIDを指定した場合" do
+      let!(:laundry) { FactoryBot.create(:laundry) }
+      it 'データが変更されないこと' do
+        expect { subject }.not_to change { laundry }
+        expect(json['message']).to include("失敗")
+        expect(response.status).to eq(200)
+      end
+    end
+  end
+
+  describe "PUT /api/v1/laundries/un_washed" do
+    subject { put "/api/v1/laundries/un_washed", headers: auth_tokens, params: { id: laundry.id } }
+
+    context "正しい洗濯物IDを指定した場合" do
+      let!(:laundry) { FactoryBot.create(:laundry, team_id: user.team_id) }
+      it 'is_displayedをfalseに更新' do
+        expect { subject }.to change { Laundry.find(laundry.id).is_displayed }.from(true).to(false)
+        expect(response.status).to eq(200)
+      end
+    end
+
+    context "異なるチームの洗濯物ID 又は 不正なIDを指定した場合" do
+      let!(:laundry) { FactoryBot.create(:laundry) }
+      it 'データが変更されないこと' do
+        expect { subject }.not_to change { laundry.is_displayed }
         expect(response.status).to eq(200)
       end
     end
