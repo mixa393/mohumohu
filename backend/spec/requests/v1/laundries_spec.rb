@@ -45,6 +45,85 @@ RSpec.describe "LaundriesAPI", type: :request do
 
   end
 
+  describe "POST /api/v1/laundries" do
+    subject { post '/api/v1/laundries', headers: auth_tokens, params: valid_params }
+    let!(:valid_params) { { name: "#{user.name}の洗濯物",
+                            wash_at: Time.now.to_date + 5 } }
+
+    it "新しいデータの作成" do
+      expect { subject }.to change(Laundry, :count).by(+1)
+      expect(response.status).to eq(200)
+    end
+  end
+
+  describe "GET /api/v1/laundries/:id" do
+    subject { get "/api/v1/laundries/#{laundry.id}", headers: auth_tokens }
+
+    context "自分のチームのデータを指定した場合" do
+      let!(:laundry) { FactoryBot.create(:laundry, team_id: user.team_id) }
+      it "特定データの取得" do
+        subject
+        expect(json['data']['name']).to eq(laundry.name)
+        expect(response.status).to eq(200)
+      end
+    end
+
+    context "異なるチームの洗濯物ID 又は 不正なIDを指定した場合" do
+      let!(:laundry) { FactoryBot.create(:laundry) }
+      it 'データが取得されないこと' do
+        subject
+        expect(json['message']).to include("失敗")
+        expect(response.status).to eq(200)
+      end
+    end
+  end
+
+  describe "PUT /api/v1/laundries/:id" do
+    subject { put "/api/v1/laundries/#{laundry.id}", headers: auth_tokens, params: valid_params }
+    let(:valid_params) { { name: "#{user.name}の洗濯物",
+                           wash_at: Time.now.to_date + 5 } }
+
+    context "自分のチームの洗濯物を指定した場合" do
+      let!(:laundry) { FactoryBot.create(:laundry, team_id: user.team_id) }
+      it "データが変更される" do
+        subject
+        expect(response.status).to eq(200)
+        expect(json['data']['name']).to eq(valid_params[:name])
+      end
+    end
+
+    context "異なるチームの洗濯物ID 又は 不正なIDを指定した場合" do
+      let!(:laundry) { FactoryBot.create(:laundry) }
+      it 'データが変更されないこと' do
+        subject
+        expect(json['message']).to include("失敗")
+        expect(response.status).to eq(200)
+      end
+    end
+  end
+
+  describe "DELETE /api/v1/laundries/:id" do
+    subject { delete "/api/v1/laundries/#{laundry.id}", headers: auth_tokens }
+
+    context "自分のチームの洗濯物を指定した場合" do
+      let!(:laundry) { FactoryBot.create(:laundry, team_id: user.team_id) }
+      it "論理削除されること" do
+        subject
+        expect(json['data']['deleted_at']).not_to eq(nil)
+        expect(response.status).to eq(200)
+      end
+    end
+
+    context "異なるチームの洗濯物ID 又は 不正なIDを指定した場合" do
+      let!(:laundry) { FactoryBot.create(:laundry) }
+      it "論理削除されないこと" do
+        subject
+        expect(json['message']).to include("失敗")
+        expect(response.status).to eq(200)
+      end
+    end
+  end
+
   describe "GET /laundries/list" do
     subject { get "/api/v1/laundries/list", headers: auth_tokens }
 
@@ -121,85 +200,6 @@ RSpec.describe "LaundriesAPI", type: :request do
       let!(:laundry) { FactoryBot.create(:laundry) }
       it 'データが変更されないこと' do
         expect { subject }.not_to change { laundry.is_displayed }
-        expect(response.status).to eq(200)
-      end
-    end
-  end
-
-  describe "POST /api/v1/laundries" do
-    subject { post '/api/v1/laundries', headers: auth_tokens, params: valid_params }
-    let!(:valid_params) { { name: "#{user.name}の洗濯物",
-                            wash_at: Time.now.to_date + 5 } }
-
-    it "新しいデータの作成" do
-      expect { subject }.to change(Laundry, :count).by(+1)
-      expect(response.status).to eq(200)
-    end
-  end
-
-  describe "GET /api/v1/laundries/:id" do
-    subject { get "/api/v1/laundries/#{laundry.id}", headers: auth_tokens }
-
-    context "自分のチームのデータを指定した場合" do
-      let!(:laundry) { FactoryBot.create(:laundry, team_id: user.team_id) }
-      it "特定データの取得" do
-        subject
-        expect(json['data']['name']).to eq(laundry.name)
-        expect(response.status).to eq(200)
-      end
-    end
-
-    context "異なるチームの洗濯物ID 又は 不正なIDを指定した場合" do
-      let!(:laundry) { FactoryBot.create(:laundry) }
-      it 'データが取得されないこと' do
-        subject
-        expect(json['message']).to include("失敗")
-        expect(response.status).to eq(200)
-      end
-    end
-  end
-
-  describe "PUT /api/v1/laundries/:id" do
-    subject { put "/api/v1/laundries/#{laundry.id}", headers: auth_tokens, params: valid_params }
-    let(:valid_params) { { name: "#{user.name}の洗濯物",
-                           wash_at: Time.now.to_date + 5 } }
-
-    context "自分のチームの洗濯物を指定した場合" do
-      let!(:laundry) { FactoryBot.create(:laundry, team_id: user.team_id) }
-      it "データが変更される" do
-        subject
-        expect(response.status).to eq(200)
-        expect(json['data']['name']).to eq(valid_params[:name])
-      end
-    end
-
-    context "異なるチームの洗濯物ID 又は 不正なIDを指定した場合" do
-      let!(:laundry) { FactoryBot.create(:laundry) }
-      it 'データが変更されないこと' do
-        subject
-        expect(json['message']).to include("失敗")
-        expect(response.status).to eq(200)
-      end
-    end
-  end
-
-  describe "DELETE /api/v1/laundries/:id" do
-    subject { delete "/api/v1/laundries/#{laundry.id}", headers: auth_tokens }
-
-    context "自分のチームの洗濯物を指定した場合" do
-      let!(:laundry) { FactoryBot.create(:laundry, team_id: user.team_id) }
-      it "論理削除されること" do
-        subject
-        expect(json['data']['deleted_at']).not_to eq(nil)
-        expect(response.status).to eq(200)
-      end
-    end
-
-    context "異なるチームの洗濯物ID 又は 不正なIDを指定した場合" do
-      let!(:laundry) { FactoryBot.create(:laundry) }
-      it "論理削除されないこと" do
-        subject
-        expect(json['message']).to include("失敗")
         expect(response.status).to eq(200)
       end
     end

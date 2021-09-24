@@ -118,6 +118,7 @@ class Api::V1::LaundriesController < ApplicationController
     # wash_atが今から3日以内のもののみを検索
     laundries = Laundry.valid
                        .where(team_id: current_api_v1_user.team.id)
+                       .where(is_displayed: true)
                        .recent(yesterday, three_days_later)
 
     # フォーマット化してdataに入れる
