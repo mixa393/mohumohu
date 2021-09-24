@@ -148,6 +148,16 @@ RSpec.describe "LaundriesAPI", type: :request do
       end
     end
 
+    context "is_displayedがfalseの場合" do
+      let(:limit) { rand(0...3) }
+      let!(:laundry) { FactoryBot.create(:laundry, wash_at: Time.now.to_date + limit, team_id: user.team_id,
+                                         is_displayed: false) }
+      it "3日以内でもデータが取得できない" do
+        subject
+        expect(json['data'].length).to eq(0)
+        expect(response.status).to eq(200)
+      end
+    end
   end
 
   describe "PUT /api/v1/laundries/washed" do
