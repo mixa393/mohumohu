@@ -8,7 +8,6 @@ locations = [{ id: "016010", city: "札幌" },
 
 5.times do |n|
   location = locations.sample
-
   Team.create!(
     name: "#{location[:city]}の#{Faker::Name.last_name}家",
     location_id: location[:id]
@@ -19,7 +18,6 @@ end
 Team.all.each do |team|
   rand(1..3).times do |n|
     password = Faker::Internet.password
-
     team.users.create!(
       name: Faker::Name.first_name,
       email: Faker::Internet.unique.email,
@@ -29,6 +27,16 @@ Team.all.each do |team|
       team_id: team.id
     )
   end
+
+  # 各チームに1人検証用ユーザーを作成
+  team.users.create!(
+    name: "テストユーザー#{team.id}",
+    email: "test#{team.id}@email.com",
+    password: "password",
+    password_confirmation: "password",
+    remind_at: Random.rand(Time.parse("08:00:00")..Time.parse("22:00:00")),
+    team_id: team.id
+  )
 end
 
 # laundry作成
