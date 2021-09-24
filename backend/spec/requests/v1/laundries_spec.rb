@@ -99,6 +99,26 @@ RSpec.describe "LaundriesAPI", type: :request do
     end
   end
 
+  describe "PUT /api/v1/laundries/un_washed" do
+    subject { put "/api/v1/laundries/un_washed", headers: auth_tokens, params: { id: laundry.id } }
+
+    context "正しい洗濯物IDを指定した場合" do
+      let!(:laundry) { FactoryBot.create(:laundry, team_id: user.team_id) }
+      it 'is_displayedをfalseに更新' do
+        expect { subject }.to change { Laundry.find(laundry.id).is_displayed }.from(true).to(false)
+        expect(response.status).to eq(200)
+      end
+    end
+
+    context "異なるチームの洗濯物ID 又は 不正なIDを指定した場合" do
+      let!(:laundry) { FactoryBot.create(:laundry) }
+      it 'データが変更されないこと' do
+        expect { subject }.not_to change { laundry.is_displayed }
+        expect(response.status).to eq(200)
+      end
+    end
+  end
+
   describe "POST /api/v1/laundries" do
     subject { post '/api/v1/laundries', headers: auth_tokens, params: valid_params }
     let!(:valid_params) { { name: "#{user.name}の洗濯物",
