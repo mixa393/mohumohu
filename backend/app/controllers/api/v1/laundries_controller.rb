@@ -154,8 +154,15 @@ class Api::V1::LaundriesController < ApplicationController
   # @params [Integer] laundry_id,リクエストボディから取得
   # @return [json]
   def un_washed
-    if @laundry.update(is_displayed: false)
-      render json: { status: 200, data: @laundry.wash_at }
+    update_params = { is_displayed: false }
+
+    # wash_atが今日だったら明日に入れ替える
+    if @laundry.wash_at == Time.now.to_date
+      update_params.store("wash_at", Time.current.tomorrow.to_date)
+    end
+
+    if @laundry.update(update_params)
+      render json: { status: 200, data: @laundry }
     else
       render json: { status: 400, message: "洗濯日の更新に失敗しました", data: @laundry.errors }
     end

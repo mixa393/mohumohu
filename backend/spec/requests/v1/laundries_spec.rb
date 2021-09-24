@@ -194,10 +194,28 @@ RSpec.describe "LaundriesAPI", type: :request do
     subject { put "/api/v1/laundries/un_washed", headers: auth_tokens, params: { id: laundry.id } }
 
     context "正しい洗濯物IDを指定した場合" do
-      let!(:laundry) { FactoryBot.create(:laundry, team_id: user.team_id) }
-      it 'is_displayedをfalseに更新' do
-        expect { subject }.to change { Laundry.find(laundry.id).is_displayed }.from(true).to(false)
-        expect(response.status).to eq(200)
+      context "wash_atが今日の場合" do
+        let!(:laundry) { FactoryBot.create(:laundry, team_id: user.team_id, wash_at: Time.now.to_date) }
+        it 'is_displayedをfalseに更新' do
+          expect { subject }.to change { Laundry.find(laundry.id).is_displayed }.from(true).to(false)
+          expect(response.status).to eq(200)
+        end
+        it 'wash_atを明日に更新' do
+          expect { subject }.to change { Laundry.find(laundry.id).wash_at }.by(1)
+          expect(response.status).to eq(200)
+        end
+      end
+
+      context "wash_atが明日以降の場合" do
+        let!(:laundry) { FactoryBot.create(:laundry, team_id: user.team_id) }
+        it 'is_displayedをfalseに更新' do
+          expect { subject }.to change { Laundry.find(laundry.id).is_displayed }.from(true).to(false)
+          expect(response.status).to eq(200)
+        end
+        it 'wash_atは更新されない' do
+          expect { subject }.not_to change { Laundry.find(laundry.id).wash_at }
+          expect(response.status).to eq(200)
+        end
       end
     end
 
