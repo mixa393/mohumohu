@@ -54,7 +54,7 @@ const howManyDays = (limit) => {
 const LaundryItem = ({id, name, image, isDisplayed, limitDays}) => {
 
     // 洗濯するボタン
-    const handleWashing = async (e, laundryId) => {
+    const handleWash = async (e, laundryId) => {
         e.preventDefault()
 
         // 洗濯履歴を作る
@@ -91,10 +91,15 @@ const LaundryItem = ({id, name, image, isDisplayed, limitDays}) => {
                 <img src={laundryImage(image)} alt={`${name}の画像`} className="h-3/5 w-auto"/>
                 <p>{name}</p>
                 <p>{howManyDays(limitDays)}</p>
-                <button className="border-2 p-2 rounded-lg"
+                <button className="border-2 p-2 rounded-lg bg-gray-100"
                         onClick={(e) => {
-                            handleWashing(e, id)
-                        }}>洗濯する
+                            handleWash(e, id)
+                        }}>洗濯<br/>する
+                </button>
+                <button className="border-2 p-2 rounded-lg bg-gray-200"
+                        onClick={(e) => {
+                            handleUnWash(e, id)
+                        }}>今日は<br/>しない
                 </button>
 
                 {/*  TODO:洗濯する/しないボタンを画像にする場合は下記、しないなら消す  */}
