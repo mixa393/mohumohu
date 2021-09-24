@@ -126,6 +126,7 @@ class Api::V1::LaundriesController < ApplicationController
       data.push({ id: laundry.id,
                   name: laundry.name,
                   image: laundry.image,
+                  is_displayed:laundry.is_displayed,
                   limit_days: (laundry.wash_at - today).to_i
                 }
       )
