@@ -36,6 +36,7 @@ class Laundry < ApplicationRecord
   # wash_atの値を1日ごとに確認して修正する
   # バッチ処理で1日1回呼び出す
   # 昨日の日付のものを抽出して、days日後or30日後に修正して格納し直す
+  # 上手くいかなかった場合エラーをログに出力してロールバック
   def self.update_wash_at
     yesterday = Time.current.yesterday.to_date
 
@@ -46,17 +47,11 @@ class Laundry < ApplicationRecord
     return unless laundries
 
     # その全てのwash_atを、今日からdays日後に修正し直す
-    begin
-      laundries.each do |laundry|
-        days = laundry.days || DAY_NUMBER
-        laundry.update(wash_at: laundry.wash_at + days)
-      end
-    rescue => e
-      # 上手くいかなかった場合エラーをログに出力してロールバック
-      print laundries
-      print e
-      raise ActiveRecord::Rollback
-    end
-  end
 
+    laundries.each do |laundry|
+      days = laundry.days || DAY_NUMBER
+      laundry.update(wash_at: laundry.wash_at + days)
+    end
+
+  end
 end
