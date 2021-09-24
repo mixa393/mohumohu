@@ -1,7 +1,7 @@
 class Laundry < ApplicationRecord
   # 論理削除されていないものを検索
   # @return [Array]
-  scope :valid, ->  { where(deleted_at: nil) }
+  scope :valid, -> { where(deleted_at: nil) }
 
   # wash_atで今日から3日以内をソートして返却
   # @params [Integer] yesterday,three_days_later
@@ -27,6 +27,20 @@ class Laundry < ApplicationRecord
     # wash_atが空の時は自動的に7日後になるためチェックしない
     unless self.wash_at.nil?
       errors.add(:wash_at, "は現在の日時より遅い時間を選択してください") if self.wash_at < Time.now.to_date
+    end
+  end
+
+  # falseのis_displayedをtrueに書き換える
+  # バッチ処理で1日1回呼び出す
+  # 上手くいかなかった場合エラーをログに出力してロールバック
+  def self.update_display_true
+    laundries = Laundry.where(deleted_at: nil, is_displayed: false)
+
+    # もし変更するものがなかったら何もしない
+    return unless laundries
+
+    laundries.each do |laundry|
+      laundry.update(is_displayed: true)
     end
   end
 end
