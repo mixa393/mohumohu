@@ -30,19 +30,23 @@ class Api::V1::LaundriesController < ApplicationController
   def weekly(laundry)
     days = laundry.days
     wash_at = laundry.wash_at
-
-    # 洗濯日当日
-    on_the_day = [wash_at, wash_at + days, wash_at + 2 * days]
-
-    # 洗濯日前後の日
-    days_before_and_after = [wash_at + 1, wash_at - 1,
-                             wash_at + days + 1, wash_at + days - 1,
-                             wash_at + 2 * days + 1, wash_at + 2 * days - 1]
-
     today = Time.now.to_date
-
     weekly = []
 
+    # 洗濯日当日
+    on_the_day = []
+    (0..6).each do |n|
+      on_the_day.push(wash_at + n * days)
+    end
+
+    # 洗濯日前後の日
+    days_before_and_after = []
+    (0..6).each do |n|
+      days_before_and_after.push(wash_at + n * days + 1)
+      days_before_and_after.push(wash_at + n * days - 1)
+    end
+
+    # 1週間の日付を比較して数字を返す
     (0...7).each { |n|
       if on_the_day.include?((today + n))
         weekly.push(2)
