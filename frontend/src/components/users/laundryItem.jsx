@@ -51,7 +51,7 @@ const howManyDays = (limit) => {
     }
 }
 
-const LaundryItem = ({id, name, image, limitDays}) => {
+const LaundryItem = ({id, name, image, isDisplayed, limitDays}) => {
 
     // 洗濯するボタン
     const handleWashing = async (e, laundryId) => {
