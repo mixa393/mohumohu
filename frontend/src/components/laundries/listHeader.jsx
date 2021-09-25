@@ -22,15 +22,15 @@ const ListHeader = () =>{
     }, [])
 
     return (
-        <tr className="h-32">
-            <th className="border-2 border-dotted border-gray-100">アイテム</th>
-            <th className="border-2 border-dotted border-gray-100">今日</th>
-            <th className="border-2 border-dotted border-gray-100">明日</th>
-            <th className="border-2 border-dotted border-gray-100">{date.threeDaysLater}</th>
-            <th className="border-2 border-dotted border-gray-100">{date.fourDaysLater}</th>
-            <th className="border-2 border-dotted border-gray-100">{date.fiveDaysLater}</th>
-            <th className="border-2 border-dotted border-gray-100">{date.sixDaysLater}</th>
-            <th className="border-2 border-dotted border-gray-100">{date.sevenDaysLater}</th>
+        <tr className="h-20">
+            <th className="border-2 border-dotted border-gray-100 w-32">アイテム</th>
+            <th className="border-2 border-dotted border-gray-100 w-20">今日</th>
+            <th className="border-2 border-dotted border-gray-100 w-20">明日</th>
+            <th className="border-2 border-dotted border-gray-100 w-20">{date.threeDaysLater}</th>
+            <th className="border-2 border-dotted border-gray-100 w-20">{date.fourDaysLater}</th>
+            <th className="border-2 border-dotted border-gray-100 w-20">{date.fiveDaysLater}</th>
+            <th className="border-2 border-dotted border-gray-100 w-20">{date.sixDaysLater}</th>
+            <th className="border-2 border-dotted border-gray-100 w-20">{date.sevenDaysLater}</th>
         </tr>
     )
 }

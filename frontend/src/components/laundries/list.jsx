@@ -26,7 +26,7 @@ const List = () => {
             <div className="relative">
                 <div className="overflow-auto w-full">
                     <table className="table-fixed laundries-table whitespace-nowrap min-w-full"
-                           style={{width: '70rem'}}>
+                           style={{width: '40rem'}}>
                         <thead>
                         <ListHeader/>
                         </thead>
