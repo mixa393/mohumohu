@@ -56,7 +56,7 @@ const LaundryItem = ({id, name, image, isDisplayed, limitDays, update}) => {
         update()
     }
 
-    if (isDisplayed > 0) {
+    if (isDisplayed) {
         return (
             <>
                 <div className="flex bg-pink-200 h-full w-full justify-around items-center">
