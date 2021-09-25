@@ -16,6 +16,9 @@ const LaundryList = () => {
             console.error(err)
         }
     }
+    const update = async () => {
+        await getLaundries()
+    }
 
     useEffect(() => {
         getLaundries().then()
@@ -34,6 +37,7 @@ const LaundryList = () => {
                                     image={laundry.image}
                                     isDisplayed={laundry.isDisplayed}
                                     limitDays={laundry.limitDays}
+                                    update={update}
                                 />
                             )
                         })

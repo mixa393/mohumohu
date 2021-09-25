@@ -1,15 +1,5 @@
 import React from "react"
-
-import bear from "../../images/laundries/bear.svg"
-import curtains from "../../images/laundries/curtains.svg"
-import defaultImage from "../../images/laundries/tops01.png"
-import duvet from '../../images/laundries/duvet.svg'
-import mat from '../../images/laundries/mattress.svg'
-import pillow from '../../images/laundries/pillow01.png'
-import blanket from '../../images/laundries/blanket.png'
-import cushions from '../../images/laundries/cushions.svg'
-import sheets from '../../images/laundries/sheets.svg'
-
+import {laundryImage} from "../../lib/common";
 // 洗濯ボタンを画像でする場合
 // import washing from "../../images/laundries/washing.svg"
 // import right from "../../images/laundries/right.svg"
@@ -17,29 +7,6 @@ import sheets from '../../images/laundries/sheets.svg'
 // 洗濯するボタン
 import {createLaundryHistories} from "../../lib/api/laundry_histories";
 import {washed, unWashed} from "../../lib/api/laundries";
-
-const laundryImage = (image) => {
-    switch (image) {
-        case "curtains":
-            return curtains;
-        case "duvet-cover":
-            return duvet;
-        case "blanket":
-            return blanket;
-        case "pillow":
-            return pillow;
-        case "cushions":
-            return cushions;
-        case "sheets":
-            return sheets;
-        case "mat":
-            return mat;
-        case "bear":
-            return bear;
-        default:
-            return defaultImage;
-    }
-};
 
 const howManyDays = (limit) => {
     if (limit <= 0) {
@@ -51,7 +18,7 @@ const howManyDays = (limit) => {
     }
 }
 
-const LaundryItem = ({id, name, image, isDisplayed, limitDays}) => {
+const LaundryItem = ({id, name, image, isDisplayed, limitDays, update}) => {
 
     // 洗濯するボタン
     const handleWash = async (e, laundryId) => {
@@ -72,6 +39,8 @@ const LaundryItem = ({id, name, image, isDisplayed, limitDays}) => {
         } catch (err) {
             console.error(err)
         }
+
+        update()
     }
 
     const handleUnWash = async (e, laundryId) => {
@@ -83,6 +52,8 @@ const LaundryItem = ({id, name, image, isDisplayed, limitDays}) => {
         } catch (err) {
             console.error(err)
         }
+
+        update()
     }
 
     if (isDisplayed > 0) {
