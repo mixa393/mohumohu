@@ -7,6 +7,7 @@ const LaundriesIndex = () => {
 
     return (
         <>
+            <button>laundry新規追加</button>
             <List/>
         </>
     );
