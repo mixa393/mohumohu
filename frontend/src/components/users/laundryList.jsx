@@ -20,29 +20,37 @@ const LaundryList = () => {
         await getLaundries()
     }
 
+    // 今日の洗濯ものがある時とない時でコンテンツを分ける
+    let contents;
+    if (laundries.length > 0) {
+        contents = <ul>
+            <li className="h-20 max-h-20">{
+                laundries.map((laundry,index) => {
+                    return (
+                        <LaundryItem
+                            key={index}
+                            id={laundry.id}
+                            name={laundry.name}
+                            image={laundry.image}
+                            isDisplayed={laundry.isDisplayed}
+                            limitDays={laundry.limitDays}
+                            update={update}
+                        />
+                    )
+                })
+            }</li>
+        </ul>
+    } else {
+        contents = <div>何もない時</div>
+    }
+
     useEffect(() => {
         getLaundries().then()
     }, []);
 
     return (
         <>
-            <ul>
-                    <li className="h-20 max-h-20">{
-                        laundries.map((laundry,index) => {
-                            return (
-                                <LaundryItem
-                                    key={index}
-                                    id={laundry.id}
-                                    name={laundry.name}
-                                    image={laundry.image}
-                                    isDisplayed={laundry.isDisplayed}
-                                    limitDays={laundry.limitDays}
-                                    update={update}
-                                />
-                            )
-                        })
-                    }</li>
-            </ul>
+            {contents}
         </>
     );
 }
