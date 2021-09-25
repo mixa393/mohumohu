@@ -19,15 +19,11 @@ const List = () => {
 
     useEffect(() => {
         getLaundries().then()
-    }, []);
-
-    // const [tableHeader, setTableHeader] = useState("")
-
+    }, [])
 
     return (
         <>
             <div className="relative">
-                <p>新規追加</p>
                 <div className="overflow-auto w-full">
                     <table className="table-fixed laundries-table whitespace-nowrap min-w-full"
                            style={{width: '70rem'}}>
