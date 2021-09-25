@@ -95,16 +95,12 @@ const LaundryItem = ({id, name, image, isDisplayed, limitDays, update}) => {
                 <img src={laundryImage(image)} alt={`${name}の画像`} className="h-3/5 w-auto"/>
                 <p>{name}</p>
                 <p>{howManyDays(limitDays)}</p>
-                <button className="border-2 p-2 rounded-lg bg-gray-100"
-                        onClick={(e) => {
-                            handleWash(e, id)
-                        }}>洗濯<br/>する
-                </button>
                 <button className="border-2 p-2 rounded-lg bg-gray-200"
                         onClick={(e) => {
-                            handleUnWash(e, id)
-                        }}>今日は<br/>しない
+                            handleWash(e, id)
+                        }}>やっぱり今日<br/>洗濯する
                 </button>
+
             </div>
         )
     }
