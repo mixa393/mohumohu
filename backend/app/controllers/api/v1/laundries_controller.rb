@@ -118,21 +118,53 @@ class Api::V1::LaundriesController < ApplicationController
     # wash_atが今から3日以内のもののみを検索
     laundries = Laundry.valid
                        .where(team_id: current_api_v1_user.team.id)
-                       .where(is_displayed: true)
                        .recent(yesterday, three_days_later)
 
     # フォーマット化してdataに入れる
     laundries.each do |laundry|
+
+      # 今日の洗濯履歴がある時はループを飛ばす(dataに含めない)
+      next if washed_today?(laundry)
+
       data.push({ id: laundry.id,
                   name: laundry.name,
                   image: laundry.image,
-                  is_displayed:laundry.is_displayed,
+                  is_displayed: laundry.is_displayed,
                   limit_days: (laundry.wash_at - today).to_i
                 }
       )
+
     end
 
     render json: { status: 200, data: data }
+  end
+
+  # 今日洗濯した履歴があるか否かを返却
+  # @params [Object] laundry
+  # @return [boolean] true or false
+  def washed_today?(laundry)
+    today = Time.now.to_date
+
+    # 最近の洗濯履歴を検索
+    recent_laundry_history = LaundryHistory.valid
+                                           .where(laundry_id: laundry.id)
+                                           .order(created_at: :desc)
+                                           .first
+
+    # 履歴がない場合falseを返して抜ける
+    unless recent_laundry_history
+      return false
+    end
+
+    # ある場合はその日付を抽出
+    recent_wash_day = recent_laundry_history.created_at.to_date
+
+    # 最新の履歴の日付が今日ならtrue,違うならfalseを返却
+    if recent_wash_day == today
+      true
+    else
+      false
+    end
   end
 
   # 「洗濯した」用のメソッド
