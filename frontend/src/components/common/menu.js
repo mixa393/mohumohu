@@ -1,5 +1,5 @@
-import React, {useState, useEffect,useContext} from "react";
-import {Link,Redirect} from "react-router-dom"
+import React, {useState, useEffect, useContext} from "react";
+import {Link, useHistory} from "react-router-dom"
 import Cookies from "js-cookie"
 
 import "../../css/menu.css"
@@ -9,11 +9,15 @@ import {signOut} from "../../lib/api/auth";
 import SignIn from "../../pages/signIn";
 
 const Menu = ({menuVisibility, handleMouseDown}) => {
-    const { isSignedIn, setIsSignedIn } = useContext(AuthContext)
+    const {isSignedIn, setIsSignedIn} = useContext(AuthContext)
+    const history = useHistory()
 
     const handleSignOut = async (e) => {
+        e.preventDefault()
+
         try {
             const res = await signOut()
+            console.log(res)
 
             if (res.data.success) {
                 Cookies.remove("_access_token")
@@ -23,7 +27,7 @@ const Menu = ({menuVisibility, handleMouseDown}) => {
                 setIsSignedIn(false)
                 console.log("Succeeded in sign out")
 
-                return <Redirect to="/signin" component={SignIn}/>
+                history.push("/signin")
             } else {
                 console.log("Failed in sign out")
             }
@@ -54,11 +58,15 @@ const Menu = ({menuVisibility, handleMouseDown}) => {
                     ユーザー情報
                 </Link>
 
-                <button className="menu-item hover:bg-white p-3" onClick={() => {handleSignOut()}}>
+                <button className="menu-item hover:bg-white p-3"
+                        onClick={(e) => {
+                            handleSignOut(e)
+                        }}>
                     ログアウト
                 </button>
             </div>
-            <button onClick={handleMouseDown} className={`overlay w-screen h-screen fixed inset-0 bg-black bg-opacity-25 ${visibleOverRay}`}>
+            <button onClick={handleMouseDown}
+                    className={`overlay w-screen h-screen fixed inset-0 bg-black bg-opacity-25 ${visibleOverRay}`}>
 
             </button>
         </>
