@@ -22,13 +22,16 @@ import {getCurrentUser} from "./lib/api/auth";
  * @type {React.Context<{isSignedIn, setIsSignedIn, currentUser, setCurrentUser}>}
  */
 export const AuthContext = createContext({
-    isSignedIn: undefined, setIsSignedIn: undefined, currentUser: undefined, setCurrentUser: undefined
+    isSignedIn: undefined, setIsSignedIn: undefined,
+    currentUser: undefined, setCurrentUser: undefined,
+    isLoading: true, setIsLoading: undefined
 })
 
 function App() {
 
     const [isSignedIn, setIsSignedIn] = useState(false)
     const [currentUser, setCurrentUser] = useState("")
+    const [isLoading, setIsLoading] = useState(true)
 
     // 認証済みのユーザーがいるかどうかチェック
     // 確認できた場合はそのユーザーの情報を取得
@@ -36,10 +39,10 @@ function App() {
         try {
             const res = await getCurrentUser()
 
+            console.log(res);
             if (res?.data.isLogin === true) {
                 setIsSignedIn(true)
                 setCurrentUser(res?.data.data)
-
                 console.log(res?.data.data)
             } else {
                 console.log("No current user")
@@ -47,6 +50,7 @@ function App() {
         } catch (err) {
             console.error(err)
         }
+        setIsLoading(false)
     }
 
     useEffect(() => {
@@ -57,7 +61,11 @@ function App() {
     // ユーザーが認証済みかどうかでルーティングを決定
     // 未認証だった場合は「/signin」ページに促す
     const Private = ({children}) => {
-        if (isSignedIn) {
+
+        console.log(`signin ? ${isSignedIn}`)
+        if (isLoading){
+            return <div>読み込み中</div>
+        } else if (isSignedIn) {
             return children
         } else {
             return <Redirect to="/signin"/>
