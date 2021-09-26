@@ -96,9 +96,8 @@ const LaundryItem = ({id, name, image, isDisplayed, limitDays, update}) => {
                 <p>{name}</p>
                 <p>{howManyDays(limitDays)}</p>
                 <button className="border-2 p-2 rounded-lg bg-gray-200"
-                        onClick={(e) => {
-                            handleWash(e, id)
-                        }}>やっぱり今日<br/>洗濯する
+                        onClick={(e) => {handleWash(e, id)}}>
+                    やっぱり今日<br/>洗濯する
                 </button>
 
             </div>
