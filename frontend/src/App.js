@@ -24,7 +24,6 @@ import {getCurrentUser} from "./lib/api/auth";
 export const AuthContext = createContext({
     isSignedIn: undefined, setIsSignedIn: undefined,
     currentUser: undefined, setCurrentUser: undefined,
-    isLoading: true, setIsLoading: undefined
 })
 
 function App() {
