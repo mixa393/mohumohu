@@ -6,7 +6,6 @@ import Cookies from "js-cookie"
  * @returns {Promise<AxiosResponse<any>>}
  */
 export const getCurrentUser = () => {
-    if (!Cookies.get("_access_token") || !Cookies.get("_client") || !Cookies.get("_uid"))
         return client.get("/auth/sessions", {headers})
 }
 
