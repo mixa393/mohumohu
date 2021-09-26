@@ -6,19 +6,16 @@ import "../../css/menu.css"
 
 import {AuthContext} from "../../App";
 import {signOut} from "../../lib/api/auth";
-import SignIn from "../../pages/signIn";
 
 const Menu = ({menuVisibility, handleMouseDown}) => {
     const {isSignedIn, setIsSignedIn} = useContext(AuthContext)
     const history = useHistory()
 
-    const handleSignOut = async (e) => {
-        e.preventDefault()
+    const handleSignOut = (e) => {
+        e.preventDefault();
 
-        try {
-            const res = await signOut()
+        signOut().then((res) => {
             console.log(res)
-
             if (res.data.success) {
                 Cookies.remove("_access_token")
                 Cookies.remove("_client")
@@ -31,9 +28,10 @@ const Menu = ({menuVisibility, handleMouseDown}) => {
             } else {
                 console.log("Failed in sign out")
             }
-        } catch (err) {
-            console.log(err)
-        }
+        }).catch((error) => {
+            console.error(error)
+        })
+
     }
 
     const [visibility, setVisibility] = useState("hide")
@@ -58,10 +56,7 @@ const Menu = ({menuVisibility, handleMouseDown}) => {
                     ユーザー情報
                 </Link>
 
-                <button className="menu-item hover:bg-white p-3"
-                        onClick={(e) => {
-                            handleSignOut(e)
-                        }}>
+                <button className="menu-item hover:bg-white p-3" onClick={handleSignOut}>
                     ログアウト
                 </button>
             </div>
