@@ -46,7 +46,7 @@ const Menu = ({menuVisibility, handleMouseDown}) => {
     return (
         <>
             <div id="flyoutMenu"
-                 onMouseDown={handleMouseDown}
+                 onClick={handleMouseDown}
                  className={`flex flex-col ${visibility}`}>
                 <Link to="/" className="menu-item hover:bg-white p-3">
                     ホームページ
@@ -62,7 +62,6 @@ const Menu = ({menuVisibility, handleMouseDown}) => {
             </div>
             <button onClick={handleMouseDown}
                     className={`overlay w-screen h-screen fixed inset-0 bg-black bg-opacity-25 ${visibleOverRay}`}>
-
             </button>
         </>
     );
