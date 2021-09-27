@@ -33,7 +33,7 @@ const Weather = () => {
 
     return (
         <>
-            <div className={`h-64 flex flex-col justify-around items-center ${backgroundImage(weather.telop ?? '')}`}>
+            <div className={`h-72 flex flex-col justify-around items-center ${backgroundImage(weather.telop ?? '')}`}>
                 <img src={weather.imageUrl ?? ''} alt={weather.telop ?? ''} className="w-56 weather__image rounded-full"/>
                 <div className="flex text-yellow-400 text-2xl">
                     <p className="mx-3 bg-gradient-to-tr from-white to-transparent rounded-xl p-3 font-bold"><span className="text-xs align-top">AM</span>{weather.chanceOfRainAM ?? ''}</p>
