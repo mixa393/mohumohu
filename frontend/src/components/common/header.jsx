@@ -32,8 +32,8 @@ const Header = ({date}) => {
                 setting: "col-span-1"
             })
             setColor({
-                index: "bg-pink-300",
-                laundries: "bg-pink-200"
+                index: "bg-pink-400",
+                laundries: "bg-gray-400"
             })
         } else if (pathname === "/laundries") {
             setWidth({
@@ -42,8 +42,8 @@ const Header = ({date}) => {
                 setting: "col-span-1"
             })
             setColor({
-                index: "bg-pink-200",
-                laundries: "bg-pink-300"
+                index: "bg-gray-400",
+                laundries: "bg-yellow-300"
             })
         } else {
             setWidth({
@@ -52,8 +52,8 @@ const Header = ({date}) => {
                 setting: "col-span-1"
             })
             setColor({
-                index: "bg-pink-200",
-                laundries: "bg-pink-200"
+                index: "bg-gray-400",
+                laundries: "bg-gray-400"
             })
         }
     }, [location])
@@ -72,14 +72,14 @@ const Header = ({date}) => {
             <header>
                 <div className="h-16 grid grid-cols-11">
                     <div className={`transition duration-150 ease-in-outduration-300 ${width.index}`}>
-                        <Link className={`h-16 flex justify-items-center items-center hover:opacity-75 ${color.index}`}
+                        <Link className={`h-16 flex justify-items-center items-center hover:bg-pink-300 ${color.index}`}
                               to={"/"}>
                             <img src={sun} alt="ダッシュボード" className="h-3/5 w-auto mx-auto"/>
                         </Link>
                     </div>
                     <div className={width.laundries}>
                         <Link
-                            className={`h-16 flex justify-items-center items-center hover:opacity-75 ${color.laundries}`}
+                            className={`h-16 flex justify-items-center items-center hover:bg-yellow-200 ${color.laundries}`}
                             to="/laundries">
                             <img src={tshirt} alt="洗濯物リスト" className="h-3/5 w-auto mx-auto"/>
                         </Link>
