@@ -15,6 +15,13 @@ const backgroundImage = (telop) => {
 
 const Weather = ({date}) => {
     const [isToday, setIsToday] = useState(true)
+    const displayedDay = ()=>{
+        if (isToday) {
+            return date
+        } else {
+            return "明日"
+        }
+    }
 
     const weather = () => {
         if (isToday) {
@@ -51,31 +58,35 @@ const Weather = ({date}) => {
     }, [])
 
 
-    let buttons
-    if (isToday) {
-        buttons =
-            <div className="flex">
-                <p className="px-3 bg-pink-100 rounded-xl">今日</p>
-                <button className="px-3 bg-white rounded-xl hover:bg-pink-100" onClick={() => setIsToday(false)}>
-                    明日
-                </button>
-            </div>
-    } else {
-        buttons =
-            <div className="flex">
-                <button className="px-3 bg-white rounded-xl hover:bg-pink-100" onClick={() => setIsToday(true)}>
-                    今日
-                </button>
-                <p className="px-3 rounded-xl hover:bg-pink-100">
-                    明日
-                </p>
-            </div>
-    }
+    // let buttons
+    // if (isToday) {
+    //     buttons =
+    //         <div className="flex">
+    //             <p className="px-3 py-1 bg-pink-100 rounded-xl">今日</p>
+    //             <button className="px-3 py-1 bg-white rounded-xl hover:bg-pink-100" onClick={() => setIsToday(false)}>
+    //                 明日
+    //             </button>
+    //         </div>
+    // } else {
+    //     buttons =
+    //         <div className="flex">
+    //             <button className="px-3 py-1 bg-white rounded-xl hover:bg-pink-100" onClick={() => setIsToday(true)}>
+    //                 今日
+    //             </button>
+    //             <p className="px-3 py-1 rounded-xl bg-pink-100">
+    //                 明日
+    //             </p>
+    //         </div>
+    // }
 
     return (
         <>
-            <div className={`h-72 flex flex-col justify-around items-center ${backgroundImage(weather().telop ?? '')}`}>
-                {buttons}
+            <div className={`h-72 flex flex-col justify-around items-center ${backgroundImage(weather().telop)}`}>
+                {/*{buttons}*/}
+                <button className="px-3 py-1 bg-white rounded-xl hover:bg-pink-100"
+                        onClick={() => setIsToday(!isToday)}>
+                    {displayedDay()}
+                </button>
                 <img src={weather().imageUrl ?? ''} alt={weather().telop ?? ''}
                      className="w-56 weather__image rounded-full"/>
                 <div className="flex text-yellow-400 text-2xl">
