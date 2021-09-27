@@ -27,6 +27,7 @@ const TodaysLaundries = () => {
             return (
                 <TodaysLaundry
                     key={index}
+                    index={index}
                     id={laundry.id}
                     name={laundry.name}
                     image={laundry.image}
