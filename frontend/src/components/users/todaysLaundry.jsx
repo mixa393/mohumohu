@@ -20,9 +20,9 @@ const howManyDays = (limit) => {
 
 const displayedBackgroundColor = (index) => {
     if (index % 2 === 0) {
-        return "bg-yellow-200"
+        return "bg-pink-200"
     } else {
-        return "bg-yellow-100"
+        return "bg-pink-100"
     }
 }
 
