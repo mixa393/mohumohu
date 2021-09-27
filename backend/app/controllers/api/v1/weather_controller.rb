@@ -4,7 +4,7 @@ class Api::V1::WeatherController < ApplicationController
   # 本番環境では不要なもののPostmanでは以下が必要
   require 'net/http'
 
-  # 天気取得利用して天気データを返却する
+  # 天気取得利用して今日と明日の天気データを返却する
   # @see: 天気取得API https://weather.tsukumijima.net
   # @return [json] status,data
   # data = {city: 都市名,
@@ -25,12 +25,24 @@ class Api::V1::WeatherController < ApplicationController
       responce = Net::HTTP.get(uri)
       res = JSON.parse(responce)
 
-      data = {
-        city: res["location"]["city"],
+      today = {
         telop: res["forecasts"][0]["telop"],
         chance_of_rain_am: res["forecasts"][0]["chanceOfRain"]["T06_12"],
         chance_of_rain_pm: res["forecasts"][0]["chanceOfRain"]["T12_18"],
         image_url: res["forecasts"][0]["image"]["url"]
+      }
+
+      tomorrow = {
+        telop: res["forecasts"][1]["telop"],
+        chance_of_rain_am: res["forecasts"][1]["chanceOfRain"]["T06_12"],
+        chance_of_rain_pm: res["forecasts"][1]["chanceOfRain"]["T12_18"],
+        image_url: res["forecasts"][1]["image"]["url"]
+      }
+
+      data = {
+        city: res["location"]["city"],
+        today: today,
+        tomorrow: tomorrow
       }
 
       render json: {
