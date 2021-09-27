@@ -47,7 +47,8 @@ const TodaysLaundries = () => {
 
     return (
         <>
-            <div className="grid grid-cols-9">
+            <div className="bg-yellow-300">今日の洗濯物リスト</div>
+            <div className="grid grid-cols-9 bg-yellow-300">
                 <p className="col-span-4">アイテム</p>
                 <p className="col-span-1">日数</p>
                 <p className="col-span-4">/</p>

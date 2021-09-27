@@ -20,9 +20,9 @@ const howManyDays = (limit) => {
 
 const displayedBackgroundColor = (index) => {
     if (index % 2 === 0) {
-        return "bg-pink-200"
+        return "bg-yellow-200"
     } else {
-        return "bg-pink-100"
+        return "bg-yellow-100"
     }
 }
 
@@ -75,7 +75,7 @@ const TodaysLaundry = ({index, id, name, image, isDisplayed, limitDays, update})
     if (isDisplayed) {
         return (
             <div className={`grid grid-cols-9 max-h-16 h-16 w-full ${displayedBackgroundColor(index)}`}>
-                <img src={laundryImage(image)} alt={`${name}の画像`} className="h-3/5 w-auto col-span-1 m-auto"/>
+                <img src={laundryImage(image)} alt={`${name}の画像`} className="h-8 w-auto col-span-1 m-auto"/>
                 <p className="col-span-3 my-auto leading-none">{name}</p>
                 <p className="col-span-1 my-auto leading-tight text-sm">{howManyDays(limitDays)}</p>
                 <div className="col-span-2 my-auto">
@@ -108,11 +108,11 @@ const TodaysLaundry = ({index, id, name, image, isDisplayed, limitDays, update})
     } else {
         return (
             <div className={`grid grid-cols-9 max-h-16 h-16 ${backgroundColor(index)}`}>
-                <img src={laundryImage(image)} alt={`${name}の画像`} className="h-3/5 w-auto col-span-1 m-auto"/>
+                <img src={laundryImage(image)} alt={`${name}の画像`} className="max-h-16 h-8 w-auto col-span-1 m-auto"/>
                 <p className="col-span-3 my-auto leading-none">{name}</p>
                 <p className="col-span-1 my-auto leading-none text-sm">{howManyDays(limitDays)}</p>
                 <div className="col-span-4 my-auto">
-                    <button className="border-2 px-6 py-1 rounded-lg bg-gray-200 col-span-4 leading-none text-sm"
+                    <button className="border-2 px-6 py-1 rounded-lg bg-gray-300 col-span-4 leading-none text-sm"
                             onClick={(e) => {
                                 handleWash(e, id)
                             }}>
