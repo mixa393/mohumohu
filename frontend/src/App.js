@@ -74,7 +74,7 @@ function App() {
     return (
         <BrowserRouter>
             <AuthContext.Provider value={{isSignedIn, setIsSignedIn, currentUser, setCurrentUser}}>
-                <div className="App flex flex-col">
+                <div className="App flex flex-col text-gray-800">
                     <Header/>
                     <div className="flex-1">
                         <Switch>
