@@ -9,15 +9,19 @@ import "../../css/menu.css"
 
 const Header = ({date}) => {
 
+    // locationによって幅と色を変える
+    const location = useLocation()
 
-    //headerの幅を変える
     const [width, setWidth] = useState({
         index: "",
         laundries: "",
         setting: ""
     })
 
-    const location = useLocation()
+    const [color, setColor] = useState({
+        index: "",
+        laundries: ""
+    })
 
     useEffect(() => {
         const {pathname} = location
@@ -27,17 +31,29 @@ const Header = ({date}) => {
                 laundries: "col-span-3",
                 setting: "col-span-1"
             })
+            setColor({
+                index: "bg-pink-300",
+                laundries: "bg-pink-200"
+            })
         } else if (pathname === "/laundries") {
             setWidth({
                 index: "col-span-3",
                 laundries: "col-span-7",
                 setting: "col-span-1"
             })
+            setColor({
+                index: "bg-pink-200",
+                laundries: "bg-pink-300"
+            })
         } else {
             setWidth({
                 index: "col-span-5",
                 laundries: "col-span-5",
                 setting: "col-span-1"
+            })
+            setColor({
+                index: "bg-pink-200",
+                laundries: "bg-pink-200"
             })
         }
     }, [location])
@@ -56,12 +72,15 @@ const Header = ({date}) => {
             <header>
                 <div className="h-16 grid grid-cols-11">
                     <div className={`transition duration-150 ease-in-outduration-300 ${width.index}`}>
-                        <Link className="h-16 bg-pink-400 flex justify-items-center items-center" to={"/"}>
+                        <Link className={`h-16 flex justify-items-center items-center hover:opacity-75 ${color.index}`}
+                              to={"/"}>
                             <img src={sun} alt="ダッシュボード" className="h-3/5 w-auto mx-auto"/>
                         </Link>
                     </div>
                     <div className={width.laundries}>
-                        <Link className="h-16 bg-pink-300 flex justify-items-center items-center" to="/laundries">
+                        <Link
+                            className={`h-16 flex justify-items-center items-center hover:opacity-75 ${color.laundries}`}
+                            to="/laundries">
                             <img src={tshirt} alt="洗濯物リスト" className="h-3/5 w-auto mx-auto"/>
                         </Link>
                     </div>
