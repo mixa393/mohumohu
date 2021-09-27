@@ -1,6 +1,6 @@
 import React, {useState} from "react";
 import Weather from "../../components/users/weather";
-import LaundryList from "../../components/users/laundryList";
+import TodaysLaundries from "../../components/users/todaysLaundries";
 // import Form from "../../components/users/form";
 import dayjs from "dayjs";
 import "../../css/user.css";
@@ -12,7 +12,7 @@ const UsersIndex = () => {
     return (
         <>
             <Weather date={date}/>
-            <LaundryList/>
+            <TodaysLaundries/>
             {/*<Form/>*/}
         </>
     );
