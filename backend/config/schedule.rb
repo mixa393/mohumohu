@@ -12,6 +12,7 @@ set :environment, rails_env
 
 every 1.days do
   rake "laundry:update_wash_at"
+  rake "laundry:update_display_true"
 end
 
 # Use this file to easily define all of your cron jobs.
