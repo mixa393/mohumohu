@@ -80,4 +80,23 @@ RSpec.describe Laundry, type: :model do
       end
     end
   end
+
+  describe "self.update_display_true" do
+    subject { Laundry.update_display_true }
+
+    context "is_displayがfalseのデータがある場合" do
+      let!(:laundry) { FactoryBot.create(:laundry, is_displayed: false) }
+      it 'is_displayedがtrueになる' do
+        expect { subject }.to change { Laundry.find(laundry.id).is_displayed }.from(false).to(true)
+      end
+    end
+
+    context "更新するデータがない場合" do
+      let!(:laundry) { FactoryBot.create(:laundry) }
+      it '空の配列が返却され、レコードの変更は行われない' do
+        expect(subject).to eq([])
+        expect { subject }.not_to change { Laundry.find(laundry.id) }
+      end
+    end
+  end
 end
