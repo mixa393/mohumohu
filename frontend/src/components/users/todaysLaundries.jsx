@@ -4,21 +4,8 @@ import {getLaundryList} from "../../lib/api/laundries";
 import {signIn} from "../../lib/api/auth";
 
 
-const TodaysLaundries = () => {
-    const [laundries, setLaundries] = useState([]);
+const TodaysLaundries = ({laundries,update}) => {
 
-    const getLaundries = async () => {
-        try {
-            const res = await getLaundryList()
-            console.log(res)
-            setLaundries(res.data.data)
-        } catch (err) {
-            console.error(err)
-        }
-    }
-    const update = async () => {
-        await getLaundries()
-    }
 
     // 今日の洗濯ものがある時とない時でコンテンツを分ける
     let contents;
@@ -41,9 +28,6 @@ const TodaysLaundries = () => {
         contents = <tr>何もない時</tr>
     }
 
-    useEffect(() => {
-        getLaundries().then()
-    }, []);
 
     return (
         <>

@@ -13,8 +13,9 @@ const backgroundImage = (telop) => {
     }
 };
 
-const Weather = ({date}) => {
+const Weather = ({date,todaysWeather,tomorrowsWeather}) => {
     const [isToday, setIsToday] = useState(true)
+
     const displayedDay = ()=>{
         if (isToday) {
             return date
@@ -31,31 +32,7 @@ const Weather = ({date}) => {
         }
     }
 
-    const [todaysWeather, setTodaysWeather] = useState(
-        {
-            telop: "",
-            imageUrl: "",
-            chanceOfRainAM: "",
-            chanceOfRainPM: ""
-        }
-    )
 
-    const [tomorrowsWeather, setTomorrowsWeather] = useState(
-        {
-            telop: "",
-            imageUrl: "",
-            chanceOfRainAM: "",
-            chanceOfRainPM: ""
-        }
-    )
-
-    useEffect(() => {
-        getWeatherFormat().then((r) => {
-            console.log(r)
-            setTodaysWeather(r.today)
-            setTomorrowsWeather(r.tomorrow)
-        })
-    }, [])
 
 
     // let buttons
