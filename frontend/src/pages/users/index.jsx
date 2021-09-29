@@ -2,6 +2,7 @@ import React, {useEffect, useState} from "react";
 import Weather from "../../components/users/weather";
 import TodaysLaundries from "../../components/users/todaysLaundries";
 import Loading from "../../components/common/loading"
+import Setting from "./setting";
 
 import dayjs from "dayjs";
 import "../../css/user.css";
@@ -10,7 +11,7 @@ import {getLaundryList} from "../../lib/api/laundries";
 
 const UsersIndex = () => {
     const [date, setdate] = useState(dayjs().format('MM/DD ddd'))
-    const [isLoading, setIsLoading] = useState(false)
+    const [loading, setLoading] = useState(false)
 
     // ----------------------------- laundries取得 -------------------------------
     const [laundries, setLaundries] = useState([]);
@@ -49,7 +50,7 @@ const UsersIndex = () => {
     )
 
     useEffect(() => {
-        setIsLoading(true)
+        setLoading(true)
         Promise.all([
             getLaundries().then(),
             getWeatherFormat().then((r) => {
@@ -58,12 +59,12 @@ const UsersIndex = () => {
                 setTomorrowsWeather(r.tomorrow)
             })
         ]).then(()=> {
-            setIsLoading(false)
+            setLoading(false)
         })
     }, [])
 
     return (
-        <Loading isLoading={isLoading}>
+        <Loading loading={loading}>
             <Weather date={date} todaysWeather={todaysWeather} tomorrowsWeather={tomorrowsWeather}/>
             <TodaysLaundries laundries={laundries} update={update}/>
             {/*<Form/>*/}
