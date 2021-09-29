@@ -71,8 +71,7 @@ RSpec.describe Laundry, type: :model do
 
     context "更新するデータがなかった場合" do
       let!(:laundry) { FactoryBot.create(:laundry) }
-      it '空の配列が返却され、レコードの変更は行われない' do
-        expect(subject).to eq([])
+      it 'レコードの変更は行われない' do
         expect { subject }.not_to change { Laundry.find(laundry.id) }
       end
     end
@@ -90,8 +89,7 @@ RSpec.describe Laundry, type: :model do
 
     context "更新するデータがない場合" do
       let!(:laundry) { FactoryBot.create(:laundry) }
-      it '空の配列が返却され、レコードの変更は行われない' do
-        expect(subject).to eq([])
+      it 'レコードの変更は行われない' do
         expect { subject }.not_to change { Laundry.find(laundry.id) }
       end
     end
