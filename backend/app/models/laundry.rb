@@ -50,8 +50,8 @@ class Laundry < ApplicationRecord
     Laundry.where(deleted_at: nil, is_displayed: false).update(is_displayed: true)
   end
 
-  # daysがなかった場合に代入される
-  DAY_NUMBER = 30
+  # daysがなかった場合にこの日数後にwash_atが更新される
+  DEFAULT_NEXT_WASH_AT = 30
 
   # wash_atの値を1日ごとに確認して修正する
   # バッチ処理で1日1回呼び出す
@@ -69,7 +69,7 @@ class Laundry < ApplicationRecord
     # その全てのwash_atを、今日からdays日後に修正し直す
 
     laundries.each do |laundry|
-      days = laundry.days || DAY_NUMBER
+      days = laundry.days || DEFAULT_NEXT_WASH_AT
       laundry.update(wash_at: laundry.wash_at + days)
     end
 
