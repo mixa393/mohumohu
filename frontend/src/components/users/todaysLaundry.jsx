@@ -18,14 +18,6 @@ const howManyDays = (limit) => {
     }
 }
 
-const displayedBackgroundColor = (index) => {
-    if (index % 2 === 0) {
-        return "bg-pink-200"
-    } else {
-        return "bg-pink-100"
-    }
-}
-
 const backgroundColor = (index) => {
     if (index % 2 === 0) {
         return "bg-gray-100"
@@ -74,19 +66,17 @@ const TodaysLaundry = ({index, id, name, image, isDisplayed, limitDays, update})
 
     if (isDisplayed) {
         return (
-            <div className={`grid grid-cols-9 max-h-16 h-16 w-full ${displayedBackgroundColor(index)}`}>
+            <div className="grid grid-cols-9 max-h-14 h-14 w-full border-dashed border-b-2">
                 <img src={laundryImage(image)} alt={`${name}の画像`} className="h-8 w-auto col-span-1 m-auto"/>
                 <p className="col-span-3 my-auto leading-none">{name}</p>
                 <p className="col-span-1 my-auto leading-tight text-sm">{howManyDays(limitDays)}</p>
-                <div className="col-span-2 my-auto">
-                    <button className="py-3 px-1 rounded-lg bg-gray-100 py-2 text-sm"
+                <div className="col-span-4 flex w-4/5 mx-auto">
+                    <button className="h-10 w-1/2 rounded-l-xl bg-gray-100 text-sm my-auto"
                             onClick={(e) => {
                                 handleWash(e, id)
                             }}>洗濯する
                     </button>
-                </div>
-                <div className="col-span-2 my-auto">
-                    <button className="border-2 rounded-lg px-2 py-2 bg-gray-200 col-span-2 leading-none text-sm"
+                    <button className="h-10 w-1/2 rounded-r-xl bg-gray-200 text-sm my-auto leading-none"
                             onClick={(e) => {
                                 handleUnWash(e, id)
                             }}>今日は<br/>しない
