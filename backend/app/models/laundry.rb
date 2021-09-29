@@ -30,11 +30,10 @@ class Laundry < ApplicationRecord
     end
   end
 
-  # --------------------------- ここからバッチ用メソッド --------------------------------
-
   # falseのis_displayedをtrueに書き換える
+  # これにより次の日になれば「今日の洗濯物リスト」に表示されるようになる
   # バッチ処理で1日1回呼び出す
-  # 上手くいかなかった場合エラーをログに出力してロールバック
+  # 上手くいかなかった場合エラーをログに出力してレコードは更新しない
   def self.update_display_true
     # Laundry.transaction do
     #   laundries = Laundry.valid.where(is_displayed: false)
