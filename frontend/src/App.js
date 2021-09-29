@@ -5,6 +5,8 @@ import {
     Route,
     Redirect
 } from "react-router-dom";
+import ReactLoading from 'react-loading';
+
 import './css/App.css';
 
 import Header from './components/common/header'
@@ -22,15 +24,15 @@ import {getCurrentUser} from "./lib/api/auth";
  * @type {React.Context<{isSignedIn, setIsSignedIn, currentUser, setCurrentUser}>}
  */
 export const AuthContext = createContext({
+    loading: undefined, setLoading:undefined,
     isSignedIn: undefined, setIsSignedIn: undefined,
     currentUser: undefined, setCurrentUser: undefined,
 })
 
 function App() {
-
     const [isSignedIn, setIsSignedIn] = useState(false)
     const [currentUser, setCurrentUser] = useState("")
-    const [isLoading, setIsLoading] = useState(true)
+    const [loading, setLoading] = useState(true)
 
     // 認証済みのユーザーがいるかどうかチェック
     // 確認できた場合はそのユーザーの情報を取得
@@ -49,7 +51,7 @@ function App() {
         } catch (err) {
             console.error(err)
         }
-        setIsLoading(false)
+        setLoading(false)
     }
 
     useEffect(() => {
@@ -60,11 +62,9 @@ function App() {
     // ユーザーが認証済みかどうかでルーティングを決定
     // 未認証だった場合は「/signin」ページに促す
     const Private = ({children}) => {
-
-        console.log(`signin ? ${isSignedIn}`)
-        if (isLoading){
-            return <div>読み込み中</div>
-        } else if (isSignedIn) {
+        if (loading){
+            return <ReactLoading type="spin" color="#ffffff" height={'20%'} width={'20%'} />
+        } else if (!loading && isSignedIn) {
             return children
         } else {
             return <Redirect to="/signin"/>
@@ -73,7 +73,7 @@ function App() {
 
     return (
         <BrowserRouter>
-            <AuthContext.Provider value={{isSignedIn, setIsSignedIn, currentUser, setCurrentUser}}>
+            <AuthContext.Provider value={{loading,setLoading,isSignedIn, setIsSignedIn, currentUser, setCurrentUser}}>
                 <div className="App flex flex-col text-gray-800">
                     <Header/>
                     <div className="flex-1">

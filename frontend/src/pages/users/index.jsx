@@ -1,7 +1,8 @@
 import React, {useEffect, useState} from "react";
 import Weather from "../../components/users/weather";
 import TodaysLaundries from "../../components/users/todaysLaundries";
-// import Form from "../../components/users/form";
+import Loading from "../../components/common/loading"
+
 import dayjs from "dayjs";
 import "../../css/user.css";
 import {getWeatherFormat} from "../../lib/api/weather";
@@ -66,7 +67,7 @@ const UsersIndex = () => {
             <Weather date={date} todaysWeather={todaysWeather} tomorrowsWeather={tomorrowsWeather}/>
             <TodaysLaundries laundries={laundries} update={update}/>
             {/*<Form/>*/}
-        </>
+        </Loading>
     );
 }
 
