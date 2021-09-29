@@ -5,8 +5,6 @@ import {signIn} from "../../lib/api/auth";
 
 
 const TodaysLaundries = ({laundries,update}) => {
-
-
     // 今日の洗濯ものがある時とない時でコンテンツを分ける
     let contents;
     if (laundries.length > 0) {
@@ -25,18 +23,12 @@ const TodaysLaundries = ({laundries,update}) => {
             )
         })
     } else {
-        contents = <tr>何もない時</tr>
+        contents = <div>何もない時</div>
     }
-
 
     return (
         <>
-            <div className="bg-yellow-300">今日の洗濯物リスト</div>
-            <div className="grid grid-cols-9 bg-yellow-300">
-                <p className="col-span-4">アイテム</p>
-                <p className="col-span-1">日数</p>
-                <p className="col-span-4">/</p>
-            </div>
+            <div className="bg-pink-100 py-3">今日の洗濯物リスト</div>
             {contents}
         </>
     );
