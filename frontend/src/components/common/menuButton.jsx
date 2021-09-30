@@ -1,5 +1,4 @@
 import React from "react";
-import menu from "../../images/common/menu.svg";
 import {Link} from "react-router-dom";
 
 const MenuButton = ({handleMouseDown,icon,backgroundColor}) => {

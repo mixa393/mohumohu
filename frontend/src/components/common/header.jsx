@@ -43,7 +43,7 @@ const Header = ({date}) => {
                 menu: "col-span-1"
             })
             setBackgroundColor({
-                index: "bg-pink-400",
+                index: "bg-pink-300",
                 laundries: "bg-white",
                 menu: "bg-white"
             })
@@ -60,7 +60,7 @@ const Header = ({date}) => {
             })
             setBackgroundColor({
                 index: "bg-white",
-                laundries: "bg-yellow-300",
+                laundries: "bg-yellow-200",
                 menu: "bg-white"
             })
             setIcon({
@@ -70,9 +70,9 @@ const Header = ({date}) => {
             })
         } else {
             setWidth({
-                index: "col-span-5",
-                laundries: "col-span-5",
-                menu: "col-span-1"
+                index: "col-span-3",
+                laundries: "col-span-3",
+                menu: "col-span-5"
             })
             setBackgroundColor({
                 index: "bg-white",
@@ -91,7 +91,6 @@ const Header = ({date}) => {
 
     const toggleMenu = (e) => {
         setVisible(!visible);
-
         e.stopPropagation();
     }
 
@@ -100,27 +99,27 @@ const Header = ({date}) => {
         <>
             <header>
                 <div className="h-16 grid grid-cols-11">
-                    <div className={`transition duration-150 ease-in-outduration-300 ${width.index}`}>
+                    <div className={`transition duration-150 ease-in-outduration-300 ${width.index} border border-dotted`}>
                         <Link
                             className={`h-16 flex justify-items-center items-center hover:bg-pink-300 ${backgroundColor.index}`}
                             to={"/"}>
                             <img src={icon.index} alt="ダッシュボード" className="h-3/5 w-auto mx-auto"/>
                         </Link>
                     </div>
-                    <div className={width.laundries}>
+                    <div className={`border border-dotted ${width.laundries}`}>
                         <Link
                             className={`h-16 flex justify-items-center items-center hover:bg-yellow-200 ${backgroundColor.laundries}`}
                             to="/laundries">
                             <img src={icon.laundries} alt="洗濯物リスト" className="h-3/5 w-auto mx-auto"/>
                         </Link>
                     </div>
-                    <nav className={width.menu}>
+                    <div className={`border-1 border-dotted ${width.menu}`}>
                         <MenuButton handleMouseDown={toggleMenu}
                                     icon={icon.menu}
                                     backgroundColor={backgroundColor.menu}/>
                         <Menu handleMouseDown={toggleMenu}
                               menuVisibility={visible}/>
-                    </nav>
+                    </div>
                 </div>
             </header>
 
