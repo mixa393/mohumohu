@@ -28,6 +28,7 @@ export const getWeatherFormat = async () => {
             }
         }
     } catch (e) {
-        alert("エラーが発生しました。ページをリロードして下さい。")
+        console.error(e)
+        // alert("エラーが発生しました。ページをリロードして下さい。")
     }
 }
