@@ -8,7 +8,7 @@ import ReactLoading from 'react-loading';
  */
 const Loading = ({isLoading, children}) =>{
     if(isLoading) {
-        return <ReactLoading type="spin" color="#ffffff" height={'20%'} width={'20%'} />
+        return <ReactLoading type="spinningBubbles" color="#ffefd5" height={'20%'} width={'20%'} className="mt-32 mx-auto"/>
     } else {
         return children
     }
