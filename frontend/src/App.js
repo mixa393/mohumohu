@@ -24,7 +24,7 @@ import {getCurrentUser} from "./lib/api/auth";
  * @type {React.Context<{isSignedIn, setIsSignedIn, currentUser, setCurrentUser}>}
  */
 export const AuthContext = createContext({
-    loading: undefined, setLoading:undefined,
+    loading: undefined, setLoading: undefined,
     isSignedIn: undefined, setIsSignedIn: undefined,
     currentUser: undefined, setCurrentUser: undefined,
 })
@@ -40,8 +40,7 @@ function App() {
         try {
             const res = await getCurrentUser()
 
-            console.log(res);
-            if (res?.data.isLogin === true) {
+            if (res?.data?.isLogin === true) {
                 setIsSignedIn(true)
                 setCurrentUser(res?.data.data)
                 console.log(res?.data.data)
@@ -62,8 +61,12 @@ function App() {
     // ユーザーが認証済みかどうかでルーティングを決定
     // 未認証だった場合は「/signin」ページに促す
     const Private = ({children}) => {
-        if (loading){
-            return <ReactLoading type="spin" color="#ffffff" height={'20%'} width={'20%'} />
+        if (loading) {
+            return (
+                <div className="h-full w-full">
+                    <ReactLoading type="spinningBubbles" color="#ffdfe5" height={'20%'} width={'20%'} className="mx-auto mt-32"/>
+                </div>
+            )
         } else if (!loading && isSignedIn) {
             return children
         } else {
@@ -73,7 +76,7 @@ function App() {
 
     return (
         <BrowserRouter>
-            <AuthContext.Provider value={{loading,setLoading,isSignedIn, setIsSignedIn, currentUser, setCurrentUser}}>
+            <AuthContext.Provider value={{loading, setLoading, isSignedIn, setIsSignedIn, currentUser, setCurrentUser}}>
                 <div className="App flex flex-col text-gray-800">
                     <Header/>
                     <div className="flex-1">
