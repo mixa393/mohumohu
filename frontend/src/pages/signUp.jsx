@@ -3,13 +3,13 @@ import {useHistory} from "react-router-dom"
 import Cookies from "js-cookie";
 
 import {AuthContext} from "../App"
-import {getCurrentUser, signUp} from "../lib/api/auth"
+import {signUp} from "../lib/api/auth"
 import {createTeam} from "../lib/api/teams";
 import locationId from "../lib/api/locationId.js"
 
 const SignUp = () => {
     const history = useHistory()
-    const {setIsSignedIn, currentUser,setCurrentUser} = useContext(AuthContext)
+    const {setIsSignedIn,setCurrentUser} = useContext(AuthContext)
 
     const [userInfo, setUserInfo] = useState({
         name: "",

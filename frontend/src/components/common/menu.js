@@ -8,7 +8,7 @@ import {AuthContext} from "../../App";
 import {signOut} from "../../lib/api/auth";
 
 const Menu = ({menuVisibility, handleMouseDown}) => {
-    const {isSignedIn, setIsSignedIn} = useContext(AuthContext)
+    const {setIsSignedIn} = useContext(AuthContext)
     const history = useHistory()
 
     const handleSignOut = (e) => {
