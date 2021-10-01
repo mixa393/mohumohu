@@ -4,7 +4,7 @@ import sunWhite from "../../images/common/sun.svg";
 import sunRed from "../../images/common/sun-red.png";
 import tshirtWhite from "../../images/common/tshirt.png"
 import tshirtColor from "../../images/common/tshirts-yellow.png"
-import menuWhite from "../../images/common/menu.svg"
+import setting from "../../images/common/setting.svg"
 import menuColor from "../../images/common/menu-blue.png"
 import MenuButton from "../common/menuButton"
 import Menu from "../common/menu"
@@ -82,7 +82,7 @@ const Header = ({date}) => {
             setIcon({
                 index: sunRed,
                 laundries: tshirtColor,
-                menu: menuWhite
+                menu: setting
             })
         }
     }, [location])
