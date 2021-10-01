@@ -4,7 +4,7 @@ import Cookies from "js-cookie"
 
 import {AuthContext} from "../App"
 import {signIn} from "../lib/api/auth"
-import mofit from "../images/common/mofit.png"
+import mofit from "../images/common/mofit.svg"
 
 // サインイン用ページ
 const SignIn = () => {
@@ -45,26 +45,38 @@ const SignIn = () => {
 
     return (
         <>
-            <img src={mofit} alt="ロゴ" className="bg-pink-200 w-60 h-auto rounded-xl border-8"/>
-            <form className="flex flex-col w-2/3 mx-auto max-w-lg justify-around">
-                <div className="flex flex-col">
-                    <label htmlFor="email">メールアドレス</label>
-                    <input type="email" id="email" name="email"
-                           value={email}
-                           onChange={event => setEmail(event.target.value)}/>
-                </div>
+            <div className="h-screen flex flex-col justify-center bg-pink-100">
+                <img src={mofit} alt="mofitのロゴ" className="w-52 h-auto mx-auto"/>
 
-                <div className="flex flex-col">
-                    <label htmlFor="password">パスワード</label>
-                    <input type="password" id="password" name="password"
-                           value={password}
-                           onChange={event => setPassword(event.target.value)}/>
-                </div>
+                <form className="flex flex-col w-2/3 mx-auto max-w-lg h-1/4 justify-around mt-4">
+                    <div className="flex flex-col">
+                        <label htmlFor="email">メールアドレス</label>
+                        <input type="email" id="email" name="email"
+                               value={email}
+                               className="bg-white focus:outline-none focus:ring"
+                               onChange={event => setEmail(event.target.value)}/>
+                    </div>
 
-                <input type="submit"
-                       disabled={!email || !password} // 空欄があった場合はボタンを押せないように
-                       onClick={handleSubmit}/>
-            </form>
+                    <div className="flex flex-col">
+                        <label htmlFor="password">パスワード</label>
+                        <input type="password" id="password" name="password"
+                               value={password}
+                               className="bg-white focus:outline-none focus:ring"
+                               onChange={event => setPassword(event.target.value)}/>
+                    </div>
+
+                    <input type="submit"
+                           disabled={!email || !password} // 空欄があった場合はボタンを押せないように
+                           onClick={handleSubmit}
+                           value="ログイン"
+                           className="bg-pink-300 mt-4"/>
+                </form>
+
+                <ul className="text-xs mt-8 text-gray-600">
+                    <li>パスワードを忘れた方はこちら</li>
+                    <li>初めて利用される方はこちら</li>
+                </ul>
+            </div>
         </>
     )
 }
