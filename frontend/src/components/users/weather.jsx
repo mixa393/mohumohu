@@ -61,8 +61,8 @@ const Weather = ({date, todaysWeather, tomorrowsWeather}) => {
                 <div className="flex flex-col justify-center items-center col-span-4">
                     <p className="px-3 py-1 bg-white rounded-xl">{displayedDay()}</p>
 
-                    <img src={weather().imageUrl ?? ''} alt={weather().telop ?? ''}
-                         className="w-56 rounded-full"/>
+                    <img src={weather().imageUrl ?? ''} alt={weather().telop ?? ''} className="w-56 rounded-full"/>
+
                     <div className="flex text-yellow-400 text-2xl">
                         <p className="mx-3 bg-gradient-to-tr from-white to-transparent rounded-xl p-3 font-bold">
                             <span className="text-xs align-top">AM</span>
