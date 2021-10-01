@@ -64,7 +64,8 @@ function App() {
         if (loading) {
             return (
                 <div className="h-full w-full">
-                    <ReactLoading type="spinningBubbles" color="#ffdfe5" height={'20%'} width={'20%'} className="mx-auto mt-32"/>
+                    <ReactLoading type="spinningBubbles" color="#ffdfe5" height={'20%'} width={'20%'}
+                                  className="mx-auto mt-32"/>
                 </div>
             )
         } else if (!loading && isSignedIn) {
@@ -78,25 +79,27 @@ function App() {
         <BrowserRouter>
             <AuthContext.Provider value={{loading, setLoading, isSignedIn, setIsSignedIn, currentUser, setCurrentUser}}>
                 <div className="App flex flex-col text-gray-800">
-                    <Header/>
-                    <div className="flex-1">
-                        <Switch>
-                            <Route exact path="/signup" component={SignUp}/>
-                            <Route exact path="/signin" component={SignIn}/>
-                            <Private>
-                                <Route exact path="/">
-                                    <UsersIndex/>
-                                </Route>
-                                <Route path="/laundries">
-                                    <LaundriesIndex/>
-                                </Route>
-                                <Route path="/settings">
-                                    <div>設定</div>
-                                </Route>
-                            </Private>
-                        </Switch>
-                    </div>
-                    <Footer/>
+                    <Switch>
+                        <Route exact path="/signup" component={SignUp}/>
+                        <Route exact path="/signin" component={SignIn}/>
+                        <Private>
+                            <Route exact path="/">
+                                <Header/>
+                                <UsersIndex/>
+                                <Footer/>
+                            </Route>
+                            <Route path="/laundries">
+                                <Header/>
+                                <LaundriesIndex/>
+                                <Footer/>
+                            </Route>
+                            <Route path="/settings">
+                                <Header/>
+                                <div>設定</div>
+                                <Footer/>
+                            </Route>
+                        </Private>
+                    </Switch>
                 </div>
             </AuthContext.Provider>
         </BrowserRouter>
