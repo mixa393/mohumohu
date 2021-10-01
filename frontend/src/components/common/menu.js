@@ -52,8 +52,12 @@ const Menu = ({menuVisibility, handleMouseDown}) => {
                     ホームページ
                 </Link>
 
-                <Link to="/setting" className="menu-item hover:bg-white p-3">
-                    ユーザー情報
+                <Link to="/settings/teams" className="menu-item hover:bg-white p-3">
+                    チーム設定
+                </Link>
+
+                <Link to="/settings/users" className="menu-item hover:bg-white p-3">
+                    ユーザー設定
                 </Link>
 
                 <button className="menu-item hover:bg-white p-3" onClick={handleSignOut}>
