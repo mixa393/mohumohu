@@ -12,15 +12,8 @@ import "../../css/menu.css"
 
 
 const Header = ({date}) => {
-
-    // locationによって幅と色を変える
+    // locationによって色とアイコンを変える
     const location = useLocation()
-
-    const [width, setWidth] = useState({
-        index: "",
-        laundries: "",
-        menu: ""
-    })
 
     const [backgroundColor, setBackgroundColor] = useState({
         index: "",
@@ -37,11 +30,6 @@ const Header = ({date}) => {
     useEffect(() => {
         const {pathname} = location
         if (pathname === "/") {
-            setWidth({
-                index: "col-span-7",
-                laundries: "col-span-3",
-                menu: "col-span-1"
-            })
             setBackgroundColor({
                 index: "bg-pink-300",
                 laundries: "bg-white",
@@ -53,11 +41,6 @@ const Header = ({date}) => {
                 menu: menuColor
             })
         } else if (pathname === "/laundries") {
-            setWidth({
-                index: "col-span-3",
-                laundries: "col-span-7",
-                menu: "col-span-1"
-            })
             setBackgroundColor({
                 index: "bg-white",
                 laundries: "bg-yellow-200",
@@ -69,11 +52,6 @@ const Header = ({date}) => {
                 menu: menuColor
             })
         } else {
-            setWidth({
-                index: "col-span-3",
-                laundries: "col-span-3",
-                menu: "col-span-5"
-            })
             setBackgroundColor({
                 index: "bg-white",
                 laundries: "bg-white",
@@ -98,22 +76,22 @@ const Header = ({date}) => {
     return (
         <>
             <header>
-                <div className="h-16 grid grid-cols-11">
-                    <div className={`transition duration-150 ease-in-outduration-300 ${width.index} border border-dotted`}>
+                <div className="h-16 grid grid-cols-3">
+                    <div className="transition duration-150 ease-in-outduration-300 cols-span-1 border border-dotted">
                         <Link
                             className={`h-16 flex justify-items-center items-center hover:bg-pink-300 ${backgroundColor.index}`}
                             to={"/"}>
                             <img src={icon.index} alt="ダッシュボード" className="h-3/5 w-auto mx-auto"/>
                         </Link>
                     </div>
-                    <div className={`border border-dotted ${width.laundries}`}>
+                    <div className="border border-dotted cols-span-1">
                         <Link
                             className={`h-16 flex justify-items-center items-center hover:bg-yellow-200 ${backgroundColor.laundries}`}
                             to="/laundries">
                             <img src={icon.laundries} alt="洗濯物リスト" className="h-3/5 w-auto mx-auto"/>
                         </Link>
                     </div>
-                    <div className={`border-1 border-dotted ${width.menu}`}>
+                    <div className="border border-dotted cols-span-1">
                         <MenuButton handleMouseDown={toggleMenu}
                                     icon={icon.menu}
                                     backgroundColor={backgroundColor.menu}/>
