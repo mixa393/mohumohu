@@ -1,8 +1,8 @@
 import React, {useEffect, useState} from "react";
+import {useHistory} from "react-router-dom";
 import Weather from "../../components/users/weather";
 import TodaysLaundries from "../../components/users/todaysLaundries";
 import Loading from "../../components/common/loading"
-import Setting from "./setting";
 
 import dayjs from "dayjs";
 import "../../css/user.css";
@@ -10,8 +10,10 @@ import {getWeatherFormat} from "../../lib/api/weather";
 import {getLaundryList} from "../../lib/api/laundries";
 
 const UsersIndex = () => {
-    const [date, setdate] = useState(dayjs().format('MM/DD ddd'))
+
     const [loading, setLoading] = useState(false)
+    const [date] = useState(dayjs().format('MM/DD ddd'))
+    const history = useHistory()
 
     // ----------------------------- laundries取得 -------------------------------
     const [laundries, setLaundries] = useState([]);
@@ -23,6 +25,8 @@ const UsersIndex = () => {
             setLaundries(res.data.data)
         } catch (err) {
             console.error(err)
+            // FIXME:初回は失敗するので、リロードするが後ほど解消する
+            history.go(0)
         }
     }
 
@@ -50,26 +54,34 @@ const UsersIndex = () => {
     )
 
     useEffect(() => {
+        let abortController = new AbortController()
+
         setLoading(true)
-        Promise.all([
-            getLaundries().then(),
-            getWeatherFormat().then((r) => {
-                console.log(r)
-                setTodaysWeather(r.today)
-                setTomorrowsWeather(r.tomorrow)
-            })
-        ]).then(()=> {
+        const getFromApi = async () => {
+            await getLaundries()
+            const res = await getWeatherFormat()
+
+            if (res) {
+                setTodaysWeather(res.today)
+                setTomorrowsWeather(res.tomorrow)
+            }
             setLoading(false)
-        })
+        }
+
+        getFromApi().then()
+
+        return () => {
+            abortController.abort()
+        }
     }, [])
 
     return (
-        <Loading loading={loading}>
+        <Loading isLoading={loading}>
             <Weather date={date} todaysWeather={todaysWeather} tomorrowsWeather={tomorrowsWeather}/>
             <TodaysLaundries laundries={laundries} update={update}/>
             {/*<Form/>*/}
         </Loading>
-    );
+    )
 }
 
 
