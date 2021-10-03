@@ -9,7 +9,7 @@ import locationId from "../lib/api/locationId.js"
 
 const SignUp = () => {
     const history = useHistory()
-    const {setIsSignedIn,setCurrentUser} = useContext(AuthContext)
+    const {setIsSignedIn, setCurrentUser} = useContext(AuthContext)
 
     const [userInfo, setUserInfo] = useState({
         name: "",
@@ -68,119 +68,112 @@ const SignUp = () => {
     }
 
     return (
-        <>
-            <form onSubmit={handleCreateUser} className="w-3/4 mx-auto">
-                <table className="mx-auto table-fixed text-right">
-                    <tbody>
-                    <tr className="h-16">
-                        <th className="w-2/5 h-full">
-                            <label htmlFor={"name"}>名前</label>
-                        </th>
-                        <td className="w-3/5 h-full">
-                            <input
-                                id="name"
-                                type="text"
-                                value={userInfo.name}
-                                onChange={(e) => {
-                                    setUserInfo({...userInfo, name: e.target.value})
-                                }}
-                                className="h-full resize-none"
-                            />
-                        </td>
-                    </tr>
+        <div className="h-screen">
+            <h1 className="text-xl bg-pink-100 p-3">アカウント登録</h1>
 
-                    <tr className="h-16">
-                        <th><label htmlFor={"email"}>メールアドレス</label></th>
-                        <td><input
-                            type="text"
-                            value={userInfo.email}
+            <form onSubmit={handleCreateUser}
+                  className="h-5/6 flex flex-col w-2/3 mx-auto max-w-lg justify-around mt-2">
+
+                <div className="flex flex-col">
+                    <label htmlFor={"name"}>名前</label>
+                    <input
+                        id="name"
+                        type="text"
+                        value={userInfo.name}
+                        onChange={(e) => {
+                            setUserInfo({...userInfo, name: e.target.value})
+                        }}
+                        className="bg-gray-100 focus:outline-none focus:ring p-0.5"
+                    />
+                </div>
+
+                <div className="flex flex-col">
+                    <label htmlFor={"email"}>メールアドレス</label>
+                    <input
+                        type="text"
+                        value={userInfo.email}
+                        onChange={(e) => {
+                            setUserInfo({...userInfo, email: e.target.value})
+                        }}
+                        className="bg-gray-100 focus:outline-none focus:ring p-0.5"
+                    />
+                </div>
+
+                <div className="flex flex-col">
+                    <label htmlFor={"password"}>パスワード</label>
+                    <input type="password"
+                           value={userInfo.password}
+                           onChange={(e) => {
+                               setUserInfo({...userInfo, password: e.target.value})
+                           }}
+                           className="bg-gray-100 focus:outline-none focus:ring p-0.5"
+                    />
+                </div>
+
+                <div className="flex flex-col">
+                    <label htmlFor={"passwordConfirmation"}>パスワードの確認</label>
+                    <input
+                        type="password"
+                        value={userInfo.passwordConfirmation}
+                        onChange={(e) => {
+                            setUserInfo({...userInfo, passwordConfirmation: e.target.value})
+                        }}
+                        className="bg-gray-100 focus:outline-none focus:ring p-0.5"
+                    />
+                </div>
+
+                {/*    <th><label htmlFor={"remindAt"}>リマインダー</label></th>*/}
+                {/*    <td><input*/}
+                {/*        type="time"*/}
+                {/*        value={userInfo.remindAt}*/}
+                {/*        onChange={(e) => {*/}
+                {/*            setUserInfo({...userInfo, remindAt: e.target.value})*/}
+                {/*        }}*/}
+                {/*    /></td>*/}
+                {/*</tr>*/}
+
+                <div className="flex flex-col">
+                    <label htmlFor={"locationId"}>お住まいの地域</label>
+
+                    <select className="mt-2 bg-gray-100 p-0.5 w-full"
                             onChange={(e) => {
-                                setUserInfo({...userInfo, email: e.target.value})
-                            }}
-                        />
-                        </td>
-                    </tr>
-
-                    <tr className="h-16">
-                        <th><label htmlFor={"password"}>パスワード</label></th>
-                        <td>
-                            <input
-                                type="password"
-                                value={userInfo.password}
-                                onChange={(e) => {
-                                    setUserInfo({...userInfo, password: e.target.value})
-                                }}
-                            />
-                        </td>
-                    </tr>
-
-                    <tr className="h-16">
-                        <th><label htmlFor={"passwordConfirmation"}>パスワードの確認</label></th>
-                        <td>
-                            <input
-                                type="password"
-                                value={userInfo.passwordConfirmation}
-                                onChange={(e) => {
-                                    setUserInfo({...userInfo, passwordConfirmation: e.target.value})
-                                }}
-                            />
-                        </td>
-                    </tr>
-
-                    <tr className="h-16">
-                        <th><label htmlFor={"remindAt"}>リマインダー</label></th>
-                        <td><input
-                            type="time"
-                            value={userInfo.remindAt}
-                            onChange={(e) => {
-                                setUserInfo({...userInfo, remindAt: e.target.value})
-                            }}
-                        /></td>
-                    </tr>
-
-                    <tr className="h-16">
-                        <th><label htmlFor={"locationId"}>お住まいの地域</label></th>
-                        <td>
-                            <select onChange={(e) => {
                                 setLocation({local: e.target.value})
                             }}>
-                                <option value=""/>
-                                {
-                                    Object.keys(locationId).map(local => <option key={local}
-                                                                                 value={local}>{local}</option>)
-                                }
-                            </select>
+                        <option value=""/>
+                        {
+                            Object.keys(locationId).map(local => <option key={local}
+                                                                         value={local}>{local}</option>)
+                        }
+                    </select>
 
-                            <select onChange={(e) => {
+                    <select className="mt-2 bg-gray-100 p-0.5 w-full"
+                            onChange={(e) => {
                                 setLocation({...location, pref: e.target.value})
                             }}>
-                                <option value=""/>
-                                {
-                                    (location.local?.length > 0) && (Object.keys(locationId[location.local])
-                                        .map(pref => (<option key={pref} value={pref}>{pref}</option>)))
-                                }
-                            </select>
+                        <option value=""/>
+                        {
+                            (location.local?.length > 0) && (Object.keys(locationId[location.local])
+                                .map(pref => (<option key={pref} value={pref}>{pref}</option>)))
+                        }
+                    </select>
 
 
-                            <select onChange={(e) => {
+                    <select className="mt-2 bg-gray-100 p--.5 w-full"
+                            onChange={(e) => {
                                 setLocation({...location, city: e.target.value})
-                                // setTeamInfo({...teamInfo,locationId: locationId[location.local][location.pref][e.target.value]})
                             }}>
-                                <option value=""/>
-                                {
-                                    (location.pref?.length > 0) && (Object.keys(locationId[location.local][location.pref])
-                                        .map(city => (<option key={city} value={city}>{city}</option>)))
-                                }
-                            </select>
-                        </td>
+                        <option value=""/>
+                        {
+                            (location.pref?.length > 0) && (Object.keys(locationId[location.local][location.pref])
+                                .map(city => (<option key={city} value={city}>{city}</option>)))
+                        }
+                    </select>
+                </div>
 
-                    </tr>
-                    </tbody>
-                </table>
-                {/*<button type="submit" className="bg-pink-100">登録</button>*/}
-                <input type="submit" value="登録" className="bg-pink-100"/>
+                <input type="submit" value="登録"
+                       className="bg-pink-300 w-1/2 p-2 mx-auto rounded-xl border-b-4 border-pink-600 hover:bg-pink-400"/>
             </form>
-        </>
+        </div>
     )
 }
 
