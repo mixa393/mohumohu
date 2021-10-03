@@ -17,6 +17,8 @@ import SignIn from "./pages/signIn";
 import SignUp from "./pages/signUp";
 
 import {getCurrentUser} from "./lib/api/auth";
+import TeamsInfo from "./pages/settings/teamsInfo";
+import UsersInfo from "./pages/settings/usersInfo";
 
 
 /**
@@ -69,7 +71,14 @@ function App() {
                 </div>
             )
         } else if (!loading && isSignedIn) {
-            return children
+            return (<>
+                    <Header/>
+                    <main>
+                        {children}
+                    </main>
+                    <Footer/>
+                </>
+            )
         } else {
             return <Redirect to="/signin"/>
         }
@@ -78,25 +87,22 @@ function App() {
     return (
         <BrowserRouter>
             <AuthContext.Provider value={{loading, setLoading, isSignedIn, setIsSignedIn, currentUser, setCurrentUser}}>
-                <div className="App flex flex-col text-gray-800">
+                <div className="App flex flex-col min-h-screen text-gray-800">
                     <Switch>
                         <Route exact path="/signup" component={SignUp}/>
                         <Route exact path="/signin" component={SignIn}/>
                         <Private>
                             <Route exact path="/">
-                                <Header/>
                                 <UsersIndex/>
-                                <Footer/>
                             </Route>
                             <Route path="/laundries">
-                                <Header/>
                                 <LaundriesIndex/>
-                                <Footer/>
                             </Route>
-                            <Route path="/settings">
-                                <Header/>
-                                <div>設定</div>
-                                <Footer/>
+                            <Route path="/settings/team">
+                                <TeamsInfo/>
+                            </Route>
+                            <Route path="/settings/user">
+                                <UsersInfo/>
                             </Route>
                         </Private>
                     </Switch>
