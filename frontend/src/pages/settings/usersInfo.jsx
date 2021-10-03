@@ -23,10 +23,15 @@ const UsersInfo = () => {
     const handleSubmit = async (e) => {
         e.preventDefault()
 
-        const userParams = params.filter(v => v)
+        for (const property in params) {
+            if (params[property] == "") {
+                delete params[property]
+            }
+        }
+        console.log(params)
 
         try {
-            if (userParams) {
+            if (params.name || params.email || params.remindAt) {
                 const res = await updateUser(params)
                 console.log(res)
 
@@ -36,7 +41,7 @@ const UsersInfo = () => {
                 }
             }
 
-            if (passwords) {
+            if (passwords.password && passwords.passwordConfirmation) {
                 const res = await changePassword(passwords)
                 console.log(res)
 
@@ -47,21 +52,7 @@ const UsersInfo = () => {
         } catch (err) {
             console.error(err)
         }
-
-
-        if (passwords) {
-            try {
-                const res = await changePassword(passwords)
-                console.log(res)
-
-                if (res.status === 200) {
-                    console.log("パスワードが変更されました")
-                }
-            } catch (err) {
-                console.error(err)
-            }
-        }
-
+        setIsDisplayedForm(false)
         history.push("/settings/user")
     }
 
@@ -152,7 +143,8 @@ const UsersInfo = () => {
                         </button>
                     </div>
 
-                    <button className="bg-gray-200 max-w-1/2 mx-auto p-3 rounded-xl border-b-4 border-gray-400 hover:bg-gray-400">
+                    <button
+                        className="bg-gray-200 max-w-1/2 mx-auto p-3 rounded-xl border-b-4 border-gray-400 hover:bg-gray-400">
                         退会する
                     </button>
                 </>
