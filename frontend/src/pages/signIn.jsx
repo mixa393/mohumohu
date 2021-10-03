@@ -73,9 +73,9 @@ const SignIn = () => {
                 </form>
 
                 <ul className="text-xs mt-8 text-gray-600">
-                    <li>パスワードを忘れた方はこちら</li>
+                    {/*<li>パスワードを忘れた方はこちら</li>*/}
                     <li>初めて利用される方は
-                        <Link to="/signin" className="border-b border-gray-400">こちら</Link>
+                        <Link to="/signup" className="border-b border-gray-400">こちら</Link>
                     </li>
                 </ul>
             </div>
