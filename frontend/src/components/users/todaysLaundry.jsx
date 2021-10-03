@@ -67,11 +67,11 @@ const TodaysLaundry = ({index, id, name, image, isDisplayed, limitDays, update})
     if (isDisplayed) {
         return (
             <div className="grid grid-cols-9 max-h-14 h-14 w-full border-dashed border-b-2">
-                <img src={laundryImage(image)} alt={`${name}の画像`} className="h-8 w-auto col-span-1 m-auto"/>
+                <img src={laundryImage(image)} alt={`${name}の画像`} className="h-1/2 w-auto col-span-1 m-auto"/>
                 <p className="col-span-3 my-auto leading-none text-sm">{name}</p>
                 <p className="col-span-1 my-auto leading-tight text-sm">{howManyDays(limitDays)}</p>
-                <div className="col-span-4 flex w-4/5 mx-auto">
-                    <button className="h-10 w-1/2 rounded-l-xl bg-gray-100 text-sm my-auto hover:shadow-sm hover:translate-y-0.5 transform transition"
+                <div className="col-span-4 flex w-11/12 mx-auto">
+                    <button className="h-10 w-1/2 rounded-l-xl bg-pink-200 text-sm my-auto hover:shadow-sm hover:translate-y-0.5 transform transition"
                             onClick={(e) => {
                                 handleWash(e, id)
                             }}>洗濯する
