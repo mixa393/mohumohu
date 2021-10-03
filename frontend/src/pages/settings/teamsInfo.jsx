@@ -72,63 +72,83 @@ const TeamsInfo = () => {
     const contents = (isDisplayedForm) => {
         if (isDisplayedForm) {
             return (
-                <form onSubmit={handleUpdateTeam}>
-                    <label htmlFor="name">チーム名</label>
-                    <input type="text" id="name" name="name"
-                           className="bg-white focus:outline-none focus:ring"
-                           value={name}
-                           onChange={(e) => {
-                               setName(e.target.value)
-                           }}/>
+                <>
+                    <form onSubmit={handleUpdateTeam}>
+                        <div className="mt-10 w-3/4 mx-auto">
+                            <label htmlFor="name" className="text-left block">チーム名</label>
+                            <input type="text" id="name" name="name"
+                                   className="bg-gray-100 p-2 w-full focus:outline-none focus:ring"
+                                   value={name}
+                                   onChange={(e) => {
+                                       setName(e.target.value)
+                                   }}/>
 
-                    <label htmlFor={"locationId"}>天気を表示する地域</label>
-                    <select onChange={(e) => {
-                        setLocation({local: e.target.value})
-                    }}>
-                        <option value=""/>
-                        {
-                            Object.keys(locationId).map(local => <option key={local} value={local}>{local}</option>)
-                        }
-                    </select>
+                        </div>
 
-                    <select onChange={(e) => {
-                        setLocation({...location, pref: e.target.value})
-                    }}>
-                        <option value=""/>
-                        {
-                            (location.local?.length > 0) && (Object.keys(locationId[location.local])
-                                .map(pref => (<option key={pref} value={pref}>{pref}</option>)))
-                        }
-                    </select>
+                        <div className="mt-10 w-3/4 mx-auto">
+                            <label htmlFor="locationId" className="text-left block">
+                                天気を表示する地域
+                            </label>
+                            <select className="mt-2 bg-gray-100 p-2 w-full"
+                                    onChange={(e) => {
+                                        setLocation({local: e.target.value})
+                                    }}>
+                                <option value=""/>
+                                {
+                                    Object.keys(locationId).map(local => <option key={local}
+                                                                                 value={local}>{local}</option>)
+                                }
+                            </select>
+
+                            <select className="mt-2 bg-gray-100 p-2 w-full"
+                                    onChange={(e) => {
+                                        setLocation({...location, pref: e.target.value})
+                                    }}>
+                                <option value=""/>
+                                {
+                                    (location.local?.length > 0) && (Object.keys(locationId[location.local])
+                                        .map(pref => (<option key={pref} value={pref}>{pref}</option>)))
+                                }
+                            </select>
 
 
-                    <select onChange={(e) => {
-                        setLocation({...location, city: e.target.value})
-                    }}>
-                        <option value=""/>
-                        {
-                            (location.pref?.length > 0) && (Object.keys(locationId[location.local][location.pref])
-                                .map(city => (<option key={city} value={city}>{city}</option>)))
-                        }
-                    </select>
+                            <select className="mt-2 bg-gray-100 p-2 w-full"
+                                    onChange={(e) => {
+                                        setLocation({...location, city: e.target.value})
+                                    }}>
+                                <option value=""/>
+                                {
+                                    (location.pref?.length > 0) && (Object.keys(locationId[location.local][location.pref])
+                                        .map(city => (<option key={city} value={city}>{city}</option>)))
+                                }
+                            </select>
+                        </div>
 
-                    <input type="submit"
-                           onClick={handleUpdateTeam}
-                           value="変更"
-                           className="bg-pink-300 mt-4"/>
-                </form>
+                        <input type="submit"
+                               onClick={handleUpdateTeam}
+                               value="変更"
+                               className="bg-blue-300 max-w-1/2 mt-14 mx-auto py-2 px-4"/>
+                    </form>
+
+                    <button onClick={() => {
+                        setIsDisplayedForm(false)
+                    }}
+                            className="bg-gray-100 max-w-1/2 mt-4 mx-auto py-2 px-4">
+                        戻る
+                    </button>
+                </>
             )
         } else {
             return (
                 <>
                     <div className="mt-10 w-3/4 mx-auto">
                         <h2 className="text-left">チーム名</h2>
-                        <p className="bg-gray-100 border-b-1 p-2">{currentTeam.name}</p>
+                        <p className="bg-gray-100 p-2">{currentTeam.name}</p>
                     </div>
 
                     <div className="mt-10 w-3/4 mx-auto">
                         <h2 className="text-left">天気を表示する地域</h2>
-                        <p className="bg-gray-100 border-b-1 p-2">{currentTeam.locationId}</p>
+                        <p className="bg-gray-100 p-2">{currentTeam.locationId}</p>
                     </div>
 
                     <button onClick={() => {
