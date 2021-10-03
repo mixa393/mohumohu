@@ -31,6 +31,7 @@ const TeamsInfo = () => {
                 setCurrentTeam(res?.data.data)
                 setName(res?.data.data.name)
                 setLocation(getLocationData(res?.data.data.locationId))
+                console.log(location)
                 console.log(res?.data.data)
             } else {
                 console.log("No current team")
@@ -42,7 +43,7 @@ const TeamsInfo = () => {
     }
 
     const getLocationName = (id) => {
-        const {pref, city} = getLocationData(id) ?? {pref:'', city:''}
+        const {pref, city} = getLocationData(id)
         return `${pref}${city}`
     }
 
@@ -52,12 +53,11 @@ const TeamsInfo = () => {
             for (const pref in locationId[local]) {
                 for (const city in locationId[local][pref]) {
                     if (locationId[local][pref][city] === id) {
-                        return {local,pref,city}
+                        return {local, pref, city}
                     }
                 }
             }
         }
-        console.log(`tasta: ${id}`)
         return {
             local: '',
             pref: '',
@@ -126,8 +126,7 @@ const TeamsInfo = () => {
                                     }}>
                                 <option value=""/>
                                 {
-                                    Object.keys(locationId).map(local => <option key={local}
-                                                                                 value={local}>{local}</option>)
+                                    Object.keys(locationId).map(local => <option key={local} value={local} selected={location.local}>{local}</option>)
                                 }
                             </select>
 
@@ -138,7 +137,7 @@ const TeamsInfo = () => {
                                 <option value=""/>
                                 {
                                     (location.local?.length > 0) && (Object.keys(locationId[location.local])
-                                        .map(pref => (<option key={pref} value={pref}>{pref}</option>)))
+                                        .map(pref => (<option key={pref} value={pref} selected={location.pref}>{pref}</option>)))
                                 }
                             </select>
 
@@ -150,7 +149,7 @@ const TeamsInfo = () => {
                                 <option value=""/>
                                 {
                                     (location.pref?.length > 0) && (Object.keys(locationId[location.local][location.pref])
-                                        .map(city => (<option key={city} value={city}>{city}</option>)))
+                                        .map(city => (<option key={city} value={city} selected={location.city}>{city}</option>)))
                                 }
                             </select>
                         </div>
