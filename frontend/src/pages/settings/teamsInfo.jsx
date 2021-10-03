@@ -29,6 +29,8 @@ const TeamsInfo = () => {
 
             if (res) {
                 setCurrentTeam(res?.data.data)
+                setName(res?.data.data.name)
+                setLocation(getLocationData(res?.data.data.locationId))
                 console.log(res?.data.data)
             } else {
                 console.log("No current team")
@@ -39,10 +41,35 @@ const TeamsInfo = () => {
         setLoading(false)
     }
 
+    const getLocationName = (id) => {
+        const {pref, city} = getLocationData(id) ?? {pref:'', city:''}
+        return `${pref}${city}`
+    }
+
+
+    const getLocationData = (id) => {
+        for (const local in locationId) {
+            for (const pref in locationId[local]) {
+                for (const city in locationId[local][pref]) {
+                    if (locationId[local][pref][city] === id) {
+                        return {local,pref,city}
+                    }
+                }
+            }
+        }
+        console.log(`tasta: ${id}`)
+        return {
+            local: '',
+            pref: '',
+            city: ''
+        }
+    }
+
 
     useEffect(() => {
         const abortController = new AbortController()
         handleGetCurrentTeam().then()
+        getLocationName()
         return () => {
             abortController.abort()
         };
@@ -153,7 +180,7 @@ const TeamsInfo = () => {
 
                         <div className="w-full mx-auto">
                             <h2 className="text-left">天気を表示する地域</h2>
-                            <p className="bg-gray-100 p-2">{currentTeam.locationId}</p>
+                            <p className="bg-gray-100 p-2">{getLocationName(currentTeam.locationId)}</p>
                         </div>
 
                         <button onClick={() => {
