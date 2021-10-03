@@ -121,11 +121,21 @@ const TeamsInfo = () => {
         } else {
             return (
                 <>
-                    <p>{currentTeam.name}</p>
-                    <p>{currentTeam.locationId}</p>
+                    <div className="mt-10 w-3/4 mx-auto">
+                        <h2 className="text-left">チーム名</h2>
+                        <p className="bg-gray-100 border-b-1 p-2">{currentTeam.name}</p>
+                    </div>
+
+                    <div className="mt-10 w-3/4 mx-auto">
+                        <h2 className="text-left">天気を表示する地域</h2>
+                        <p className="bg-gray-100 border-b-1 p-2">{currentTeam.locationId}</p>
+                    </div>
+
                     <button onClick={() => {
                         setIsDisplayedForm(true)
-                    }}>変更する
+                    }}
+                            className="bg-blue-300 max-w-1/2 mt-20 mx-auto p-3">
+                        変更する
                     </button>
                 </>
             )
@@ -134,11 +144,12 @@ const TeamsInfo = () => {
 
 
     return (
-        <Loading isLoading={loading}>
-            <h1>チーム情報</h1>
-            {contents(isDisplayedForm)}
-
-        </Loading>
+        <div className="h-screen flex flex-col">
+            <Loading isLoading={loading}>
+                <h1 className="text-xl mt-10">チーム情報</h1>
+                {contents(isDisplayedForm)}
+            </Loading>
+        </div>
     )
 }
 
