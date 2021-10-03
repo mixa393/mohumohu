@@ -84,7 +84,7 @@ const UsersInfo = () => {
 
                         <div className="w-full mx-auto">
                             <label htmlFor="password" className="text-left block">パスワード</label>
-                            <input type="password" id="email" name="email"
+                            <input type="password" id="password" name="password"
                                    className="bg-gray-100 p-2 w-full focus:outline-none focus:ring"
                                    value={passwords.password}
                                    onChange={(e) => {
@@ -94,7 +94,7 @@ const UsersInfo = () => {
 
                         <div className="w-full mx-auto">
                             <label htmlFor="passwordConfirmation" className="text-left block">パスワードの確認</label>
-                            <input type="passwordConfirmation" id="email" name="email"
+                            <input type="passwordConfirmation" id="passwordConfirmation" name="passwordConfirmation"
                                    className="bg-gray-100 p-2 w-full focus:outline-none focus:ring"
                                    value={passwords.passwordConfirmation}
                                    onChange={(e) => {
