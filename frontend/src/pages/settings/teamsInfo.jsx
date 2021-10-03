@@ -52,20 +52,23 @@ const TeamsInfo = () => {
     const handleUpdateTeam = async (e) => {
         e.preventDefault()
 
-        const teamParams = {
-            name: name,
-            locationId: locationId[location.local][location.pref][location.city]
+        const teamParams = {}
+
+        if (name) {
+            teamParams.name = name
+        }
+        if (location.city) {
+            teamParams.locationId = locationId
         }
 
-        const params = teamParams.filter(v => v)
-
-        const res = await updateTeam(params)
+        const res = await updateTeam(currentTeam.id, teamParams)
         console.log(res)
 
         if (res.status === 200) {
             console.log("データが変更されました")
             console.log("res.data.data")
         }
+        setIsDisplayedForm(false)
         history.push("/settings/team")
     }
 

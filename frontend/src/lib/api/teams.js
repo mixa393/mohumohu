@@ -23,8 +23,8 @@ export const getTeam = (id) => {
  * @param params {name, locationId}
  * @returns {Promise<AxiosResponse<any>>}
  */
-export const updateTeam = (params) => {
-    return client.put("/teams", params,{headers})
+export const updateTeam = (id,params) => {
+    return client.put(`/teams/${id}`, params,{headers})
 }
 
 /**
