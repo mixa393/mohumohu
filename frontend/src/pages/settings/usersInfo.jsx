@@ -68,54 +68,90 @@ const UsersInfo = () => {
     const contents = (isDisplayedForm) => {
         if (isDisplayedForm) {
             return (
-                <form onSubmit={handleSubmit}>
-                    <label htmlFor="name">ユーザー名</label>
-                    <input type="text" id="name" name="name"
-                           className="bg-white focus:outline-none focus:ring"
-                           value={params.name}
-                           onChange={(e) => {
-                               setParams({...params, name: e.target.value})
-                           }}/>
+                <>
+                    <form onSubmit={handleSubmit}
+                          className="flex flex-col justify-around h-2/3 mt-4 w-3/4 mx-auto">
+                        <div className="w-full mx-auto">
+                            <label htmlFor="name" className="text-left block">ユーザー名</label>
+                            <input type="text" id="name" name="name"
+                                   className="bg-gray-100 p-2 w-full focus:outline-none focus:ring"
+                                   value={params.name}
+                                   onChange={(e) => {
+                                       setParams({...params, name: e.target.value})
+                                   }}/>
+                        </div>
 
-                    <label htmlFor="email">メールアドレス</label>
-                    <input type="email" id="email" name="email"
-                           className="bg-white focus:outline-none focus:ring"
-                           value={params.email}
-                           onChange={(e) => {
-                               setParams({...params, email: e.target.value})
-                           }}/>
+                        <div className="w-full mx-auto">
+                            <label htmlFor="email" className="text-left block">メールアドレス</label>
+                            <input type="email" id="email" name="email"
+                                   className="bg-gray-100 p-2 w-full focus:outline-none focus:ring"
+                                   value={params.email}
+                                   onChange={(e) => {
+                                       setParams({...params, email: e.target.value})
+                                   }}/>
+                        </div>
 
-                    <label htmlFor="password">パスワード</label>
-                    <input type="password" id="email" name="email"
-                           className="bg-white focus:outline-none focus:ring"
-                           value={passwords.password}
-                           onChange={(e) => {
-                               setPasswords({...passwords, password: e.target.value})
-                           }}/>
+                        <div className="w-full mx-auto">
+                            <label htmlFor="password" className="text-left block">パスワード</label>
+                            <input type="password" id="email" name="email"
+                                   className="bg-gray-100 p-2 w-full focus:outline-none focus:ring"
+                                   value={passwords.password}
+                                   onChange={(e) => {
+                                       setPasswords({...passwords, password: e.target.value})
+                                   }}/>
+                        </div>
 
-                    <label htmlFor="passwordConfirmation">パスワードの確認</label>
-                    <input type="passwordConfirmation" id="email" name="email"
-                           className="bg-white focus:outline-none focus:ring"
-                           value={passwords.passwordConfirmation}
-                           onChange={(e) => {
-                               setPasswords({...passwords, passwordConfirmation: e.target.value})
-                           }}/>
+                        <div className="w-full mx-auto">
+                            <label htmlFor="passwordConfirmation" className="text-left block">パスワードの確認</label>
+                            <input type="passwordConfirmation" id="email" name="email"
+                                   className="bg-gray-100 p-2 w-full focus:outline-none focus:ring"
+                                   value={passwords.passwordConfirmation}
+                                   onChange={(e) => {
+                                       setPasswords({...passwords, passwordConfirmation: e.target.value})
+                                   }}/>
+                        </div>
 
+                        <input type="submit"
+                               onClick={handleSubmit}
+                               value="変更"
+                               className="bg-blue-300 max-w-1/2 mx-auto py-2 px-6"/>
+                    </form>
 
-                    <input type="submit"
-                           onClick={handleSubmit}
-                           value="変更"
-                           className="bg-pink-300 mt-4"/>
-                </form>
+                    <button onClick={() => {
+                        setIsDisplayedForm(false)
+                    }}
+                            className="bg-gray-300 max-w-1/2 mx-auto py-2 px-6">
+                        戻る
+                    </button>
+                </>
             )
         } else {
             return (
                 <>
-                    <p>{currentUser.name}</p>
-                    <p>{currentUser.email}</p>
-                    <p>{currentUser.remindAt}</p>
-                    <button onClick={() => {setIsDisplayedForm(true)}}>変更する</button>
-                    <p>退会する</p>
+                    <div className="flex flex-col justify-around h-3/5 mt-4 w-3/4 mx-auto">
+                        <div className="w-full mx-auto">
+                            <h2 className="text-left">ユーザー名</h2>
+                            <p className="bg-gray-100 p-2">{currentUser.name}</p>
+                        </div>
+
+                        <div className="w-full mx-auto">
+                            <h2 className="text-left">メールアドレス</h2>
+                            <p className="bg-gray-100 p-2">{currentUser.email}</p>
+                        </div>
+
+                        <div className="w-full mx-auto">
+                            <h2 className="text-left">リマインダー</h2>
+                            <p className="bg-gray-100 p-2">{currentUser.remindAt}</p>
+                        </div>
+
+                        <button onClick={() => {
+                            setIsDisplayedForm(true)
+                        }}
+                                className="bg-blue-300 max-w-1/2 mx-auto p-3">
+                            変更する
+                        </button>
+                    </div>
+                    <p className="bg-gray-300 w-1/2 mx-auto p-3">退会する</p>
                 </>
             )
         }
@@ -123,8 +159,10 @@ const UsersInfo = () => {
 
     return (
         <>
-            <h1>ユーザー情報</h1>
-            {contents(isDisplayedForm)}
+            <div className="h-screen">
+                <h1 className="text-xl mt-4">ユーザー情報</h1>
+                {contents(isDisplayedForm)}
+            </div>
         </>
     )
 }
