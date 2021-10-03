@@ -114,13 +114,13 @@ const UsersInfo = () => {
                         <input type="submit"
                                onClick={handleSubmit}
                                value="変更"
-                               className="bg-blue-300 max-w-1/2 mx-auto py-2 px-6"/>
+                               className="bg-blue-300 max-w-1/2 mx-auto py-2 px-6 rounded-xl border-b-4 border-blue-500 hover:bg-blue-400"/>
                     </form>
 
                     <button onClick={() => {
                         setIsDisplayedForm(false)
                     }}
-                            className="bg-gray-300 max-w-1/2 mx-auto py-2 px-6">
+                            className="bg-gray-200 max-w-1/2 mx-auto py-2 px-6 rounded-xl border-b-4 border-gray-400 hover:bg-gray-400">
                         戻る
                     </button>
                 </>
@@ -147,11 +147,14 @@ const UsersInfo = () => {
                         <button onClick={() => {
                             setIsDisplayedForm(true)
                         }}
-                                className="bg-blue-300 max-w-1/2 mx-auto p-3">
+                                className="bg-blue-300 max-w-1/2 mx-auto p-3 rounded-xl border-b-4 border-blue-500 hover:bg-blue-400">
                             変更する
                         </button>
                     </div>
-                    <p className="bg-gray-300 w-1/2 mx-auto p-3">退会する</p>
+
+                    <button className="bg-gray-200 max-w-1/2 mx-auto p-3 rounded-xl border-b-4 border-gray-400 hover:bg-gray-400">
+                        退会する
+                    </button>
                 </>
             )
         }

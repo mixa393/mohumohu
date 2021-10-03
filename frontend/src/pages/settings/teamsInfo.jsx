@@ -128,13 +128,13 @@ const TeamsInfo = () => {
                         <input type="submit"
                                onClick={handleUpdateTeam}
                                value="変更"
-                               className="bg-blue-300 max-w-1/2 mx-auto py-2 px-6"/>
+                               className="bg-blue-300 max-w-1/2 mx-auto py-2 px-6 rounded-xl border-b-4 border-blue-500 hover:bg-blue-400"/>
                     </form>
 
                     <button onClick={() => {
                         setIsDisplayedForm(false)
                     }}
-                            className="bg-gray-100 max-w-1/2 mx-auto py-2 px-6">
+                            className="bg-gray-200 max-w-1/2 mx-auto py-2 px-6 rounded-xl border-b-4 border-gray-400 hover:bg-gray-400">
                         戻る
                     </button>
                 </>
@@ -156,7 +156,7 @@ const TeamsInfo = () => {
                         <button onClick={() => {
                             setIsDisplayedForm(true)
                         }}
-                                className="bg-blue-300 max-w-1/2 mx-auto p-3">
+                                className="bg-blue-300 max-w-1/2 mx-auto p-3 rounded-xl border-b-4 border-blue-600 hover:bg-blue-400">
                             変更する
                         </button>
                     </div>
