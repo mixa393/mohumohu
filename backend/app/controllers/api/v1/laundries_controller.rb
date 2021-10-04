@@ -1,6 +1,6 @@
 class Api::V1::LaundriesController < ApplicationController
   before_action :authenticate_api_v1_user!
-  before_action :set_laundry, only: [:show, :update, :destroy, :washed]
+  before_action :set_laundry, only: [:show, :update, :destroy, :washed, :un_washed]
 
   # statusと、チームに所属する洗濯物全てについてデータをjsonで返却する
   # @return [json] status,data = {id: 洗濯物ID, name: 洗濯物名, image: 画像, weekly: その週の洗濯する日か否かの配列}
@@ -60,48 +60,8 @@ class Api::V1::LaundriesController < ApplicationController
     weekly
   end
 
-  # 現在から3日以内にwash_atが来る洗濯物一覧を取得
-  # @return [json] status,data = {id: 洗濯物ID, name: 洗濯物名, image: 画像, limit: 洗濯日まであと何日か}
-  def list
-    today = Time.now.to_date
-    yesterday = Time.current.yesterday #バッチ処理未完成のため一時的に表記
-    three_days_later = today + 3
-    data = []
-
-    # wash_atが今から3日以内のもののみを検索
-    laundries = Laundry.valid
-                       .where(team_id: current_api_v1_user.team_id)
-                       .recent(yesterday, three_days_later)
-
-    # フォーマット化してdataに入れる
-    laundries.each do |laundry|
-      data.push({ id: laundry.id,
-                  name: laundry.name,
-                  image: laundry.image,
-                  limit_days: (laundry.wash_at - today).to_i
-                }
-      )
-    end
-
-    render json: { status: 200, data: data }
-  end
-
   def show
     render json: { status: 200, data: @laundry }
-  end
-
-  # 「洗濯した」用のメソッド
-  # wash_atを今日からdays日後に更新
-  # @params [Integer] laundry_id,リクエストボディから取得
-  # @return [json] 更新後wash_at(XX月YY日に変換)
-  def washed
-    today = Time.now.to_date
-
-    if @laundry.update(wash_at: today + @laundry.days)
-      render json: { status: 200, data: @laundry.wash_at.strftime("%m月%d日") }
-    else
-      render json: { status: 400, message: "洗濯日の更新に失敗しました", data: @laundry.errors }
-    end
   end
 
   def create
@@ -133,6 +93,99 @@ class Api::V1::LaundriesController < ApplicationController
       render json: { status: 200, data: @laundry }
     else
       render json: { status: 400, message: "洗濯物の削除に失敗しました", data: @laundry.errors }
+    end
+  end
+
+  # 現在から3日以内にwash_atが来る洗濯物一覧を取得
+  # @return [json] status,data = {id: 洗濯物ID, name: 洗濯物名, image: 画像, limit: 洗濯日まであと何日か}
+  def list
+    today = Time.now.to_date
+    yesterday = Time.current.yesterday #バッチ処理未完成のため一時的に表記
+    three_days_later = today + 3
+    data = []
+
+    # wash_atが今から3日以内のもののみを検索
+    laundries = Laundry.valid
+                       .where(team_id: current_api_v1_user.team_id)
+                       .recent(yesterday, three_days_later)
+
+    # フォーマット化してdataに入れる
+    laundries.each do |laundry|
+
+      # 今日の洗濯履歴がある時はループを飛ばす(dataに含めない)
+      next if washed_today?(laundry)
+
+      data.push({ id: laundry.id,
+                  name: laundry.name,
+                  image: laundry.image,
+                  is_displayed: laundry.is_displayed,
+                  limit_days: (laundry.wash_at - today).to_i
+                }
+      )
+    end
+
+    render json: { status: 200, data: data }
+  end
+
+  # 今日洗濯した履歴があるか否かを返却
+  # @params [Object] laundry
+  # @return [boolean] true or false
+  def washed_today?(laundry)
+    today = Time.now.to_date
+
+    # 最近の洗濯履歴を検索
+    recent_laundry_history = LaundryHistory.valid
+                                           .where(laundry_id: laundry.id)
+                                           .order(created_at: :desc)
+                                           .first
+
+    # 履歴がない場合falseを返して抜ける
+    unless recent_laundry_history
+      return false
+    end
+
+    # ある場合はその日付を抽出
+    recent_wash_day = recent_laundry_history.created_at.to_date
+
+    # 最新の履歴の日付が今日ならtrue,違うならfalseを返却
+    if recent_wash_day == today
+      true
+    else
+      false
+    end
+  end
+
+  # 「洗濯した」用のメソッド
+  # wash_atを今日からdays日後に更新 & is_displayedをfalseに変更
+  # @params [Integer] laundry_id,リクエストボディから取得
+  # @return [json] 更新後wash_at(XX月YY日に変換)
+  def washed
+    today = Time.now.to_date
+
+    if @laundry.update(wash_at: today + @laundry.days,
+                       is_displayed: false)
+      render json: { status: 200, data: @laundry.wash_at.strftime("%m月%d日") }
+    else
+      render json: { status: 400, message: "洗濯日の更新に失敗しました", data: @laundry.errors }
+    end
+  end
+
+  # 「今日は洗濯しない」用のメソッド
+  # is_displayedをfalseに変更
+  # @params [Integer] laundry_id,リクエストボディから取得
+  # @return [json]
+  def un_washed
+    update_params = { is_displayed: false }
+
+    # wash_atが今日だったら明日に入れ替える
+    if @laundry.wash_at == Time.now.to_date
+      update_params.store("wash_at", Time.current.tomorrow.to_date)
+    end
+
+    if @laundry.update(update_params)
+      render json: { status: 200, data: @laundry }
+    else
+      render json: { status: 400, message: "洗濯日の更新に失敗しました", data: @laundry.errors }
     end
   end
 

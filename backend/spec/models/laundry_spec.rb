@@ -47,4 +47,37 @@ RSpec.describe Laundry, type: :model do
     expect(laundry).not_to be_valid
   end
 
+  # 昨日の日時のデータを作成するのと相反するので、
+  # Laundry.wash_at_checkを一時的に除去しないと動作しない
+  describe "self.update_wash_at" do
+    subject { Laundry.update_wash_at }
+    let(:yesterday) { Time.current.yesterday.to_date }
+    let(:updated_wash_at) { Laundry.find(laundry.id).wash_at }
+
+    context "wash_atが昨日のデータがあった場合" do
+      context "daysがある場合" do
+        let!(:laundry) { FactoryBot.create(:laundry, wash_at: yesterday, days: rand(1..7)) }
+        it 'wash_atがdays日後になる' do
+          subject
+          expect(updated_wash_at).to eq(yesterday + laundry.days)
+        end
+      end
+
+      context "daysがない場合" do
+        let!(:laundry) { FactoryBot.create(:laundry, wash_at: yesterday, days: nil) }
+        it 'wash_atが30日後になる' do
+          subject
+          expect(updated_wash_at).to eq(yesterday + 30)
+        end
+      end
+    end
+
+    context "更新するデータがなかった場合" do
+      let!(:laundry) { FactoryBot.create(:laundry) }
+      it '空の配列が返却され、レコードの変更は行われない' do
+        expect(subject).to eq([])
+        expect { subject }.not_to change { Laundry.find(laundry.id) }
+      end
+    end
+  end
 end

@@ -1,20 +1,13 @@
-import client from "./client"
-import Cookies from "js-cookie"
-
-const headers = {
-    "access-token": Cookies.get("_access_token"),
-    "client": Cookies.get("_client"),
-    "uid": Cookies.get("_uid"),
-    "X-Requested-With": "XMLHttpRequest"
-}
+import client, {headers} from "./client"
 
 /**
  * 認証済みのユーザーを取得
  * @returns {Promise<AxiosResponse<any>>}
  */
 export const getCurrentUser = () => {
-    if (!Cookies.get("_access_token") || !Cookies.get("_client") || !Cookies.get("_uid"))
+    // if (!Cookies.get("_access_token") || !Cookies.get("_client") || !Cookies.get("_uid")) {
         return client.get("/auth/sessions", {headers})
+    // }
 }
 
 /**

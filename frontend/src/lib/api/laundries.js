@@ -1,11 +1,4 @@
-import client from "./client"
-import Cookies from "js-cookie"
-
-const headers = {
-    "access-token": Cookies.get("_access_token"),
-    "client": Cookies.get("_client"),
-    "uid": Cookies.get("_uid")
-}
+import client,{headers} from "./client"
 
 /**
  * 洗濯情報一覧
@@ -68,4 +61,13 @@ export const deleteLaundry = (id) => {
  */
 export const washed = (laundryId) => {
     return client.put(`/laundries/washed`, {id: laundryId}, {headers})
+}
+
+/**
+ * 今日は洗濯しない
+ * @param laundry_id
+ * @returns {Promise<AxiosResponse<any>>}
+ */
+export const unWashed = (laundryId) => {
+    return client.put(`/laundries/un_washed`, {id: laundryId}, {headers})
 }

@@ -41,5 +41,9 @@ module Myapp
 
     config.api_only = true
     config.middleware.use ActionDispatch::Cookies
+
+    # バッチ用設定
+    config.autoload_paths += %W(#{config.root}/lib)
+    config.enable_dependency_loading = true
   end
 end

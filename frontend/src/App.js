@@ -5,6 +5,8 @@ import {
     Route,
     Redirect
 } from "react-router-dom";
+import ReactLoading from 'react-loading';
+
 import './css/App.css';
 
 import Header from './components/common/header'
@@ -15,6 +17,8 @@ import SignIn from "./pages/signIn";
 import SignUp from "./pages/signUp";
 
 import {getCurrentUser} from "./lib/api/auth";
+import TeamsInfo from "./pages/settings/teamsInfo";
+import UsersInfo from "./pages/settings/usersInfo";
 
 
 /**
@@ -22,13 +26,15 @@ import {getCurrentUser} from "./lib/api/auth";
  * @type {React.Context<{isSignedIn, setIsSignedIn, currentUser, setCurrentUser}>}
  */
 export const AuthContext = createContext({
-    isSignedIn: undefined, setIsSignedIn: undefined, currentUser: undefined, setCurrentUser: undefined
+    loading: undefined, setLoading: undefined,
+    isSignedIn: undefined, setIsSignedIn: undefined,
+    currentUser: undefined, setCurrentUser: undefined,
 })
 
 function App() {
-
     const [isSignedIn, setIsSignedIn] = useState(false)
     const [currentUser, setCurrentUser] = useState("")
+    const [loading, setLoading] = useState(true)
 
     // 認証済みのユーザーがいるかどうかチェック
     // 確認できた場合はそのユーザーの情報を取得
@@ -36,10 +42,9 @@ function App() {
         try {
             const res = await getCurrentUser()
 
-            if (res?.data.isLogin === true) {
+            if (res?.data?.isLogin === true) {
                 setIsSignedIn(true)
                 setCurrentUser(res?.data.data)
-
                 console.log(res?.data.data)
             } else {
                 console.log("No current user")
@@ -47,6 +52,7 @@ function App() {
         } catch (err) {
             console.error(err)
         }
+        setLoading(false)
     }
 
     useEffect(() => {
@@ -57,8 +63,22 @@ function App() {
     // ユーザーが認証済みかどうかでルーティングを決定
     // 未認証だった場合は「/signin」ページに促す
     const Private = ({children}) => {
-        if (isSignedIn) {
-            return children
+        if (loading) {
+            return (
+                <div className="h-full w-full">
+                    <ReactLoading type="spinningBubbles" color="#ffdfe5" height={'20%'} width={'20%'}
+                                  className="mx-auto mt-32"/>
+                </div>
+            )
+        } else if (!loading && isSignedIn) {
+            return (<>
+                    <Header/>
+                    <main>
+                        {children}
+                    </main>
+                    <Footer/>
+                </>
+            )
         } else {
             return <Redirect to="/signin"/>
         }
@@ -66,27 +86,26 @@ function App() {
 
     return (
         <BrowserRouter>
-            <AuthContext.Provider value={{isSignedIn, setIsSignedIn, currentUser, setCurrentUser}}>
-                <div className="App flex flex-col">
-                    <Header/>
-                    <div className="flex-1">
-                        <Switch>
-                            <Route exact path="/signup" component={SignUp}/>
-                            <Route exact path="/signin" component={SignIn}/>
-                            <Private>
-                                <Route exact path="/">
-                                    <UsersIndex/>
-                                </Route>
-                                <Route path="/laundries">
-                                    <LaundriesIndex/>
-                                </Route>
-                                <Route path="/settings">
-                                    <div>設定</div>
-                                </Route>
-                            </Private>
-                        </Switch>
-                    </div>
-                    <Footer/>
+            <AuthContext.Provider value={{loading, setLoading, isSignedIn, setIsSignedIn, currentUser, setCurrentUser}}>
+                <div className="App flex flex-col min-h-screen text-gray-800">
+                    <Switch>
+                        <Route exact path="/signup" component={SignUp}/>
+                        <Route exact path="/signin" component={SignIn}/>
+                        <Private>
+                            <Route exact path="/">
+                                <UsersIndex/>
+                            </Route>
+                            <Route path="/laundries">
+                                <LaundriesIndex/>
+                            </Route>
+                            <Route path="/settings/team">
+                                <TeamsInfo/>
+                            </Route>
+                            <Route path="/settings/user">
+                                <UsersInfo/>
+                            </Route>
+                        </Private>
+                    </Switch>
                 </div>
             </AuthContext.Provider>
         </BrowserRouter>

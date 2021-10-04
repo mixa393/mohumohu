@@ -37,7 +37,8 @@ class Api::V1::LaundryHistoriesController < ApplicationController
   # @params [Integer] id,リクエストボディから取得
   # @return [json] status,data(Array)
   def create
-    laundry_history = LaundryHistory.new(user_id: current_api_v1_user.id, laundry_id: @laundry.id)
+    laundry_history = LaundryHistory.new(user_id: current_api_v1_user.id,
+                                         laundry_id: @laundry.id)
 
     if laundry_history.save
       render json: { status: 200, data: laundry_history }
@@ -92,6 +93,7 @@ class Api::V1::LaundryHistoriesController < ApplicationController
     begin
       Laundry.valid
              .where(team_id: current_api_v1_user.team_id)
+             .find(@laundry_history.laundry_id)
     rescue ActiveRecord::RecordNotFound
       render json: { status: 400, message: "データの取得に失敗しました" }
     end
