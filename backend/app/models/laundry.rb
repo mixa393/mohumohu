@@ -1,4 +1,7 @@
 class Laundry < ApplicationRecord
+  # daysがなかった場合にこの日数後にwash_atが更新される
+  DEFAULT_NEXT_WASH_AT = 30
+
   # 論理削除されていないものを検索
   # @return [Array]
   scope :valid, -> { where(deleted_at: nil) }
@@ -46,9 +49,6 @@ class Laundry < ApplicationRecord
       end
     end
   end
-
-  # daysがなかった場合にこの日数後にwash_atが更新される
-  DEFAULT_NEXT_WASH_AT = 30
 
   # wash_atの値を1日ごとに確認して修正する
   # バッチ処理で1日1回呼び出す
