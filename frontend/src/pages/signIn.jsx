@@ -5,6 +5,7 @@ import Cookies from "js-cookie"
 import {AuthContext} from "../App"
 import {signIn} from "../lib/api/auth"
 import mofit from "../images/common/mofit.svg"
+import Button from "../components/common/button";
 
 // サインイン用ページ
 const SignIn = () => {
@@ -65,11 +66,12 @@ const SignIn = () => {
                                onChange={event => setPassword(event.target.value)}/>
                     </div>
 
-                    <input type="submit"
-                           disabled={!email || !password} // 空欄があった場合はボタンを押せないように
-                           onClick={handleSubmit}
-                           value="ログイン"
-                           className="bg-pink-300 w-1/2 p-2 mx-auto rounded-xl border-b-4 border-pink-600 hover:bg-pink-400"/>
+                    <Button color="pink" func={handleSubmit} value="ログイン"/>
+                    {/*<input type="submit"*/}
+                    {/*       disabled={!email || !password} // 空欄があった場合はボタンを押せないように*/}
+                    {/*       onClick={handleSubmit}*/}
+                    {/*       value="ログイン"*/}
+                    {/*       className="bg-pink-300 w-1/2 p-2 mx-auto rounded-xl border-b-4 border-pink-600 hover:bg-pink-400"/>*/}
                 </form>
 
                 <ul className="text-xs mt-8 text-gray-600">

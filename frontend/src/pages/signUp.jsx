@@ -6,6 +6,7 @@ import {AuthContext} from "../App"
 import {signUp} from "../lib/api/auth"
 import {createTeam} from "../lib/api/teams";
 import locationId from "../lib/api/locationId.js"
+import Button from "../components/common/button";
 
 const SignUp = () => {
     const history = useHistory()
@@ -71,9 +72,7 @@ const SignUp = () => {
         <div className="h-screen">
             <h1 className="text-xl bg-pink-100 p-3">アカウント登録</h1>
 
-            <form onSubmit={handleCreateUser}
-                  className="h-5/6 flex flex-col w-2/3 mx-auto max-w-lg justify-around mt-2">
-
+            <form className="h-5/6 flex flex-col w-2/3 mx-auto max-w-lg justify-around mt-2">
                 <div className="flex flex-col">
                     <label htmlFor={"name"}>名前</label>
                     <input
@@ -170,8 +169,7 @@ const SignUp = () => {
                     </select>
                 </div>
 
-                <input type="submit" value="登録"
-                       className="bg-pink-300 w-1/2 p-2 mx-auto rounded-xl border-b-4 border-pink-600 hover:bg-pink-400"/>
+                <Button color="pink" func={handleCreateUser} value="登録"/>
             </form>
         </div>
     )

@@ -2,8 +2,10 @@ import {useContext, useState, useEffect} from "react";
 import locationId from "../../lib/api/locationId";
 import {getTeam, updateTeam} from "../../lib/api/teams";
 import Loading from "../../components/common/loading";
+import Button from "../../components/common/button";
 import {AuthContext} from "../../App";
 import {useHistory} from "react-router-dom";
+
 
 const TeamsInfo = () => {
     const {currentUser} = useContext(AuthContext)
@@ -104,7 +106,7 @@ const TeamsInfo = () => {
             return (
                 <>
                     <form onSubmit={handleUpdateTeam}
-                          className="flex flex-col justify-around h-1/2 mt-4 w-3/4 mx-auto">
+                          className="flex flex-col justify-around h-2/3 mt-4 w-3/4 mx-auto">
                         <div className="w-full mx-auto">
                             <label htmlFor="name" className="text-left block">チーム名</label>
                             <input type="text" id="name" name="name"
@@ -126,7 +128,8 @@ const TeamsInfo = () => {
                                     }}>
                                 <option value=""/>
                                 {
-                                    Object.keys(locationId).map(local => <option key={local} value={local} selected={location.local}>{local}</option>)
+                                    Object.keys(locationId).map(local => <option key={local} value={local}
+                                                                                 selected={location.local}>{local}</option>)
                                 }
                             </select>
 
@@ -137,7 +140,8 @@ const TeamsInfo = () => {
                                 <option value=""/>
                                 {
                                     (location.local?.length > 0) && (Object.keys(locationId[location.local])
-                                        .map(pref => (<option key={pref} value={pref} selected={location.pref}>{pref}</option>)))
+                                        .map(pref => (
+                                            <option key={pref} value={pref} selected={location.pref}>{pref}</option>)))
                                 }
                             </select>
 
@@ -149,23 +153,15 @@ const TeamsInfo = () => {
                                 <option value=""/>
                                 {
                                     (location.pref?.length > 0) && (Object.keys(locationId[location.local][location.pref])
-                                        .map(city => (<option key={city} value={city} selected={location.city}>{city}</option>)))
+                                        .map(city => (
+                                            <option key={city} value={city} selected={location.city}>{city}</option>)))
                                 }
                             </select>
                         </div>
 
-                        <input type="submit"
-                               onClick={handleUpdateTeam}
-                               value="変更"
-                               className="bg-blue-300 max-w-1/2 mx-auto py-2 px-6 rounded-xl border-b-4 border-blue-500 hover:bg-blue-400"/>
+                        <Button color="blue" func={handleUpdateTeam} value="変更する"/>
+                        <Button color="gray" func={()=>{setIsDisplayedForm(false)}} value="戻る"/>
                     </form>
-
-                    <button onClick={() => {
-                        setIsDisplayedForm(false)
-                    }}
-                            className="bg-gray-200 max-w-1/2 mx-auto py-2 px-6 rounded-xl border-b-4 border-gray-400 hover:bg-gray-400">
-                        戻る
-                    </button>
                 </>
             )
         } else {
@@ -182,12 +178,7 @@ const TeamsInfo = () => {
                             <p className="bg-gray-100 p-2">{getLocationName(currentTeam.locationId)}</p>
                         </div>
 
-                        <button onClick={() => {
-                            setIsDisplayedForm(true)
-                        }}
-                                className="bg-blue-300 max-w-1/2 mx-auto p-3 rounded-xl border-b-4 border-blue-600 hover:bg-blue-400">
-                            変更する
-                        </button>
+                        <Button color="blue" func={()=>{setIsDisplayedForm(true)}} value="変更する"/>
                     </div>
                 </>
             )

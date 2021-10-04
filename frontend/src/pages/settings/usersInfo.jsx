@@ -2,6 +2,7 @@ import {useContext, useState} from "react";
 import {useHistory} from "react-router-dom";
 import {AuthContext} from "../../App";
 import {changePassword, updateUser} from "../../lib/api/auth";
+import Button from "../../components/common/button";
 
 const UsersInfo = () => {
     const {currentUser} = useContext(AuthContext)
@@ -102,18 +103,10 @@ const UsersInfo = () => {
                                    }}/>
                         </div>
 
-                        <input type="submit"
-                               onClick={handleSubmit}
-                               value="変更"
-                               className="bg-blue-300 max-w-1/2 mx-auto py-2 px-6 rounded-xl border-b-4 border-blue-500 hover:bg-blue-400"/>
-                    </form>
+                        <Button color="blue" func={handleSubmit} value="変更する"/>
+                        <Button color="gray" func={()=>{setIsDisplayedForm(false)}} value="戻る"/>
 
-                    <button onClick={() => {
-                        setIsDisplayedForm(false)
-                    }}
-                            className="bg-gray-200 max-w-1/2 mx-auto py-2 px-6 rounded-xl border-b-4 border-gray-400 hover:bg-gray-400">
-                        戻る
-                    </button>
+                    </form>
                 </>
             )
         } else {
@@ -136,18 +129,9 @@ const UsersInfo = () => {
                         {/*    <p className="bg-gray-100 p-2">{currentUser.remindAt}</p>*/}
                         {/*</div>*/}
 
-                        <button onClick={() => {
-                            setIsDisplayedForm(true)
-                        }}
-                                className="bg-blue-300 max-w-1/2 mx-auto p-3 rounded-xl border-b-4 border-blue-500 hover:bg-blue-400">
-                            変更する
-                        </button>
+                        <Button color="blue" func={()=>{setIsDisplayedForm(true)}} value="変更する"/>
+                        <Button color="gray" func={()=>{setIsDisplayedForm(true)}} value="退会する"/>
                     </div>
-
-                    <button
-                        className="bg-gray-200 max-w-1/2 mx-auto p-3 rounded-xl border-b-4 border-gray-400 hover:bg-gray-400">
-                        退会する
-                    </button>
                 </>
             )
         }
