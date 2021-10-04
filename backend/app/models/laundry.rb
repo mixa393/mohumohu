@@ -57,18 +57,18 @@ class Laundry < ApplicationRecord
   def self.update_wash_at
     yesterday = Time.current.yesterday.to_date
 
-    # wash_atが昨日のものを取得
-    laundries = Laundry.where(deleted_at: nil, wash_at: yesterday)
+    Laundry.transaction do
+      # wash_atが昨日のものを取得
+      laundries = Laundry.where(deleted_at: nil, wash_at: yesterday)
 
-    # もし変更するものがなかったら何もしない
-    return unless laundries
+      # もし変更するものがなかったら何もしない
+      return unless laundries
 
-    # その全てのwash_atを、今日からdays日後に修正し直す
-
-    laundries.each do |laundry|
-      days = laundry.days || DEFAULT_NEXT_WASH_AT
-      laundry.update(wash_at: laundry.wash_at + days)
+      # その全てのwash_atを、今日からdays日後に修正し直す
+      laundries.each do |laundry|
+        days = laundry.days || DEFAULT_NEXT_WASH_AT
+        laundry.update!(wash_at: laundry.wash_at + days)
+      end
     end
-
   end
 end
