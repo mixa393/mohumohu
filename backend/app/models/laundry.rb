@@ -35,19 +35,16 @@ class Laundry < ApplicationRecord
   # バッチ処理で1日1回呼び出す
   # 上手くいかなかった場合エラーをログに出力してレコードは更新しない
   def self.update_display_true
-    # Laundry.transaction do
-    #   laundries = Laundry.valid.where(is_displayed: false)
-    #
-    #   # もし変更するものがなかったら何もしない
-    #   return unless laundries
-    #
-    #   laundries.each do |laundry|
-    #     laundry.update!(is_displayed: true)
-    #   end
-    #
-    # end
+    Laundry.transaction do
+      laundries = Laundry.valid.where(is_displayed: false)
 
-    Laundry.where(deleted_at: nil, is_displayed: false).update(is_displayed: true)
+      # もし変更するものがなかったら何もしない
+      return unless laundries
+
+      laundries.each do |laundry|
+        laundry.update!(is_displayed: true)
+      end
+    end
   end
 
   # daysがなかった場合にこの日数後にwash_atが更新される
