@@ -1,13 +1,13 @@
 import React from "react";
-import TodaysLaundry from "./todaysLaundry"
+import TodaysListItem from "./todaysListItem"
 
-const TodaysLaundries = ({laundries,update}) => {
+const TodaysList = ({laundries,update}) => {
     // 今日の洗濯ものがある時とない時でコンテンツを分ける
     let contents;
     if (laundries.length > 0) {
         contents = laundries.map((laundry, index) => {
             return (
-                <TodaysLaundry
+                <TodaysListItem
                     key={index}
                     index={index}
                     id={laundry.id}
@@ -31,4 +31,4 @@ const TodaysLaundries = ({laundries,update}) => {
     );
 }
 
-export default TodaysLaundries
+export default TodaysList

@@ -26,7 +26,7 @@ const backgroundColor = (index) => {
     }
 }
 
-const TodaysLaundry = ({index, id, name, image, isDisplayed, limitDays, update}) => {
+const TodaysListItem = ({index, id, name, image, isDisplayed, limitDays, update}) => {
 
     // 洗濯するボタン
     const handleWash = async (e, laundryId) => {
@@ -115,4 +115,4 @@ const TodaysLaundry = ({index, id, name, image, isDisplayed, limitDays, update})
     }
 }
 
-export default TodaysLaundry
+export default TodaysListItem
