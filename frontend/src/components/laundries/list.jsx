@@ -25,12 +25,12 @@ const List = () => {
         <>
             <div className="relative">
                 <div className="overflow-auto w-full">
-                    <table className="table-fixed laundries-table whitespace-nowrap min-w-full"
-                           style={{width: '40rem'}}>
+                    <table className="table-fixed laundries-table min-w-full w-full"
+                           style={{width: '45rem'}}>
                         <thead>
                         <ListHeader/>
                         </thead>
-                        <tbody>
+                        <tbody className="w-full">
                         {laundries.map((laundry, index) => {
                             return (
                                 <ListItem
