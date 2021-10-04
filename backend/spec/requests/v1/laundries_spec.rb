@@ -127,7 +127,7 @@ RSpec.describe "LaundriesAPI", type: :request do
   describe "GET /laundries/list" do
     subject { get "/api/v1/laundries/list", headers: auth_tokens }
 
-    context "is_displayedがtrueの場合" do
+    context "取得当日の洗濯履歴がない場合" do
       context "wash_at3日前〜当日の場合" do
         let(:limit) { rand(0...3) }
         let!(:laundry) { FactoryBot.create(:laundry, wash_at: Time.now.to_date + limit, team_id: user.team_id) }
@@ -148,16 +148,17 @@ RSpec.describe "LaundriesAPI", type: :request do
       end
     end
 
-    context "is_displayedがfalseの場合" do
+    context "取得当日の洗濯履歴がある場合" do
       let(:limit) { rand(0...3) }
-      let!(:laundry) { FactoryBot.create(:laundry, wash_at: Time.now.to_date + limit, team_id: user.team_id,
-                                         is_displayed: false) }
-      it "3日以内でもデータが取得できない" do
+      let!(:laundry) { FactoryBot.create(:laundry, wash_at: Time.now.to_date + limit, team_id: user.team_id) }
+      let!(:laundry_history) { FactoryBot.create(:laundry_history, laundry_id: laundry.id) }
+      it "データは取得されない" do
         subject
-        expect(json['data'].length).to eq(0)
+        expect(json["data"].length).to eq(0)
         expect(response.status).to eq(200)
       end
     end
+
   end
 
   describe "PUT /api/v1/laundries/washed" do
@@ -194,10 +195,28 @@ RSpec.describe "LaundriesAPI", type: :request do
     subject { put "/api/v1/laundries/un_washed", headers: auth_tokens, params: { id: laundry.id } }
 
     context "正しい洗濯物IDを指定した場合" do
-      let!(:laundry) { FactoryBot.create(:laundry, team_id: user.team_id) }
-      it 'is_displayedをfalseに更新' do
-        expect { subject }.to change { Laundry.find(laundry.id).is_displayed }.from(true).to(false)
-        expect(response.status).to eq(200)
+      context "wash_atが今日の場合" do
+        let!(:laundry) { FactoryBot.create(:laundry, team_id: user.team_id, wash_at: Time.now.to_date) }
+        it 'is_displayedをfalseに更新' do
+          expect { subject }.to change { Laundry.find(laundry.id).is_displayed }.from(true).to(false)
+          expect(response.status).to eq(200)
+        end
+        it 'wash_atを明日に更新' do
+          expect { subject }.to change { Laundry.find(laundry.id).wash_at }.by(1)
+          expect(response.status).to eq(200)
+        end
+      end
+
+      context "wash_atが明日以降の場合" do
+        let!(:laundry) { FactoryBot.create(:laundry, team_id: user.team_id) }
+        it 'is_displayedをfalseに更新' do
+          expect { subject }.to change { Laundry.find(laundry.id).is_displayed }.from(true).to(false)
+          expect(response.status).to eq(200)
+        end
+        it 'wash_atは更新されない' do
+          expect { subject }.not_to change { Laundry.find(laundry.id).wash_at }
+          expect(response.status).to eq(200)
+        end
       end
     end
 

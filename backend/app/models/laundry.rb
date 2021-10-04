@@ -9,7 +9,7 @@ class Laundry < ApplicationRecord
   scope :recent, -> (yesterday, three_days_later) do
     where("wash_at <= ?", three_days_later)
       .where("wash_at > ?", yesterday) #バッチ処理未完成のため過去の表示を消すために一時的に表記
-      .order(id: :desc, wash_at: :asc)
+      .order(is_displayed: :desc, wash_at: :asc, id: :desc)
   end
 
   belongs_to :team

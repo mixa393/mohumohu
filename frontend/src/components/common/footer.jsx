@@ -2,7 +2,7 @@ import React from "react";
 
 const Footer = () => {
     return (
-            <footer>footer</footer>
+            <footer className="mt-auto bg-pink-100">&copy; mixa393</footer>
     );
 }
 

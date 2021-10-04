@@ -6,8 +6,6 @@
 	.st0{fill:#4B4B4B;}
 </style>
 <g>
-	<circle class="st0" cx="256" cy="55.091" r="55.091" style="fill: rgb(255, 255, 255);"></circle>
-	<circle class="st0" cx="256" cy="256" r="55.091" style="fill: rgb(255, 255, 255);"></circle>
-	<circle class="st0" cx="256" cy="456.909" r="55.091" style="fill: rgb(255, 255, 255);"></circle>
+	<polygon class="st0" points="163.916,0 92.084,71.822 276.258,255.996 92.084,440.178 163.916,512 419.916,255.996 	" style="fill: rgb(255, 255, 255);"></polygon>
 </g>
 </svg>

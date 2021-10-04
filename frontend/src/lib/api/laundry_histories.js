@@ -1,11 +1,4 @@
-import client from "./client"
-import Cookies from "js-cookie"
-
-const headers = {
-    "access-token": Cookies.get("_access_token"),
-    "client": Cookies.get("_client"),
-    "uid": Cookies.get("_uid")
-}
+import client,{headers} from "./client"
 
 /**
  * チームに属する洗濯履歴を全て取得
@@ -29,8 +22,8 @@ export const getLaundryHistories = (id) => {
  * @param params {laundryId}
  * @returns {Promise<AxiosResponse<any>>}
  */
-export const createLaundryHistories = (laundry_id) => {
-    return client.post("/laundry_histories", {id: laundry_id}, {headers})
+export const createLaundryHistories = (laundryId) => {
+    return client.post("/laundry_histories", {id: laundryId}, {headers})
 }
 
 /**
