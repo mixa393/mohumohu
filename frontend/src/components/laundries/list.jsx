@@ -24,8 +24,8 @@ const List = () => {
     return (
         <>
             <div className="relative">
-                <div className="overflow-auto w-full">
-                    <table className="table-fixed laundries-table min-w-full w-full"
+                <div className="overflow-auto">
+                    <table className="table-fixed laundries-table"
                            style={{width: '45rem'}}>
                         <thead>
                         <ListHeader/>

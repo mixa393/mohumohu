@@ -6,11 +6,11 @@ const ListItem = ({id, name, image, weekly}) => {
 
 
     return (
-        <tr className="h-20">
-            <td className="h-full border-2 border-dotted border-gray-100 relative w-5/12">
+        <tr className="h-16">
+            <td className="h-full border-2 border-dotted border-gray-100 relative">
                 <div className="absolute inset-0 h-4/5 w-4/5 t-shirts m-auto flex items-center w-full">
-                    <img src={laundryImage(image)} alt={`${name}の画像`} className="w-1/5 h-auto"/>
-                    <p className="w-4/5 break-all text-sm">{name}</p>
+                    <img src={laundryImage(image)} alt={`${name}の画像`} className="w-1/6 h-auto m-auto"/>
+                    <p className="w-3/5 break-all mx-auto">{name}</p>
                 </div>
             </td>
 
@@ -20,9 +20,9 @@ const ListItem = ({id, name, image, weekly}) => {
                         <img src={washingMachine} alt="洗濯する日" className="w-3/5 m-auto"/>
                     </td>)
                 } else if (day === 1) {
-                    return (<td key={index} className="border-2 border-dotted border-gray-100 bg-pink-100 w-1/12"></td>)
+                    return (<td key={index} className="border-2 border-dotted border-gray-100 bg-pink-100"></td>)
                 } else {
-                    return (<td key={index} className="border-2 border-dotted border-gray-100 w-1/12"></td>)
+                    return (<td key={index} className="border-2 border-dotted border-gray-100"></td>)
                 }
             })}
         </tr>
