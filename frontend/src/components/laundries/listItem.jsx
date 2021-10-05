@@ -1,8 +1,9 @@
-import React from "react";
+import React, {useState} from "react";
 import washingMachine from "../../images/laundries/washing-machine.svg"
 import {laundryImage} from "../../lib/common";
 import Modal from "react-modal"
 import Button from "../common/button";
+import Form from "./form";
 
 const customStyles = {
     content: {
@@ -16,8 +17,60 @@ const customStyles = {
 };
 
 const ListItem = ({id, name, image, days, washAt, description, weekly}) => {
-    let subtitle;
     const [modalIsOpen, setIsOpen] = React.useState(false);
+
+
+    const [isDisplayedForm,setIsDisplayedForm] = useState(false)
+
+    const modalContents = (isDisplayedForm) => {
+        if (isDisplayedForm) {
+            return (
+                <Form
+                    id={id}
+                    name={name}
+                    image={image}
+                    days={days}
+                    washAt={washAt}
+                    description={description}
+                    func="update"
+                />
+            )
+        }else{
+            return(
+                <>
+                    <h2 className="text-center p-1 bg-yellow-100">{name}</h2>
+
+                    <img src={laundryImage(image)} alt={`${name}の画像`}
+                         className="w-1/4 h-auto mx-auto mt-4 col-span-1 bg-gray-100"/>
+
+                    <div className="w-4/5 text-sm mt-4 mx-auto">
+                        <div className="flex justify-between w-full">
+                            <div>
+                                <h2 className="text-left">洗濯までの期間</h2>
+                                <p className="bg-gray-100 p-2">{days}</p>
+                            </div>
+                            <div>
+                                <h2 className="text-left">次の洗濯予定日</h2>
+                                <p className="bg-gray-100 p-2">{washAt}</p>
+                            </div>
+                        </div>
+
+                        <div className="mt-4">
+                            <h2 className="text-left">説明</h2>
+                            <p className="bg-gray-100 p-2">{description}</p>
+                        </div>
+
+                    </div>
+
+                    <div className="mt-8 w-2/3 mx-auto">
+                        <Button color="blue" func={()=>{setIsDisplayedForm(true)}} value="変更する"/>
+                        <Button color="gray" func={() => {
+                        }} value="削除する"/>
+                    </div>
+                </>
+            )
+        }
+    }
 
     function openModal() {
         setIsOpen(true);
@@ -59,36 +112,8 @@ const ListItem = ({id, name, image, days, washAt, description, weekly}) => {
                 contentLabel="洗濯物詳細"
             >
                 <button onClick={closeModal} className="bg-gray-200">close</button>
-                <h2 className="text-center p-1 bg-yellow-100">{name}</h2>
 
-                <img src={laundryImage(image)} alt={`${name}の画像`}
-                     className="w-1/4 h-auto mx-auto mt-4 col-span-1 bg-gray-100"/>
-
-                <div className="w-4/5 text-sm mt-4 mx-auto">
-                    <div className="flex justify-between w-full">
-                        <div>
-                            <h2 className="text-left">洗濯までの期間</h2>
-                            <p className="bg-gray-100 p-2">{days}</p>
-                        </div>
-                        <div>
-                            <h2 className="text-left">次の洗濯予定日</h2>
-                            <p className="bg-gray-100 p-2">{washAt}</p>
-                        </div>
-                    </div>
-
-                    <div className="mt-4">
-                        <h2 className="text-left">説明</h2>
-                        <p className="bg-gray-100 p-2">{description}</p>
-                    </div>
-
-                </div>
-
-                <div className="mt-8 w-2/3 mx-auto">
-                    <Button color="blue" func={() => {
-                    }} value="変更する"/>
-                    <Button color="gray" func={() => {
-                    }} value="削除する"/>
-                </div>
+                {modalContents(isDisplayedForm)}
             </Modal>
         </>
     );
