@@ -52,30 +52,44 @@ RSpec.describe Laundry, type: :model do
   describe "self.update_wash_at" do
     subject { Laundry.update_wash_at }
     let(:yesterday) { Time.current.yesterday.to_date }
-    let(:updated_wash_at) { Laundry.find(laundry.id).wash_at }
 
     context "wash_atが昨日のデータがあった場合" do
       context "daysがある場合" do
         let!(:laundry) { FactoryBot.create(:laundry, wash_at: yesterday, days: rand(1..7)) }
         it 'wash_atがdays日後になる' do
-          subject
-          expect(updated_wash_at).to eq(yesterday + laundry.days)
+          expect { subject }.to change { Laundry.find(laundry.id).wash_at }.from(yesterday).to(yesterday + laundry.days)
         end
       end
 
       context "daysがない場合" do
         let!(:laundry) { FactoryBot.create(:laundry, wash_at: yesterday, days: nil) }
         it 'wash_atが30日後になる' do
-          subject
-          expect(updated_wash_at).to eq(yesterday + 30)
+          expect { subject }.to change { Laundry.find(laundry.id).wash_at }.from(yesterday).to(yesterday + 30)
         end
       end
     end
 
     context "更新するデータがなかった場合" do
       let!(:laundry) { FactoryBot.create(:laundry) }
-      it '空の配列が返却され、レコードの変更は行われない' do
-        expect(subject).to eq([])
+      it 'レコードの変更は行われない' do
+        expect { subject }.not_to change { Laundry.find(laundry.id) }
+      end
+    end
+  end
+
+  describe "self.update_display_true" do
+    subject { Laundry.update_display_true }
+
+    context "is_displayがfalseのデータがある場合" do
+      let!(:laundry) { FactoryBot.create(:laundry, is_displayed: false) }
+      it 'is_displayedがtrueになる' do
+        expect { subject }.to change { Laundry.find(laundry.id).is_displayed }.from(false).to(true)
+      end
+    end
+
+    context "更新するデータがない場合" do
+      let!(:laundry) { FactoryBot.create(:laundry) }
+      it 'レコードの変更は行われない' do
         expect { subject }.not_to change { Laundry.find(laundry.id) }
       end
     end

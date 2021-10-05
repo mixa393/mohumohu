@@ -1,4 +1,7 @@
 class Laundry < ApplicationRecord
+  # daysがなかった場合にこの日数後にwash_atが更新される
+  DEFAULT_NEXT_WASH_AT = 30
+
   # 論理削除されていないものを検索
   # @return [Array]
   scope :valid, -> { where(deleted_at: nil) }
@@ -30,8 +33,22 @@ class Laundry < ApplicationRecord
     end
   end
 
-  # daysがなかった場合に代入される
-  DAY_NUMBER = 30
+  # falseのis_displayedをtrueに書き換える
+  # これにより次の日になれば「今日の洗濯物リスト」に表示されるようになる
+  # バッチ処理で1日1回呼び出す
+  # 上手くいかなかった場合エラーをログに出力してレコードは更新しない
+  def self.update_display_true
+    Laundry.transaction do
+      laundries = Laundry.valid.where(is_displayed: false)
+
+      # もし変更するものがなかったら何もしない
+      return unless laundries
+
+      laundries.each do |laundry|
+        laundry.update!(is_displayed: true)
+      end
+    end
+  end
 
   # wash_atの値を1日ごとに確認して修正する
   # バッチ処理で1日1回呼び出す
@@ -40,18 +57,18 @@ class Laundry < ApplicationRecord
   def self.update_wash_at
     yesterday = Time.current.yesterday.to_date
 
-    # wash_atが昨日のものを取得
-    laundries = Laundry.where(deleted_at: nil, wash_at: yesterday)
+    Laundry.transaction do
+      # wash_atが昨日のものを取得
+      laundries = Laundry.where(deleted_at: nil, wash_at: yesterday)
 
-    # もし変更するものがなかったら何もしない
-    return unless laundries
+      # もし変更するものがなかったら何もしない
+      return unless laundries
 
-    # その全てのwash_atを、今日からdays日後に修正し直す
-
-    laundries.each do |laundry|
-      days = laundry.days || DAY_NUMBER
-      laundry.update(wash_at: laundry.wash_at + days)
+      # その全てのwash_atを、今日からdays日後に修正し直す
+      laundries.each do |laundry|
+        days = laundry.days || DEFAULT_NEXT_WASH_AT
+        laundry.update!(wash_at: laundry.wash_at + days)
+      end
     end
-
   end
 end
