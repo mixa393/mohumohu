@@ -1,0 +1,11 @@
+.image-selection input[type="radio"]:checked + label img {
+    background: orange;
+}
+.image-selection input[type="radio"] {
+    display: none;
+}
+
+label img {
+    margin: 3px;
+    padding: 8px;
+}
