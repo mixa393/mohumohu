@@ -38,6 +38,9 @@ const List = () => {
                                     id={laundry.id}
                                     name={laundry.name}
                                     image={laundry.image}
+                                    days={laundry.days}
+                                    washAt={laundry.washAt}
+                                    description={laundry.description}
                                     weekly={laundry.weekly}
                                 />
                             )

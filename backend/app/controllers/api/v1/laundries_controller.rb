@@ -12,6 +12,9 @@ class Api::V1::LaundriesController < ApplicationController
       data.push({ id: laundry.id,
                   name: laundry.name,
                   image: laundry.image,
+                  days:laundry.days,
+                  wash_at:laundry.wash_at.strftime("%Y/%m/%d"),
+                  description:laundry.description,
                   weekly: weekly(laundry)
                 }
       )

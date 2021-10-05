@@ -38,7 +38,7 @@ export const createLaundry = (params) => {
 
 /**
  * 洗濯物更新
- * @param params
+ * @param id,params
  * @returns {Promise<AxiosResponse<any>>}
  */
 export const updateLaundry = (id,params) => {
