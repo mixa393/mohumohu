@@ -25,7 +25,7 @@ const UsersInfo = () => {
         e.preventDefault()
 
         for (const property in params) {
-            if (params[property] == "") {
+            if (params[property] === "") {
                 delete params[property]
             }
         }
