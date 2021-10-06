@@ -61,7 +61,15 @@ class Api::V1::LaundriesController < ApplicationController
   end
 
   def show
-    render json: { status: 200, data: @laundry }
+    data = {
+      id: @laundry.id,
+      name: @laundry.name,
+      days: @laundry.days,
+      image:@laundry.image,
+      wash_at: @laundry.wash_at.strftime("%m/%d"),
+      description: @laundry.description
+    }
+    render json: { status: 200, data: data }
   end
 
   def create
