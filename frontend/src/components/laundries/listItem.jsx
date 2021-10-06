@@ -30,10 +30,6 @@ const ListItem = ({id, name, image, weekly}) => {
 
     const [laundry, setLaundry] = useState({});
 
-    useEffect(() => {
-        getLaundryInfo(id).then()
-    }, [id]);
-
     const getLaundryInfo = async (id) => {
         try {
             const res = await getLaundry(id)
@@ -75,38 +71,40 @@ const ListItem = ({id, name, image, weekly}) => {
                    contentLabel="洗濯物詳細">
                 <button onClick={closeModal} className="bg-gray-200">close</button>
 
-                <h2 className="text-center p-1 bg-yellow-100">{laundry.name}</h2>
+                    <h2 className="text-center p-1 bg-yellow-100">{laundry.name}</h2>
 
-                <img src={laundryImage(laundry.image)} alt={`${laundry.name}の画像`}
-                     className="w-1/4 h-auto mx-auto mt-4 col-span-1 bg-gray-100"/>
-
-                <div className="w-4/5 text-sm mt-4 mx-auto">
-                    <div className="flex justify-between w-full">
-                        <div>
-                            <h2 className="text-left">洗濯までの期間</h2>
-                            <p className="bg-gray-100 p-2">{laundry.days ?? ""}</p>
+                    <div className="grid grid-cols-5 my-8 text-sm">
+                        <div className="col-span-2 flex items-center justify-center">
+                            <img src={laundryImage(laundry.image)} alt={`${laundry.name}の画像`}
+                                 className="w-3/5 h-auto"/>
                         </div>
-                        <div>
-                            <h2 className="text-left">次の洗濯予定日</h2>
-                            <p className="bg-gray-100 p-2">{laundry.washAt}</p>
+                        <div className="col-span-3">
+                            {laundry.days &&
+                            <div className="flex justify-between items-center border-b-2 border-dashed">
+                                <p className="p-1 bg-gray-100">頻度</p>
+                                <p className="border-b border-dashed">{laundry.days ?? ""}日に1回</p>
+                            </div>}
+
+                            <div className="flex justify-between items-center mt-5 border-b-2 border-dashed">
+                                <p className="p-1 bg-gray-100">次回の洗濯</p>
+                                <p>{laundry.washAt}</p>
+                            </div>
+
+                            {laundry.description &&
+                            <p className="mt-5 border-b-2 border-dashed">{laundry.description ?? ""}</p>}
                         </div>
                     </div>
 
-                    <div className="mt-4">
-                        <h2 className="text-left">説明</h2>
-                        <p className="bg-gray-100 p-2">{laundry.description ?? ""}</p>
+                    <div className="mt-8 w-2/3 mx-auto">
+                        <Link to={`/laundries/${laundry.id}`} className="bg-yellow-200 hover:bg-white p-3">変更する</Link>
+                        <Button color="gray" func={() => {
+                        }} value="削除する"/>
                     </div>
-
-                </div>
-
-                <div className="mt-8 w-2/3 mx-auto">
-                    <Link to={`/laundries/${laundry.id}`} className="bg-yellow-200 hover:bg-white p-3">変更する</Link>
-                    <Button color="gray" func={() => {
-                    }} value="削除する"/>
-                </div>
+                </Loading>
             </Modal>
         </>
-    );
+    )
+        ;
 }
 
 
