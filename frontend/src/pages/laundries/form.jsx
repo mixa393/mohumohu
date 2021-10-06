@@ -2,7 +2,7 @@ import React, {useEffect, useState} from "react";
 import {createLaundry, getLaundry, updateLaundry} from "../../lib/api/laundries";
 import Button from "../../components/common/button";
 import "../../css/laundries.css"
-import what from "../../images/common/what.svg"
+import ToolTip from "../../components/common/tooltip"
 
 import curtains from "../../images/laundries/curtains.svg";
 import duvet from "../../images/laundries/duvet.svg";
@@ -127,7 +127,8 @@ const Form = ({match}) => {
                     </div>
 
                     <button className="w-3/5 break-all mx-auto" onClick={openModal}>
-                        <img src={laundryImage(laundry.image) ?? unSelectedImage} alt="画像" className="h-20 w-auto mx-auto mt-4"/>
+                        <img src={laundryImage(laundry.image) ?? unSelectedImage} alt="画像"
+                             className="h-20 w-auto mx-auto mt-4"/>
                     </button>
 
                     <Modal
@@ -140,68 +141,66 @@ const Form = ({match}) => {
                         <div className="flex flex-wrap image-selection">
                             <input id="default" type="radio" name="image" value="default"/>
                             <label htmlFor="default">
-                                <img src={defaultImage} alt="Tシャツの画像" className="h-10 w-auto"/>
+                                <img src={defaultImage} alt="Tシャツの画像" className="laundry-images h-10 w-auto"/>
                             </label>
 
                             <input id="duvet" type="radio" name="image" value="duvet"/>
                             <label htmlFor="duvet">
-                                <img src={duvet} alt="毛布の画像" className="h-10 w-auto"/>
+                                <img src={duvet} alt="毛布の画像" className="laundry-images h-10 w-auto"/>
                             </label>
 
                             <input id="bear" type="radio" name="image" value="bear"/>
                             <label htmlFor="bear">
-                                <img src={bear} alt="ぬいぐるみの画像" className="h-10 w-auto"/>
+                                <img src={bear} alt="ぬいぐるみの画像" className="laundry-images h-10 w-auto"/>
                             </label>
 
                             <input id="curtains" type="radio" name="image" value="curtains"/>
                             <label htmlFor="curtains">
-                                <img src={curtains} alt="カーテンの画像" className="h-10 w-auto"/>
+                                <img src={curtains} alt="カーテンの画像" className="laundry-images h-10 w-auto"/>
                             </label>
 
                             <input id="blanket" type="radio" name="image" value="blanket"/>
                             <label htmlFor="blanket">
-                                <img src={blanket} alt="ブランケットの画像" className="h-10 w-auto"/>
+                                <img src={blanket} alt="ブランケットの画像" className="laundry-images h-10 w-auto"/>
                             </label>
 
                             <input id="pillow" type="radio" name="image" value="pillow"/>
                             <label htmlFor="pillow">
-                                <img src={pillow} alt="枕の加増" className="h-10 w-auto"/>
+                                <img src={pillow} alt="枕の加増" className="laundry-images h-10 w-auto"/>
                             </label>
 
                             <input id="cushions" type="radio" name="image" value="cushions"/>
                             <label htmlFor="cushions">
-                                <img src={cushions} alt="クッションの画像" className="h-10 w-auto"/>
+                                <img src={cushions} alt="クッションの画像" className="laundry-images h-10 w-auto"/>
                             </label>
 
                             <input id="mat" type="radio" name="image" value="mat"/>
                             <label htmlFor="mat">
-                                <img src={mat} alt="マットレスの画像" className="h-10 w-auto"/>
+                                <img src={mat} alt="マットレスの画像" className="laundry-images h-10 w-auto"/>
                             </label>
 
                             <input id="sheets" type="radio" name="image" value="sheets"/>
                             <label htmlFor="sheets">
-                                <img src={sheets} alt="シーツの画像" className="h-10 w-auto"/>
+                                <img src={sheets} alt="シーツの画像" className="laundry-images h-10 w-auto"/>
                             </label>
                         </div>
                     </Modal>
 
 
                     <div className="flex flex-col w-full">
-                        <label htmlFor="days" className="flex items-center">
+                        <label htmlFor="days" className="mx-auto">
                             洗濯までの期間
-                            <img src={what} alt="詳細" className="h-4 w-auto p-0 m-0"/>
+                            <ToolTip content={"何日に1回洗濯したいかを日数で入力してください。"}/>
                         </label>
-                        {/*<p className="text-xs">何日に1回洗濯したいかを日数で入力してください。</p>*/}
-                        <input type="text" id="days" name="days" className="bg-gray-100 p-1"
+                        <input type="text" id="days" name="days" className="bg-gray-100 p-1 w-full"
                                defaultValue={laundry.days ?? ""}/>
                     </div>
 
-                    <div className="flex flex-col mx-auto w-full">
-                        <label htmlFor="washAt" className="flex items-center">
+                    <div className="flex flex-col mx-auto w-full items-center">
+                        <label htmlFor="washAt" className="mx-auto">
                             次の洗濯予定日
-                            <img src={what} alt="詳細" className="h-4 w-auto p-0 m-0"/>
+                            <ToolTip content={"入力しない場合は自動的に今日から7日後になります"}/>
                         </label>
-                        {/*<p>入力しない場合は自動的に今日から7日後になります</p>*/}
                         <input type="date" id="washAt" name="washAt" className="bg-gray-100 p-1"
                                defaultValue={laundry.washAt ?? ""}/>
                     </div>
