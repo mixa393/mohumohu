@@ -70,7 +70,7 @@ const SignUp = () => {
 
     return (
         <div className="h-screen">
-            <h1 className="text-xl bg-pink-100 p-3">アカウント登録</h1>
+            <h1 className="text-xl bg-yellow-100 p-3">アカウント登録</h1>
 
             <form className="h-5/6 flex flex-col w-2/3 mx-auto max-w-lg justify-around mt-2">
                 <div className="flex flex-col">

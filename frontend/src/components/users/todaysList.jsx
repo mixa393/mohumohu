@@ -25,7 +25,7 @@ const TodaysList = ({laundries,update}) => {
 
     return (
         <>
-            <div className="bg-pink-100 py-3">今日の洗濯物リスト</div>
+            <div className="bg-yellow-100 py-3">今日の洗濯物リスト</div>
             {contents}
         </>
     );

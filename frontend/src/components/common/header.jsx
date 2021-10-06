@@ -31,7 +31,7 @@ const Header = ({date}) => {
         const {pathname} = location
         if (pathname === "/") {
             setBackgroundColor({
-                index: "bg-pink-300",
+                index: "bg-yellow-300",
                 laundries: "bg-white",
                 menu: "bg-white"
             })
@@ -55,7 +55,7 @@ const Header = ({date}) => {
             setBackgroundColor({
                 index: "bg-white",
                 laundries: "bg-white",
-                menu: "bg-blue-100"
+                menu: "bg-yellow-100"
             })
             setIcon({
                 index: sunRed,
@@ -79,7 +79,7 @@ const Header = ({date}) => {
                 <div className="h-16 grid grid-cols-3">
                     <div className="transition duration-150 ease-in-outduration-300 cols-span-1 border border-dotted">
                         <Link
-                            className={`h-16 flex justify-items-center items-center hover:bg-pink-300 ${backgroundColor.index}`}
+                            className={`h-16 flex justify-items-center items-center hover:bg-yellow-300 ${backgroundColor.index}`}
                             to={"/"}>
                             <img src={icon.index} alt="ダッシュボード" className="h-3/5 w-auto mx-auto"/>
                         </Link>
