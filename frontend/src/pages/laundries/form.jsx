@@ -35,7 +35,7 @@ const Form = ({match}) => {
 
     useEffect(() => {
         getLaundryInfo(laundryId).then()
-    }, []);
+    }, [laundryId]);
 
     const getLaundryInfo = async (id) => {
         try {
