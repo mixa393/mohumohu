@@ -8,7 +8,7 @@ const Tooltip = ({ content }) => {
 
     const clickOutside = (e) => {
         e.preventDefault()
-        if (!tooltipEl.current.contains(e.target)) setShow(false);
+        if (!tooltipEl.current?.contains(e.target)) setShow(false);
     };
 
     useEffect(() => {
