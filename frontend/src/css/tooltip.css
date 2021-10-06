@@ -1,0 +1,17 @@
+.container {
+    position: relative;
+    display: inline-block;
+}
+
+.top {
+    position: absolute;
+    min-width: 200px;
+    z-index: 10;
+    bottom: calc(100% + 5px);
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: lightyellow;
+    color: dimgray;
+    padding: 0.5em 1em;
+    border-radius: 5px;
+}
