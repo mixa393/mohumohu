@@ -1,6 +1,7 @@
-import React, {useEffect, useState} from "react";
+import React, {useState} from "react";
 import washingMachine from "../../images/laundries/washing-machine.svg"
 import {laundryImage} from "../../lib/common";
+import Loading from '../common/loading.jsx'
 import Modal from "react-modal"
 import Button from "../common/button";
 import {Link} from "react-router-dom";
@@ -17,11 +18,18 @@ const customStyles = {
     }
 };
 
+Modal.setAppElement("#root")
+
 const ListItem = ({id, name, image, weekly}) => {
     const [modalIsOpen, setIsOpen] = React.useState(false);
+    const [isLoading, setIsLoading] = React.useState(false)
 
     function openModal() {
         setIsOpen(true);
+        setIsLoading(true)
+        getLaundryInfo(id).then(() => {
+            setIsLoading(false)
+        })
     }
 
     function closeModal() {
@@ -69,7 +77,8 @@ const ListItem = ({id, name, image, weekly}) => {
                    onRequestClose={closeModal}
                    style={customStyles}
                    contentLabel="洗濯物詳細">
-                <button onClick={closeModal} className="bg-gray-200">close</button>
+                <Loading isLoading={isLoading} width={'100%'} height={'100%'}>
+                    <button onClick={closeModal} className="bg-gray-200">X</button>
 
                     <h2 className="text-center p-1 bg-yellow-100">{laundry.name}</h2>
 
