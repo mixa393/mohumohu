@@ -85,7 +85,7 @@ const ListItem = ({id, name, image, weekly}) => {
     } else {
         buttons = () => {
             return (
-                <div className="mt-8 w-2/3 mx-auto flex justify-between space-x-2">
+                <div className="mt-8 w-2/3 mx-auto flex justify-between space-x-1">
                     <Link to={`/laundries/${laundry.id}`}
                           className="bg-yellow-200 hover:bg-yellow-100 py-2 px-3 rounded-xl border-b-4 border-yellow-500">
                         変更する</Link>
@@ -152,7 +152,6 @@ const ListItem = ({id, name, image, weekly}) => {
                             <p className="mt-5 border-b-2 border-dashed">{laundry.description ?? ""}</p>}
                         </div>
                     </div>
-
 
                     {buttons()}
 
