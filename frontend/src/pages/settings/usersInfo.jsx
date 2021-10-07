@@ -103,7 +103,7 @@ const UsersInfo = () => {
                                    }}/>
                         </div>
 
-                        <Button color="blue" func={handleSubmit} value="変更する"/>
+                        <Button color="yellow" func={handleSubmit} value="変更する"/>
                         <Button color="gray" func={()=>{setIsDisplayedForm(false)}} value="戻る"/>
 
                     </form>
@@ -129,7 +129,7 @@ const UsersInfo = () => {
                         {/*    <p className="bg-gray-100 p-2">{currentUser.remindAt}</p>*/}
                         {/*</div>*/}
 
-                        <Button color="blue" func={()=>{setIsDisplayedForm(true)}} value="変更する"/>
+                        <Button color="yellow" func={()=>{setIsDisplayedForm(true)}} value="変更する"/>
                         <Button color="gray" func={()=>{setIsDisplayedForm(true)}} value="退会する"/>
                     </div>
                 </>
