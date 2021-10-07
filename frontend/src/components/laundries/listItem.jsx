@@ -5,7 +5,8 @@ import Loading from '../common/loading.jsx'
 import Modal from "react-modal"
 import Button from "../common/button";
 import {Link} from "react-router-dom";
-import {getLaundry} from "../../lib/api/laundries";
+import {deleteLaundry, getLaundry} from "../../lib/api/laundries";
+import {useHistory} from "react-router";
 
 const customStyles = {
     content: {
@@ -21,8 +22,10 @@ const customStyles = {
 Modal.setAppElement("#root")
 
 const ListItem = ({id, name, image, weekly}) => {
-    const [modalIsOpen, setIsOpen] = React.useState(false);
-    const [isLoading, setIsLoading] = React.useState(false)
+    const [modalIsOpen, setIsOpen] = useState(false)
+    const [isLoading, setIsLoading] = useState(false)
+    const [isShownDeleteMode, setIsShownDeleteMode] = useState(false)
+    const history = useHistory()
 
     function openModal() {
         setIsOpen(true);
@@ -48,6 +51,52 @@ const ListItem = ({id, name, image, weekly}) => {
         }
     }
 
+    const deleteLaundryInfo = async (e, id) => {
+        e.preventDefault()
+
+        try {
+            const res = await deleteLaundry(id)
+            setIsShownDeleteMode(false)
+            console.log(res)
+            history.push("/laundries")
+        } catch (err) {
+            console.error(err)
+        }
+    }
+
+    let buttons
+    if (isShownDeleteMode) {
+        buttons = () => {
+            return (
+                <>
+                    <p className="text-center text-red-500">本当に削除しますか？</p>
+
+                    <div className="mt-8 w-2/3 mx-auto flex justify-between space-x-2">
+                        <Button color="yellow" func={(e) => {
+                            deleteLaundryInfo(e, laundry.id)
+                        }} value="はい"/>
+                        <Button color="gray" func={() => {
+                            setIsShownDeleteMode(false)
+                        }} value="いいえ"/>
+                    </div>
+                </>
+            )
+        }
+    } else {
+        buttons = () => {
+            return (
+                <div className="mt-8 w-2/3 mx-auto flex justify-between space-x-2">
+                    <Link to={`/laundries/${laundry.id}`}
+                          className="bg-yellow-200 hover:bg-yellow-100 py-2 px-3 rounded-xl border-b-4 border-yellow-500">
+                        変更する</Link>
+                    <Button color="gray" func={() => {
+                        setIsShownDeleteMode(true)
+                    }} value="削除する"/>
+                </div>
+            )
+        }
+    }
+
     return (
         <>
             <tr className="h-16">
@@ -62,11 +111,11 @@ const ListItem = ({id, name, image, weekly}) => {
 
                 {weekly?.map((day, index) => {
                     if (day === 2) {
-                        return (<td key={index} className="border-2 border-dotted border-gray-100 bg-yellow-200 w-1/12">
+                        return (<td key={index} className="border-2 border-dotted border-gray-100 bg-yellow-500 w-1/12">
                             <img src={washingMachine} alt="洗濯する日" className="w-3/5 m-auto"/>
                         </td>)
                     } else if (day === 1) {
-                        return (<td key={index} className="border-2 border-dotted border-gray-100 bg-yellow-100"></td>)
+                        return (<td key={index} className="border-2 border-dotted border-gray-100 bg-yellow-400"></td>)
                     } else {
                         return (<td key={index} className="border-2 border-dotted border-gray-100"></td>)
                     }
@@ -104,11 +153,9 @@ const ListItem = ({id, name, image, weekly}) => {
                         </div>
                     </div>
 
-                    <div className="mt-8 w-2/3 mx-auto">
-                        <Link to={`/laundries/${laundry.id}`} className="bg-yellow-200 hover:bg-white p-3">変更する</Link>
-                        <Button color="gray" func={() => {
-                        }} value="削除する"/>
-                    </div>
+
+                    {buttons()}
+
                 </Loading>
             </Modal>
         </>
