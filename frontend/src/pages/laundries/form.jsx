@@ -29,6 +29,8 @@ const customStyles = {
     }
 };
 
+Modal.setAppElement("#root")
+
 const Form = ({match}) => {
     const history = useHistory()
     const laundryId = match?.params?.id ?? ''
