@@ -3,6 +3,7 @@ import {useHistory} from "react-router-dom";
 import {AuthContext} from "../../App";
 import {changePassword, updateUser} from "../../lib/api/auth";
 import Button from "../../components/common/button";
+import "../../css/setting.css"
 
 const UsersInfo = () => {
     const {currentUser} = useContext(AuthContext)
@@ -140,7 +141,7 @@ const UsersInfo = () => {
     return (
         <>
             <div className="h-screen">
-                <h1 className="text-xl mt-4">ユーザー情報</h1>
+                <h1 className="p-2 text-2xl background--sunny font-black">ユーザー情報</h1>
                 {contents(isDisplayedForm)}
             </div>
         </>

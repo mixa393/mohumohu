@@ -5,6 +5,7 @@ import Loading from "../../components/common/loading";
 import Button from "../../components/common/button";
 import {AuthContext} from "../../App";
 import {useHistory} from "react-router-dom";
+import "../../css/setting.css"
 
 
 const TeamsInfo = () => {
@@ -189,7 +190,7 @@ const TeamsInfo = () => {
     return (
         <div className="h-screen">
             <Loading isLoading={loading}>
-                <h1 className="text-xl mt-4">チーム情報</h1>
+                <h1 className="p-2 text-2xl background--sunny font-black">チーム情報</h1>
                 {contents(isDisplayedForm)}
             </Loading>
         </div>
