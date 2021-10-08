@@ -75,7 +75,7 @@ const Header = ({date}) => {
 
     return (
         <>
-            <header>
+            <header className="fixed top-0 w-full z-10">
                 <div className="h-16 grid grid-cols-3">
                     <div className="transition duration-150 ease-in-outduration-300 cols-span-1 border border-dotted">
                         <Link

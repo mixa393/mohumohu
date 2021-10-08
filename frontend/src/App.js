@@ -74,7 +74,7 @@ function App() {
         } else if (!loading && isSignedIn) {
             return (<>
                     <Header/>
-                    <main>
+                    <main className="mt-16 mb-4">
                         {children}
                     </main>
                     <Footer/>
