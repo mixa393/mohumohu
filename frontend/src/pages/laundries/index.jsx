@@ -31,7 +31,6 @@ const LaundriesIndex = () => {
     return (
         <>
             <Loading isLoading={isLoading}>
-                <Link to="/laundries/add" className="bg-yellow-200 hover:bg-white p-3">新規追加</Link>
                 <div className="relative">
                     <div className="overflow-auto">
                         <table className="table-fixed laundries-table"
@@ -55,6 +54,21 @@ const LaundriesIndex = () => {
                                 )
                             })
                             }
+                            <tr className="h-16">
+                                <th className="h-full">
+                                    <Link to="/laundries/add" className="block bg-yellow-400 p-2 text-white m-auto hover:bg-yellow-300 rounded-xl">
+                                        新規追加
+                                        <span className="text-2xl ml-2">+</span>
+                                    </Link>
+                                </th>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                            </tr>
                             </tbody>
                         </table>
                     </div>
