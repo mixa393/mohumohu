@@ -79,7 +79,6 @@ const UsersIndex = () => {
         <Loading isLoading={loading}>
             <Weather date={date} todaysWeather={todaysWeather} tomorrowsWeather={tomorrowsWeather}/>
             <TodaysList laundries={laundries} update={update}/>
-            {/*<Form/>*/}
         </Loading>
     )
 }
