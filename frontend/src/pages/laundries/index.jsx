@@ -31,7 +31,7 @@ const LaundriesIndex = () => {
     return (
         <>
             <Loading isLoading={isLoading}>
-                <h1 className="p-2 text-2xl background--sunny font-black text-white">WEEKLY</h1>
+                <h1 className="p-2 text-2xl background--sunny font-black">WEEKLY</h1>
                 <div className="relative">
                     <div className="overflow-auto">
                         <table className="table-fixed laundries-table"
@@ -55,25 +55,17 @@ const LaundriesIndex = () => {
                                 )
                             })
                             }
-                            <tr className="h-16">
-                                <th className="h-full">
-                                    <Link to="/laundries/add" className="block bg-yellow-400 p-2 text-white m-auto hover:bg-yellow-300 rounded-xl">
-                                        新規追加
-                                        <span className="text-2xl ml-2">+</span>
-                                    </Link>
-                                </th>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                            </tr>
                             </tbody>
                         </table>
+
                     </div>
                 </div>
+
+                <Link to="/laundries/add"
+                      className="block bg-yellow-400 py-2 px-3 text-white mt-4 mb-16 mx-auto font-black w-1/2 hover:bg-yellow-300 rounded-xl">
+                    新規追加
+                    <span className="text-2xl ml-2">+</span>
+                </Link>
             </Loading>
         </>
     )
