@@ -31,6 +31,7 @@ const LaundriesIndex = () => {
     return (
         <>
             <Loading isLoading={isLoading}>
+                <h1 className="p-2 text-2xl background--sunny font-black text-white">WEEKLY</h1>
                 <div className="relative">
                     <div className="overflow-auto">
                         <table className="table-fixed laundries-table"
