@@ -5,6 +5,7 @@ Rails.application.routes.draw do
 
       resources :teams, only: [:show, :create, :update, :destroy]
       resources :laundries, id: /\d+/
+      get "/laundries/weekly", to: "laundries#weekly"
       get "/laundries/list", to: "laundries#list"
       put "/laundries/washed", to: "laundries#washed"
       put "/laundries/un_washed", to: "laundries#un_washed"

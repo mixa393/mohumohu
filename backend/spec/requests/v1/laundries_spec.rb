@@ -10,7 +10,28 @@ RSpec.describe "LaundriesAPI", type: :request do
 
     context "自分のチームの洗濯物を取得する場合" do
       let!(:laundries) { FactoryBot.create_list(:laundry, 5, team_id: user.team_id) }
+      it '特定チームのデータの取得' do
+        subject
+        expect(response.status).to eq(200)
+        expect(json["data"].first["name"]).to eq(laundries.first.name)
+      end
+    end
 
+    context "異なるチームの洗濯物がある場合" do
+      let!(:laundries) { FactoryBot.create_list(:laundry, 5) }
+      it '洗濯物は取得されないこと' do
+        subject
+        expect(response.status).to eq(200)
+        expect(json["data"].length).to eq(0)
+      end
+    end
+  end
+
+  describe "GET /laundries/weekly" do
+    subject { get "/api/v1/laundries/weekly", headers: auth_tokens }
+
+    context "自分のチームの洗濯物を取得する場合" do
+      let!(:laundries) { FactoryBot.create_list(:laundry, 5, team_id: user.team_id) }
       it '特定チームのデータの取得' do
         subject
         expect(response.status).to eq(200)
@@ -42,7 +63,6 @@ RSpec.describe "LaundriesAPI", type: :request do
         expect(json["data"].length).to eq(0)
       end
     end
-
   end
 
   describe "POST /api/v1/laundries" do
@@ -169,9 +189,9 @@ RSpec.describe "LaundriesAPI", type: :request do
       it 'wash_atの更新' do
         expect { subject }.to change { Laundry.find(laundry.id).wash_at }
                                 .from(laundry.wash_at)
-                                .to(Time.now.to_date + laundry[:days])
+                                .to(Time.now.to_date + laundry.days)
         expect(response.status).to eq(200)
-        updated_wash_at = (Time.now.to_date + laundry[:days]).strftime("%m月%d日")
+        updated_wash_at = (Time.now.to_date + laundry.days).strftime("%m月%d日")
         expect(json['data']).to eq(updated_wash_at)
       end
 

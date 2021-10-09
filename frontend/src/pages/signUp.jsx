@@ -6,6 +6,8 @@ import {AuthContext} from "../App"
 import {signUp} from "../lib/api/auth"
 import {createTeam} from "../lib/api/teams";
 import locationId from "../lib/api/locationId.js"
+import Button from "../components/common/button";
+import Tooltip from "../components/common/tooltip";
 
 const SignUp = () => {
     const history = useHistory()
@@ -68,13 +70,11 @@ const SignUp = () => {
     }
 
     return (
-        <div className="h-screen">
-            <h1 className="text-xl bg-pink-100 p-3">アカウント登録</h1>
+        <>
+            <h1 className="text-xl bg-yellow-100 p-3">アカウント登録</h1>
 
-            <form onSubmit={handleCreateUser}
-                  className="h-5/6 flex flex-col w-2/3 mx-auto max-w-lg justify-around mt-2">
-
-                <div className="flex flex-col">
+            <form className="flex flex-col w-2/3 mx-auto max-w-lg text-sm">
+                <div className="mt-6 flex flex-col">
                     <label htmlFor={"name"}>名前</label>
                     <input
                         id="name"
@@ -87,7 +87,7 @@ const SignUp = () => {
                     />
                 </div>
 
-                <div className="flex flex-col">
+                <div className="mt-6 flex flex-col">
                     <label htmlFor={"email"}>メールアドレス</label>
                     <input
                         type="text"
@@ -99,7 +99,7 @@ const SignUp = () => {
                     />
                 </div>
 
-                <div className="flex flex-col">
+                <div className="mt-6 flex flex-col">
                     <label htmlFor={"password"}>パスワード</label>
                     <input type="password"
                            value={userInfo.password}
@@ -110,8 +110,11 @@ const SignUp = () => {
                     />
                 </div>
 
-                <div className="flex flex-col">
-                    <label htmlFor={"passwordConfirmation"}>パスワードの確認</label>
+                <div className="mt-2 flex flex-col">
+                    <label htmlFor={"passwordConfirmation"}>
+                        パスワードの確認
+                        <Tooltip content="確認のため再度入力して下さい"/>
+                    </label>
                     <input
                         type="password"
                         value={userInfo.passwordConfirmation}
@@ -122,18 +125,26 @@ const SignUp = () => {
                     />
                 </div>
 
-                {/*    <th><label htmlFor={"remindAt"}>リマインダー</label></th>*/}
-                {/*    <td><input*/}
-                {/*        type="time"*/}
-                {/*        value={userInfo.remindAt}*/}
-                {/*        onChange={(e) => {*/}
-                {/*            setUserInfo({...userInfo, remindAt: e.target.value})*/}
-                {/*        }}*/}
-                {/*    /></td>*/}
-                {/*</tr>*/}
+                <div className="mt-6 flex flex-col">
+                    <label htmlFor={"remindAt"}>
+                        リマインダー
+                        <Tooltip content="通知の時間を指定してください。指定しない場合通知はオフに設定されます"/>
+                    </label>
+                    <input
+                        type="time"
+                        value={userInfo.remindAt}
+                        onChange={(e) => {
+                            setUserInfo({...userInfo, remindAt: e.target.value})
+                        }}
+                        className="bg-gray-100 focus:outline-none focus:ring p-0.5 w-full"
+                    />
+                </div>
 
-                <div className="flex flex-col">
-                    <label htmlFor={"locationId"}>お住まいの地域</label>
+                <div className="mt-6 flex flex-col">
+                    <label htmlFor={"locationId"}>
+                        お住まいの地域
+                        <Tooltip content="お住まいの地域の天気予報を表示します"/>
+                    </label>
 
                     <select className="mt-2 bg-gray-100 p-0.5 w-full"
                             onChange={(e) => {
@@ -170,10 +181,9 @@ const SignUp = () => {
                     </select>
                 </div>
 
-                <input type="submit" value="登録"
-                       className="bg-pink-300 w-1/2 p-2 mx-auto rounded-xl border-b-4 border-pink-600 hover:bg-pink-400"/>
+                <Button color="yellow" func={handleCreateUser} value="登録" option="mt-8 py-2 px-5"/>
             </form>
-        </div>
+        </>
     )
 }
 

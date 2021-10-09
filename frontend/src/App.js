@@ -13,6 +13,7 @@ import Header from './components/common/header'
 import Footer from './components/common/footer'
 import UsersIndex from "./pages/users/index";
 import LaundriesIndex from "./pages/laundries";
+import Form from "./pages/laundries/form"
 import SignIn from "./pages/signIn";
 import SignUp from "./pages/signUp";
 
@@ -73,7 +74,7 @@ function App() {
         } else if (!loading && isSignedIn) {
             return (<>
                     <Header/>
-                    <main>
+                    <main className="mt-16 mb-4">
                         {children}
                     </main>
                     <Footer/>
@@ -95,13 +96,15 @@ function App() {
                             <Route exact path="/">
                                 <UsersIndex/>
                             </Route>
-                            <Route path="/laundries">
+                            <Route exact path="/laundries">
                                 <LaundriesIndex/>
                             </Route>
-                            <Route path="/settings/team">
+                            <Route exact path="/laundries/add" component={Form} />
+                            <Route exact path="/laundries/:id(\d+)" component={Form} />
+                            <Route exact path="/settings/team">
                                 <TeamsInfo/>
                             </Route>
-                            <Route path="/settings/user">
+                            <Route exact path="/settings/user">
                                 <UsersInfo/>
                             </Route>
                         </Private>

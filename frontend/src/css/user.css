@@ -12,7 +12,3 @@
     background-image: url("../images/users/rainy.jpg");
     background-size: cover;
 }
-
-.list-item{
-    background: pink url("../images/laundries/tops01.png") no-repeat center center / cover;
-}

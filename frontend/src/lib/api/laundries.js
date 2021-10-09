@@ -5,8 +5,8 @@ import client,{headers} from "./client"
  * laundries#index用
  * @returns {Promise<AxiosResponse<any>>}
  */
-export const getLaundryIndex = () => {
-    return client.get(`/laundries`, {headers})
+export const getLaundryWeekly = () => {
+    return client.get(`/laundries/weekly`, {headers})
 }
 
 /**
@@ -38,7 +38,7 @@ export const createLaundry = (params) => {
 
 /**
  * 洗濯物更新
- * @param params
+ * @param id,params
  * @returns {Promise<AxiosResponse<any>>}
  */
 export const updateLaundry = (id,params) => {

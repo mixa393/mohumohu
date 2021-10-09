@@ -2,8 +2,11 @@ import {useContext, useState, useEffect} from "react";
 import locationId from "../../lib/api/locationId";
 import {getTeam, updateTeam} from "../../lib/api/teams";
 import Loading from "../../components/common/loading";
+import Button from "../../components/common/button";
 import {AuthContext} from "../../App";
 import {useHistory} from "react-router-dom";
+import "../../css/setting.css"
+
 
 const TeamsInfo = () => {
     const {currentUser} = useContext(AuthContext)
@@ -104,8 +107,8 @@ const TeamsInfo = () => {
             return (
                 <>
                     <form onSubmit={handleUpdateTeam}
-                          className="flex flex-col justify-around h-1/2 mt-4 w-3/4 mx-auto">
-                        <div className="w-full mx-auto">
+                          className="w-3/4 mx-auto">
+                        <div className="mt-6 w-full mx-auto">
                             <label htmlFor="name" className="text-left block">チーム名</label>
                             <input type="text" id="name" name="name"
                                    className="bg-gray-100 p-2 w-full focus:outline-none focus:ring"
@@ -116,7 +119,7 @@ const TeamsInfo = () => {
 
                         </div>
 
-                        <div className="w-full mx-auto">
+                        <div className="mt-6 w-full mx-auto">
                             <label htmlFor="locationId" className="text-left block">
                                 天気を表示する地域
                             </label>
@@ -126,7 +129,8 @@ const TeamsInfo = () => {
                                     }}>
                                 <option value=""/>
                                 {
-                                    Object.keys(locationId).map(local => <option key={local} value={local} selected={location.local}>{local}</option>)
+                                    Object.keys(locationId).map(local => <option key={local} value={local}
+                                                                                 selected={location.local}>{local}</option>)
                                 }
                             </select>
 
@@ -137,7 +141,8 @@ const TeamsInfo = () => {
                                 <option value=""/>
                                 {
                                     (location.local?.length > 0) && (Object.keys(locationId[location.local])
-                                        .map(pref => (<option key={pref} value={pref} selected={location.pref}>{pref}</option>)))
+                                        .map(pref => (
+                                            <option key={pref} value={pref} selected={location.pref}>{pref}</option>)))
                                 }
                             </select>
 
@@ -149,45 +154,38 @@ const TeamsInfo = () => {
                                 <option value=""/>
                                 {
                                     (location.pref?.length > 0) && (Object.keys(locationId[location.local][location.pref])
-                                        .map(city => (<option key={city} value={city} selected={location.city}>{city}</option>)))
+                                        .map(city => (
+                                            <option key={city} value={city} selected={location.city}>{city}</option>)))
                                 }
                             </select>
                         </div>
 
-                        <input type="submit"
-                               onClick={handleUpdateTeam}
-                               value="変更"
-                               className="bg-blue-300 max-w-1/2 mx-auto py-2 px-6 rounded-xl border-b-4 border-blue-500 hover:bg-blue-400"/>
+                        <div className="mt-8 space-x-4">
+                            <Button color="yellow" func={handleUpdateTeam} value="変更する" option="w-2/5"/>
+                            <Button color="gray" func={() => {
+                                setIsDisplayedForm(false)
+                            }} value="戻る" option="w-2/5"/>
+                        </div>
                     </form>
-
-                    <button onClick={() => {
-                        setIsDisplayedForm(false)
-                    }}
-                            className="bg-gray-200 max-w-1/2 mx-auto py-2 px-6 rounded-xl border-b-4 border-gray-400 hover:bg-gray-400">
-                        戻る
-                    </button>
                 </>
             )
         } else {
             return (
                 <>
                     <div className="flex flex-col justify-around h-2/5 mt-4 w-3/4 mx-auto">
-                        <div className="w-full mx-auto">
+                        <div className="mt-6 w-full mx-auto">
                             <h2 className="text-left">チーム名</h2>
                             <p className="bg-gray-100 p-2">{currentTeam.name}</p>
                         </div>
 
-                        <div className="w-full mx-auto">
+                        <div className="mt-6 w-full mx-auto">
                             <h2 className="text-left">天気を表示する地域</h2>
                             <p className="bg-gray-100 p-2">{getLocationName(currentTeam.locationId)}</p>
                         </div>
 
-                        <button onClick={() => {
+                        <Button color="yellow" func={() => {
                             setIsDisplayedForm(true)
-                        }}
-                                className="bg-blue-300 max-w-1/2 mx-auto p-3 rounded-xl border-b-4 border-blue-600 hover:bg-blue-400">
-                            変更する
-                        </button>
+                        }} value="変更する" option="w-2/5 mt-8"/>
                     </div>
                 </>
             )
@@ -196,9 +194,9 @@ const TeamsInfo = () => {
 
 
     return (
-        <div className="h-screen">
+        <div style={{minHeight: 'calc(100vh - 5.5rem - 18rem)'}}>
             <Loading isLoading={loading}>
-                <h1 className="text-xl mt-4">チーム情報</h1>
+                <h1 className="p-2 text-2xl background--sunny font-black">チーム情報</h1>
                 {contents(isDisplayedForm)}
             </Loading>
         </div>

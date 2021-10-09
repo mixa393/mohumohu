@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from "react";
 import {useHistory} from "react-router-dom";
 import Weather from "../../components/users/weather";
-import TodaysLaundries from "../../components/users/todaysLaundries";
+import TodaysList from "../../components/users/todaysList";
 import Loading from "../../components/common/loading"
 
 import dayjs from "dayjs";
@@ -78,8 +78,7 @@ const UsersIndex = () => {
     return (
         <Loading isLoading={loading}>
             <Weather date={date} todaysWeather={todaysWeather} tomorrowsWeather={tomorrowsWeather}/>
-            <TodaysLaundries laundries={laundries} update={update}/>
-            {/*<Form/>*/}
+            <TodaysList laundries={laundries} update={update}/>
         </Loading>
     )
 }

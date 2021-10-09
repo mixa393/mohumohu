@@ -55,3 +55,6 @@
 ### React
 - [導入](https://github.com/reactjs/react-rails)
 - [スライドメニュー](https://www.kirupa.com/react/smooth_sliding_menu_react_motion.htm)
+- [画像によるradioボタン](https://gouf.hatenablog.com/entry/2018/02/19/075202)
+- [tooltop](https://reffect.co.jp/react/react-tooltip)
+- [自分で実装したいけどまだしていないmodal](https://reffect.co.jp/react/react-modal)

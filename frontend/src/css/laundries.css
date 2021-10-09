@@ -1,0 +1,16 @@
+.image-selection input[type="radio"]:checked + label img {
+    background: yellow;
+}
+.image-selection input[type="radio"] {
+    display: none;
+}
+
+.laundry-images {
+    margin: 3px;
+    padding: 8px;
+}
+
+.background--sunny {
+    background-image: url("../images/users/sunny.jpg");
+    background-size: cover;
+}

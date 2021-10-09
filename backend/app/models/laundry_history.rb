@@ -1,6 +1,5 @@
 class LaundryHistory < ApplicationRecord
-  # ユーザーIDと履歴IDを用いて検索
-  # @params [Integer] user_id, id
+  # 論理削除されていないものを検索
   scope :valid, -> { where(deleted_at: nil) }
 
   belongs_to :user

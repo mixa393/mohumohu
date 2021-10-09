@@ -6,7 +6,7 @@ import cushions from "../images/laundries/cushions.svg";
 import sheets from "../images/laundries/sheets.svg";
 import mat from "../images/laundries/mattress.svg";
 import bear from "../images/laundries/bear.svg";
-import defaultImage from "../images/laundries/tops01.png";
+import defaultImage from "../images/laundries/tshirts.svg";
 
 const laundryImage = (image) => {
     switch (image) {
@@ -18,7 +18,7 @@ const laundryImage = (image) => {
             return blanket;
         case "pillow":
             return pillow;
-        case "cushions":
+        case "cushion":
             return cushions;
         case "sheets":
             return sheets;
