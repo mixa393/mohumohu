@@ -23,7 +23,7 @@ const Tooltip = ({ content }) => {
             <div onClick={() => setShow(!show)} className="inline-block">
                 <img src={toolTipImage} alt="詳細" className="inline-block h-4 w-auto p-0 m-0"/>
             </div>
-            {show && <p className="top">{content}</p>}
+            {show && <p className="top text-xs">{content}</p>}
         </div>
     );
 };
