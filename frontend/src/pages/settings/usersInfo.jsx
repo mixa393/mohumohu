@@ -67,7 +67,7 @@ const UsersInfo = () => {
                             <label htmlFor="name" className="text-left block">ユーザー名</label>
                             <input type="text" id="name" name="name"
                                    className="bg-gray-100 p-2 w-full focus:outline-none focus:ring"
-                                   defaultValue={params.name}
+                                   defaultValue={currentUser.name}
                                    onChange={(e) => {
                                        setParams({...params, name: e.target.value})
                                    }}/>
@@ -77,7 +77,7 @@ const UsersInfo = () => {
                             <label htmlFor="email" className="text-left block">メールアドレス</label>
                             <input type="email" id="email" name="email"
                                    className="bg-gray-100 p-2 w-full focus:outline-none focus:ring"
-                                   defaultValue={params.email}
+                                   defaultValue={currentUser.email}
                                    onChange={(e) => {
                                        setParams({...params, email: e.target.value})
                                    }}/>
