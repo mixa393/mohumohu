@@ -62,50 +62,53 @@ const UsersInfo = () => {
         if (isDisplayedForm) {
             return (
                 <>
-                    <form onSubmit={handleSubmit}
-                          className="flex flex-col justify-around h-2/3 mt-4 w-3/4 mx-auto">
-                        <div className="w-full mx-auto">
+                    <form onSubmit={handleSubmit} className="mt-4 w-3/4 mx-auto">
+                        <div className="mt-6 w-full mx-auto">
                             <label htmlFor="name" className="text-left block">ユーザー名</label>
                             <input type="text" id="name" name="name"
                                    className="bg-gray-100 p-2 w-full focus:outline-none focus:ring"
-                                   value={params.name}
+                                   defaultValue={params.name}
                                    onChange={(e) => {
                                        setParams({...params, name: e.target.value})
                                    }}/>
                         </div>
 
-                        <div className="w-full mx-auto">
+                        <div className="mt-6 w-full mx-auto">
                             <label htmlFor="email" className="text-left block">メールアドレス</label>
                             <input type="email" id="email" name="email"
                                    className="bg-gray-100 p-2 w-full focus:outline-none focus:ring"
-                                   value={params.email}
+                                   defaultValue={params.email}
                                    onChange={(e) => {
                                        setParams({...params, email: e.target.value})
                                    }}/>
                         </div>
 
-                        <div className="w-full mx-auto">
+                        <div className="mt-6 w-full mx-auto">
                             <label htmlFor="password" className="text-left block">パスワード</label>
                             <input type="password" id="password" name="password"
                                    className="bg-gray-100 p-2 w-full focus:outline-none focus:ring"
-                                   value={passwords.password}
+                                   defaultValue={passwords.password}
                                    onChange={(e) => {
                                        setPasswords({...passwords, password: e.target.value})
                                    }}/>
                         </div>
 
-                        <div className="w-full mx-auto">
+                        <div className="mt-6 w-full mx-auto">
                             <label htmlFor="passwordConfirmation" className="text-left block">パスワードの確認</label>
                             <input type="passwordConfirmation" id="passwordConfirmation" name="passwordConfirmation"
                                    className="bg-gray-100 p-2 w-full focus:outline-none focus:ring"
-                                   value={passwords.passwordConfirmation}
+                                   defaultValue={passwords.passwordConfirmation}
                                    onChange={(e) => {
                                        setPasswords({...passwords, passwordConfirmation: e.target.value})
                                    }}/>
                         </div>
 
-                        <Button color="yellow" func={handleSubmit} value="変更する"/>
-                        <Button color="gray" func={()=>{setIsDisplayedForm(false)}} value="戻る"/>
+                        <div className="mt-8 space-x-4">
+                            <Button color="yellow" func={handleSubmit} value="変更する" option="w-2/5"/>
+                            <Button color="gray" func={() => {
+                                setIsDisplayedForm(false)
+                            }} value="戻る" option="w-2/5"/>
+                        </div>
 
                     </form>
                 </>
@@ -113,13 +116,13 @@ const UsersInfo = () => {
         } else {
             return (
                 <>
-                    <div className="flex flex-col justify-around h-3/5 mt-4 w-3/4 mx-auto">
-                        <div className="w-full mx-auto">
+                    <div className="w-3/4 mx-auto">
+                        <div className="mt-8 w-full mx-auto">
                             <h2 className="text-left">ユーザー名</h2>
                             <p className="bg-gray-100 p-2">{currentUser.name}</p>
                         </div>
 
-                        <div className="w-full mx-auto">
+                        <div className="mt-8 w-full mx-auto">
                             <h2 className="text-left">メールアドレス</h2>
                             <p className="bg-gray-100 p-2">{currentUser.email}</p>
                         </div>
@@ -130,8 +133,14 @@ const UsersInfo = () => {
                         {/*    <p className="bg-gray-100 p-2">{currentUser.remindAt}</p>*/}
                         {/*</div>*/}
 
-                        <Button color="yellow" func={()=>{setIsDisplayedForm(true)}} value="変更する"/>
-                        <Button color="gray" func={()=>{setIsDisplayedForm(true)}} value="退会する"/>
+                        <div className="mt-8 space-x-4">
+                            <Button color="yellow" func={() => {
+                                setIsDisplayedForm(true)
+                            }} value="変更する" option="w-2/5"/>
+                            <Button color="gray" func={() => {
+                                setIsDisplayedForm(true)
+                            }} value="退会する" option="w-2/5"/>
+                        </div>
                     </div>
                 </>
             )
@@ -140,10 +149,8 @@ const UsersInfo = () => {
 
     return (
         <>
-            <div className="h-screen">
-                <h1 className="p-2 text-2xl background--sunny font-black">ユーザー情報</h1>
-                {contents(isDisplayedForm)}
-            </div>
+            <h1 className="p-2 text-xl background--sunny font-black">ユーザー情報</h1>
+            {contents(isDisplayedForm)}
         </>
     )
 }
