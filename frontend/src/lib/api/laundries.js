@@ -5,8 +5,8 @@ import client,{headers} from "./client"
  * laundries#index用
  * @returns {Promise<AxiosResponse<any>>}
  */
-export const getLaundryIndex = () => {
-    return client.get(`/laundries`, {headers})
+export const getLaundryWeekly = () => {
+    return client.get(`/laundries/weekly`, {headers})
 }
 
 /**

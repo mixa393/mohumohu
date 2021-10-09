@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from "react";
 import {Link} from "react-router-dom";
-import {getLaundryIndex} from "../../lib/api/laundries";
+import {getLaundryWeekly} from "../../lib/api/laundries";
 import Loading from "../../components/common/loading"
 import ListHeader from "../../components/laundries/listHeader";
 import ListItem from "../../components/laundries/listItem";
@@ -14,7 +14,7 @@ const LaundriesIndex = () => {
     const getLaundries = async () => {
         try {
             setIsLoading(true)
-            const res = await getLaundryIndex()
+            const res = await getLaundryWeekly()
             console.log(res)
             setLaundries(res.data.data)
             setIsLoading(false)

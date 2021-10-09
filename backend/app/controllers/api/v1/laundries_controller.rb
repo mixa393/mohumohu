@@ -2,8 +2,7 @@ class Api::V1::LaundriesController < ApplicationController
   before_action :authenticate_api_v1_user!
   before_action :set_laundry, only: [:show, :update, :destroy, :washed, :un_washed]
 
-  # statusと、チームに所属する洗濯物全てについてデータをjsonで返却する
-  # @return [json] status,data = {id: 洗濯物ID, name: 洗濯物名, image: 画像, weekly: その週の洗濯する日か否かの配列}
+  # 所属チームの洗濯物一覧を返却
   def index
     laundries = Laundry.valid.where(team_id: current_api_v1_user.team_id)
     data = []
@@ -12,7 +11,10 @@ class Api::V1::LaundriesController < ApplicationController
       data.push({ id: laundry.id,
                   name: laundry.name,
                   image: laundry.image,
-                  weekly: weekly(laundry)
+                  days: laundry.days,
+                  wash_at: laundry.wash_at,
+                  description: laundry.description,
+                  notice:laundry.notice
                 }
       )
     end
@@ -20,52 +22,12 @@ class Api::V1::LaundriesController < ApplicationController
     render json: { status: 200, data: data }
   end
 
-  # ある洗濯物について、今日を含む1週間の中で洗濯する日orその前後の日を数字で返却する
-  # index内で呼び出す
-  # 洗濯する日:2, その前後の日:1, それ以外の日:0
-  # 要素数7
-  # 返却例: [0, 0, 1, 2, 1, 0, 0, 0]
-  # @return [Array] integer
-  # @params [Object] laundry
-  def weekly(laundry)
-    days = laundry.days || 0
-    wash_at = laundry.wash_at
-    today = Time.now.to_date
-    weekly = []
-
-    # 洗濯日当日
-    on_the_day = []
-    (0..6).each do |n|
-      on_the_day.push(wash_at + n * days)
-    end
-
-    # 洗濯日前後の日
-    days_before_and_after = []
-    (0..6).each do |n|
-      days_before_and_after.push(wash_at + n * days + 1)
-      days_before_and_after.push(wash_at + n * days - 1)
-    end
-
-    # 1週間の日付を比較して数字を返す
-    (0...7).each { |n|
-      if on_the_day.include?((today + n))
-        weekly.push(2)
-      elsif days_before_and_after.include?((today + n))
-        weekly.push(1)
-      else
-        weekly.push(0)
-      end
-    }
-
-    weekly
-  end
-
   def show
     data = {
       id: @laundry.id,
       name: @laundry.name,
       days: @laundry.days,
-      image:@laundry.image,
+      image: @laundry.image,
       wash_at: @laundry.wash_at.strftime("%m/%d"),
       description: @laundry.description
     }
@@ -102,6 +64,64 @@ class Api::V1::LaundriesController < ApplicationController
     else
       render json: { status: 400, message: "洗濯物の削除に失敗しました", data: @laundry.errors }
     end
+  end
+
+  # statusと、チームに所属する洗濯物全てについてデータをjsonで返却する
+  # @return [json] status,data = {id: 洗濯物ID, name: 洗濯物名, image: 画像, weekly: その週の洗濯する日か否かの配列}
+  def weekly
+    laundries = Laundry.valid.where(team_id: current_api_v1_user.team_id)
+    data = []
+
+    laundries.each do |laundry|
+      data.push({ id: laundry.id,
+                  name: laundry.name,
+                  image: laundry.image,
+                  weekly: week_data(laundry)
+                }
+      )
+    end
+
+    render json: { status: 200, data: data }
+  end
+
+  # ある洗濯物について、今日を含む1週間の中で洗濯する日orその前後の日を数字で返却する
+  # index内で呼び出す
+  # 洗濯する日:2, その前後の日:1, それ以外の日:0
+  # 要素数7
+  # 返却例: [0, 0, 1, 2, 1, 0, 0, 0]
+  # @return [Array] integer
+  # @params [Object] laundry
+  def week_data(laundry)
+    days = laundry.days || 0
+    wash_at = laundry.wash_at
+    today = Time.now.to_date
+    weekly = []
+
+    # 洗濯日当日
+    on_the_day = []
+    (0..6).each do |n|
+      on_the_day.push(wash_at + n * days)
+    end
+
+    # 洗濯日前後の日
+    days_before_and_after = []
+    (0..6).each do |n|
+      days_before_and_after.push(wash_at + n * days + 1)
+      days_before_and_after.push(wash_at + n * days - 1)
+    end
+
+    # 1週間の日付を比較して数字を返す
+    (0...7).each { |n|
+      if on_the_day.include?((today + n))
+        weekly.push(2)
+      elsif days_before_and_after.include?((today + n))
+        weekly.push(1)
+      else
+        weekly.push(0)
+      end
+    }
+
+    weekly
   end
 
   # 現在から3日以内にwash_atが来る洗濯物一覧を取得
