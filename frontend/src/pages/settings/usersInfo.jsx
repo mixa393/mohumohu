@@ -4,6 +4,7 @@ import {AuthContext} from "../../App";
 import {changePassword, updateUser} from "../../lib/api/auth";
 import Button from "../../components/common/button";
 import "../../css/setting.css"
+import Tooltip from "../../components/common/tooltip";
 
 const UsersInfo = () => {
     const {currentUser} = useContext(AuthContext)
@@ -94,7 +95,10 @@ const UsersInfo = () => {
                         </div>
 
                         <div className="mt-6 w-full mx-auto">
-                            <label htmlFor="passwordConfirmation" className="text-left block">パスワードの確認</label>
+                            <label htmlFor="passwordConfirmation" className="text-left block">
+                                パスワードの確認
+                                <Tooltip content="確認のため再度入力して下さい"/>
+                            </label>
                             <input type="passwordConfirmation" id="passwordConfirmation" name="passwordConfirmation"
                                    className="bg-gray-100 p-2 w-full focus:outline-none focus:ring"
                                    defaultValue={passwords.passwordConfirmation}
