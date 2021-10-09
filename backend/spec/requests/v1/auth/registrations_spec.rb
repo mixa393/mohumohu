@@ -10,6 +10,7 @@ RSpec.describe "ユーザー認証API", type: :request do
                      email: Faker::Internet.unique.email,
                      password: password,
                      password_confirmation: password,
+                     remind_at: "09:00",
                      team_id: team.id } }
 
     it '特定データの作成' do
