@@ -6,7 +6,7 @@ import WeeklyHeader from "../../components/laundries/weeklyHeader";
 import WeeklyItem from "../../components/laundries/weeklyItem";
 
 
-const LaundriesIndex = () => {
+const LaundriesWeekly = () => {
     // 洗濯物一覧
     const [laundries, setLaundries] = useState([]);
     const [isLoading, setIsLoading] = useState(false)
@@ -47,6 +47,7 @@ const LaundriesIndex = () => {
                                         id={laundry.id}
                                         name={laundry.name}
                                         image={laundry.image}
+                                        weekly={laundry.weekly}
                                     />
                                 )
                             })
@@ -68,4 +69,4 @@ const LaundriesIndex = () => {
 }
 
 
-export default LaundriesIndex
+export default LaundriesWeekly

@@ -21,7 +21,7 @@ const customStyles = {
 
 Modal.setAppElement("#root")
 
-const ListItem = ({id, name, image, weekly}) => {
+const WeeklyItem = ({id, name, image, weekly}) => {
     const [modalIsOpen, setIsOpen] = useState(false)
     const [isLoading, setIsLoading] = useState(false)
     const [isShownDeleteMode, setIsShownDeleteMode] = useState(false)
@@ -163,4 +163,4 @@ const ListItem = ({id, name, image, weekly}) => {
 }
 
 
-export default ListItem
+export default WeeklyItem

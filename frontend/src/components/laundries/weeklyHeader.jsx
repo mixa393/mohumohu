@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from "react";
 import dayjs from "dayjs";
 
-const ListHeader = () =>{
+const WeeklyHeader = () =>{
     const [date, setDate] = useState({
         threeDaysLater: "",
         fourDaysLater: "",
@@ -35,4 +35,4 @@ const ListHeader = () =>{
     )
 }
 
-export default ListHeader
+export default WeeklyHeader
