@@ -4,7 +4,7 @@ import Cookies from "js-cookie"
 
 import {AuthContext} from "../App"
 import {signIn} from "../lib/api/auth"
-import mofit from "../images/common/mofit.svg"
+import mofit from "../images/common/mofit.png"
 import Button from "../components/common/button";
 
 // サインイン用ページ
