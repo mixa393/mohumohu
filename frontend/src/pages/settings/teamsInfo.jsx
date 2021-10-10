@@ -112,7 +112,7 @@ const TeamsInfo = () => {
                             <label htmlFor="name" className="text-left block">チーム名</label>
                             <input type="text" id="name" name="name"
                                    className="bg-gray-100 p-2 w-full focus:outline-none focus:ring"
-                                   value={name}
+                                   defaultValue= {name}
                                    onChange={(e) => {
                                        setName(e.target.value)
                                    }}/>
@@ -196,7 +196,7 @@ const TeamsInfo = () => {
     return (
         <div style={{minHeight: 'calc(100vh - 5.5rem - 18rem)'}}>
             <Loading isLoading={loading}>
-                <h1 className="p-2 text-2xl background--sunny font-black">チーム情報</h1>
+                <h1 className="p-2 text-xl heading-image font-black">チーム情報</h1>
                 {contents(isDisplayedForm)}
             </Loading>
         </div>

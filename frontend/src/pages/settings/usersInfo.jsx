@@ -131,7 +131,6 @@ const UsersInfo = () => {
                             <p className="bg-gray-100 p-2">{currentUser.email}</p>
                         </div>
 
-                        {/* TODO:リマインドの変更 */}
                         {/*<div className="w-full mx-auto">*/}
                         {/*    <h2 className="text-left">リマインダー</h2>*/}
                         {/*    <p className="bg-gray-100 p-2">{currentUser.remindAt}</p>*/}
@@ -153,7 +152,7 @@ const UsersInfo = () => {
 
     return (
         <>
-            <h1 className="p-2 text-xl background--sunny font-black">ユーザー情報</h1>
+            <h1 className="p-2 text-xl heading-image font-black">ユーザー情報</h1>
             {contents(isDisplayedForm)}
         </>
     )

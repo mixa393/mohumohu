@@ -14,3 +14,8 @@
     background-image: url("../images/users/sunny.jpg");
     background-size: cover;
 }
+
+.heading-image {
+    background-image: url("../images/common/heading.png");
+    background-size: 100% 100%;
+}
