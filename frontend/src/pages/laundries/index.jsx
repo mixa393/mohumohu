@@ -30,7 +30,9 @@ const LaundriesIndex = () => {
     return (
         <>
             <Loading isLoading={isLoading}>
-                <h1 className="mt-20 p-3 text-xl heading-image font-black">洗濯物一覧</h1>
+                <div className="pt-2">
+                    <h1 className="p-3 text-xl heading-image font-black">洗濯物一覧</h1>
+                </div>
                 <ul className="w-4/5 mt-4 mb-8 mx-auto">
                     {laundries.map((laundry, index) => {
                         return (
@@ -45,7 +47,7 @@ const LaundriesIndex = () => {
                     }
                 </ul>
                 <Link to="/laundries/add"
-                      className="block bg-yellow-300 py-2 w-3/5 text-white mx-auto mt-4 w-1/2 border-b-4 border-yellow-500 rounded-xl">
+                      className="block bg-yellow-300 py-2 w-3/5 text-white mx-auto mt-4 mb-12 w-1/2 border-b-4 border-yellow-500 rounded-xl">
                     新規追加
                     <span className="text-2xl ml-2">+</span>
                 </Link>

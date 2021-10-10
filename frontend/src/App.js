@@ -75,7 +75,7 @@ function App() {
             return (
                 <>
                     <Header/>
-                    <main className="mt-16 mb-4">
+                    <main className="mt-16 mb-6">
                         {children}
                     </main>
                     <Footer/>
