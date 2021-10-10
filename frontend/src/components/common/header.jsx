@@ -3,7 +3,8 @@ import {Link, useLocation} from "react-router-dom"
 import sunWhite from "../../images/common/sun.svg";
 import sunRed from "../../images/common/sun-red.png";
 import tshirtWhite from "../../images/common/tshirt.png"
-import tshirtColor from "../../images/common/tshirts-yellow.png"
+import calender from "../../images/common/calender.svg"
+import calenderColor from "../../images/common/calenderYellow.png"
 import setting from "../../images/common/setting.svg"
 import menuColor from "../../images/common/menu-blue.png"
 import MenuButton from "../common/menuButton"
@@ -23,7 +24,7 @@ const Header = ({date}) => {
 
     const [icon, setIcon] = useState({
         index: sunWhite,
-        laundries: tshirtColor,
+        laundries: calenderColor,
         menu: menuColor
     })
 
@@ -37,10 +38,10 @@ const Header = ({date}) => {
             })
             setIcon({
                 index: sunWhite,
-                laundries: tshirtColor,
+                laundries: calenderColor,
                 menu: menuColor
             })
-        } else if (pathname === "/laundries") {
+        } else if (pathname === "/laundries/weekly") {
             setBackgroundColor({
                 index: "bg-white",
                 laundries: "bg-yellow-200",
@@ -48,18 +49,29 @@ const Header = ({date}) => {
             })
             setIcon({
                 index: sunRed,
-                laundries: tshirtWhite,
+                laundries: calender,
                 menu: menuColor
+            })
+        }else if (pathname === "/laundries") {
+            setBackgroundColor({
+                index: "bg-white",
+                laundries: "bg-white",
+                menu: "bg-yellow-200"
+            })
+            setIcon({
+                index: sunRed,
+                laundries: calenderColor,
+                menu: tshirtWhite
             })
         } else {
             setBackgroundColor({
                 index: "bg-white",
                 laundries: "bg-white",
-                menu: "bg-yellow-100"
+                menu: "bg-yellow-200"
             })
             setIcon({
                 index: sunRed,
-                laundries: tshirtColor,
+                laundries: calenderColor,
                 menu: setting
             })
         }
@@ -88,7 +100,7 @@ const Header = ({date}) => {
                         <Link
                             className={`h-16 flex justify-items-center items-center hover:bg-yellow-200 ${backgroundColor.laundries}`}
                             to="/laundries/weekly">
-                            <img src={icon.laundries} alt="洗濯物リスト" className="h-3/5 w-auto mx-auto"/>
+                            <img src={icon.laundries} alt="weekly" className="h-1/2 w-auto mx-auto"/>
                         </Link>
                     </div>
                     <div className="border border-dotted cols-span-1">
