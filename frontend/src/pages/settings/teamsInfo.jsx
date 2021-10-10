@@ -1,4 +1,4 @@
-import {useContext, useState, useEffect} from "react";
+import React, {useContext, useState, useEffect, useCallback} from "react";
 import locationId from "../../lib/api/locationId";
 import {getTeam, updateTeam} from "../../lib/api/teams";
 import Loading from "../../components/common/loading";
@@ -46,10 +46,14 @@ const TeamsInfo = () => {
         setLoading(false)
     }
 
-    const getLocationName = (id) => {
-        const {pref, city} = getLocationData(id)
-        return `${pref}${city}`
-    }
+    const getLocationName = useCallback(
+        (id) => {
+            const {pref, city} = getLocationData(id)
+            return `${pref}${city}`
+        },
+        [],
+    );
+
 
 
     const getLocationData = (id) => {
@@ -196,7 +200,7 @@ const TeamsInfo = () => {
 
 
     return (
-        <div style={{minHeight: 'calc(100vh - 5.5rem - 18rem)'}}>
+        <div style={{minHeight: 'calc(100vh - 5.5rem - 18rem)'}} className="pt-2">
             <Loading isLoading={loading}>
                 <h1 className="p-2 text-xl heading-image font-black">チーム情報</h1>
                 {contents(isDisplayedForm)}
