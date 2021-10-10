@@ -1,4 +1,4 @@
-import {useContext, useState} from "react";
+import React, {useContext, useState} from "react";
 import {useHistory} from "react-router-dom";
 import {AuthContext} from "../../App";
 import {changePassword, updateUser} from "../../lib/api/auth";
@@ -85,6 +85,19 @@ const UsersInfo = () => {
                         </div>
 
                         <div className="mt-6 w-full mx-auto">
+                            <label htmlFor="remindAt" className="text-left block">
+                                リマインダー
+                                <Tooltip content="通知の時間を指定してください。指定しない場合通知はオフに設定されます"/>
+                            </label>
+                            <input type="time" id="remindAt" name="remindAt"
+                                   className="bg-gray-100 p-2 w-full focus:outline-none focus:ring"
+                                   defaultValue={currentUser.remindAt}
+                                   onChange={(e) => {
+                                       setPasswords({...params, remindAt: e.target.value})
+                                   }}/>
+                        </div>
+
+                        <div className="mt-6 w-full mx-auto">
                             <label htmlFor="password" className="text-left block">パスワード</label>
                             <input type="password" id="password" name="password"
                                    className="bg-gray-100 p-2 w-full focus:outline-none focus:ring"
@@ -131,10 +144,10 @@ const UsersInfo = () => {
                             <p className="bg-gray-100 p-2">{currentUser.email}</p>
                         </div>
 
-                        {/*<div className="w-full mx-auto">*/}
-                        {/*    <h2 className="text-left">リマインダー</h2>*/}
-                        {/*    <p className="bg-gray-100 p-2">{currentUser.remindAt}</p>*/}
-                        {/*</div>*/}
+                        <div className="mt-8 w-full mx-auto">
+                            <h2 className="text-left">リマインダー</h2>
+                            <p className="bg-gray-100 p-2">{currentUser.remindAt}</p>
+                        </div>
 
                         <div className="mt-8 space-x-4">
                             <Button color="yellow" func={() => {
