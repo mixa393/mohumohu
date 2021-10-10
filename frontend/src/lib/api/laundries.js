@@ -1,8 +1,16 @@
 import client,{headers} from "./client"
 
 /**
- * 洗濯情報一覧
- * laundries#index用
+ * 洗濯物一覧
+ * @returns {Promise<AxiosResponse<any>>}
+ */
+export const getLaundryIndex = () => {
+    return client.get(`/laundries`, {headers})
+}
+
+/**
+ * 1週間の洗濯物スケジュール
+ * laundries#weekly用
  * @returns {Promise<AxiosResponse<any>>}
  */
 export const getLaundryWeekly = () => {

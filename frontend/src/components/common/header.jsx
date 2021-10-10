@@ -87,7 +87,7 @@ const Header = ({date}) => {
                     <div className="border border-dotted cols-span-1">
                         <Link
                             className={`h-16 flex justify-items-center items-center hover:bg-yellow-200 ${backgroundColor.laundries}`}
-                            to="/laundries">
+                            to="/laundries/weekly">
                             <img src={icon.laundries} alt="洗濯物リスト" className="h-3/5 w-auto mx-auto"/>
                         </Link>
                     </div>

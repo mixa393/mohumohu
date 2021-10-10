@@ -31,7 +31,7 @@ const LaundriesWeekly = () => {
     return (
         <>
             <Loading isLoading={isLoading}>
-                <h1 className="p-2 text-2xl background--sunny font-black">WEEKLY</h1>
+                <h1 className="p-2 text-2xl font-black heading-image">WEEKLY</h1>
                 <div className="relative">
                     <div className="overflow-auto">
                         <table className="table-fixed laundries-table"
