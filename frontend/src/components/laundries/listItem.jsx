@@ -1,5 +1,4 @@
 import React, {useState} from "react";
-import washingMachine from "../../images/laundries/washing-machine.svg"
 import {laundryImage} from "../../lib/common";
 import Loading from '../common/loading.jsx'
 import Modal from "react-modal"

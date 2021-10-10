@@ -66,12 +66,7 @@ const SignIn = () => {
                                onChange={event => setPassword(event.target.value)}/>
                     </div>
 
-                    <Button color="yellow" func={handleSubmit} value="ログイン"/>
-                    {/*<input type="submit"*/}
-                    {/*       disabled={!email || !password} // 空欄があった場合はボタンを押せないように*/}
-                    {/*       onClick={handleSubmit}*/}
-                    {/*       value="ログイン"*/}
-                    {/*       className="bg-yellow-300 w-1/2 p-2 mx-auto rounded-xl border-b-4 border-pink-600 hover:bg-yellow-400"/>*/}
+                    <Button color="yellow" func={handleSubmit} value="ログイン" option="w-1/2"/>
                 </form>
 
                 <ul className="text-xs mt-8 text-gray-600">
