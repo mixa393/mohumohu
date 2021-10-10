@@ -27,7 +27,7 @@ const UsersInfo = () => {
         e.preventDefault()
 
         for (const property in params) {
-            if (params[property] === "") {
+            if (params[property] === "" || (property === 'name' && params[property] === currentUser.name) || (property === 'email' && params[property] === currentUser.email)) {
                 delete params[property]
             }
         }
@@ -165,7 +165,9 @@ const UsersInfo = () => {
 
     return (
         <>
-            <h1 className="p-2 text-xl heading-image font-black">ユーザー情報</h1>
+            <div className="pt-2">
+                <h1 className="p-2 text-xl heading-image font-black">ユーザー情報</h1>
+            </div>
             {contents(isDisplayedForm)}
         </>
     )
