@@ -6,6 +6,7 @@ import Button from "../../components/common/button";
 import {AuthContext} from "../../App";
 import {useHistory} from "react-router-dom";
 import "../../css/setting.css"
+import Tooltip from "../../components/common/tooltip";
 
 
 const TeamsInfo = () => {
@@ -122,6 +123,7 @@ const TeamsInfo = () => {
                         <div className="mt-6 w-full mx-auto">
                             <label htmlFor="locationId" className="text-left block">
                                 天気を表示する地域
+                                <Tooltip content="お住まいの地域の天気予報を表示します"/>
                             </label>
                             <select className="mt-2 bg-gray-100 p-2 w-full"
                                     onChange={(e) => {
