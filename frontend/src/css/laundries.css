@@ -1,5 +1,5 @@
 .image-selection input[type="radio"]:checked + label img {
-    background: yellow;
+    background: pink;
 }
 .image-selection input[type="radio"] {
     display: none;

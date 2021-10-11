@@ -121,7 +121,7 @@ const UsersInfo = () => {
                         </div>
 
                         <div className="mt-8 space-x-4">
-                            <Button color="yellow" func={handleSubmit} value="変更する" option="w-2/5"/>
+                            <Button color="pink" func={handleSubmit} value="変更する" option="w-2/5"/>
                             <Button color="gray" func={() => {
                                 setIsDisplayedForm(false)
                             }} value="戻る" option="w-2/5"/>
@@ -150,7 +150,7 @@ const UsersInfo = () => {
                         </div>
 
                         <div className="mt-8 space-x-4">
-                            <Button color="yellow" func={() => {
+                            <Button color="pink" func={() => {
                                 setIsDisplayedForm(true)
                             }} value="変更する" option="w-2/5"/>
                             <Button color="gray" func={() => {

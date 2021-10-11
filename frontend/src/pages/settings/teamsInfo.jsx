@@ -167,7 +167,7 @@ const TeamsInfo = () => {
                         </div>
 
                         <div className="mt-8 space-x-4">
-                            <Button color="yellow" func={handleUpdateTeam} value="変更する" option="w-2/5"/>
+                            <Button color="pink" func={handleUpdateTeam} value="変更する" option="w-2/5"/>
                             <Button color="gray" func={() => {
                                 setIsDisplayedForm(false)
                             }} value="戻る" option="w-2/5"/>
@@ -189,7 +189,7 @@ const TeamsInfo = () => {
                             <p className="bg-gray-100 p-2">{getLocationName(currentTeam.locationId)}</p>
                         </div>
 
-                        <Button color="yellow" func={() => {
+                        <Button color="pink" func={() => {
                             setIsDisplayedForm(true)
                         }} value="変更する" option="w-2/5 mt-8"/>
                     </div>

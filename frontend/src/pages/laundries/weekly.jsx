@@ -1,5 +1,4 @@
 import React, {useEffect, useState} from "react";
-import {Link} from "react-router-dom";
 import {getLaundryWeekly} from "../../lib/api/laundries";
 import Loading from "../../components/common/loading"
 import WeeklyHeader from "../../components/laundries/weeklyHeader";

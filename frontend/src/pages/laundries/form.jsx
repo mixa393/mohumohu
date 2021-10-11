@@ -229,7 +229,7 @@ const Form = ({match}) => {
                                defaultValue={laundry.description ?? ""}/>
                     </div>
 
-                    <Button color="yellow" func={(e) => {
+                    <Button color="pink" func={(e) => {
                         handleSubmit(e, laundryId)
                     }} value="変更する"/>
                 </form>

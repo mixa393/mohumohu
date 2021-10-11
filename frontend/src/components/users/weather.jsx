@@ -63,7 +63,7 @@ const Weather = ({date, todaysWeather, tomorrowsWeather}) => {
 
                     <img src={weather().imageUrl ?? ''} alt={weather().telop ?? ''} className="w-56 rounded-full"/>
 
-                    <div className="flex text-yellow-400 text-xl">
+                    <div className="flex text-pink-400 text-xl">
                         <p className="mx-3 bg-gradient-to-tr from-white to-transparent rounded-xl p-3 font-bold">
                             <span className="text-xs align-top">AM</span>
                             {weather().chanceOfRainAM ?? ''}

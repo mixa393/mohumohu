@@ -46,7 +46,7 @@ const LaundriesIndex = () => {
                     }
                 </ul>
                 <Link to="/laundries/add"
-                      className="block bg-yellow-300 py-2 w-3/5 text-white mx-auto mb-10 border-b-4 border-yellow-500 rounded-xl font-black">
+                      className="block bg-pink-300 py-2 w-3/5 text-white mx-auto mb-10 border-b-4 border-pink-500 rounded-xl font-black">
                     追加
                     <span className="text-2xl ml-2">+</span>
                 </Link>

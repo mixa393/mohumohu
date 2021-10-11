@@ -72,7 +72,7 @@ const WeeklyItem = ({id, name, image, weekly}) => {
                     <p className="text-center text-red-500">本当に削除しますか？</p>
 
                     <div className="mt-8 w-2/3 mx-auto flex justify-between space-x-2">
-                        <Button color="yellow" func={(e) => {
+                        <Button color="pink" func={(e) => {
                             deleteLaundryInfo(e, laundry.id)
                         }} value="はい"/>
                         <Button color="gray" func={() => {
@@ -87,7 +87,7 @@ const WeeklyItem = ({id, name, image, weekly}) => {
             return (
                 <div className="mt-8 w-2/3 mx-auto flex justify-between space-x-1">
                     <Link to={`/laundries/${laundry.id}`}
-                          className="bg-yellow-200 hover:bg-yellow-100 py-2 px-3 rounded-xl border-b-4 border-yellow-500">
+                          className="bg-pink-100 hover:bg-pink-100 py-2 px-3 rounded-xl border-b-4 border-pink-500">
                         変更する</Link>
                     <Button color="gray" func={() => {
                         setIsShownDeleteMode(true)
@@ -111,11 +111,11 @@ const WeeklyItem = ({id, name, image, weekly}) => {
 
                 {weekly?.map((day, index) => {
                     if (day === 2) {
-                        return (<td key={index} className="border-2 border-dotted border-gray-100 bg-yellow-200 w-1/12">
+                        return (<td key={index} className="border-2 border-dotted border-gray-100 bg-pink-100 w-1/12">
                             <img src={washingMachine} alt="洗濯する日" className="w-3/5 m-auto opacity-60"/>
                         </td>)
                     } else if (day === 1) {
-                        return (<td key={index} className="border-2 border-dotted border-gray-100 bg-yellow-100"></td>)
+                        return (<td key={index} className="border-2 border-dotted border-gray-100 bg-pink-100"></td>)
                     } else {
                         return (<td key={index} className="border-2 border-dotted border-gray-100"></td>)
                     }
@@ -129,7 +129,7 @@ const WeeklyItem = ({id, name, image, weekly}) => {
                 <Loading isLoading={isLoading} width={'100%'} height={'100%'}>
                     <button onClick={closeModal} className="bg-gray-200">X</button>
 
-                    <h2 className="text-center p-1 bg-yellow-100">{laundry.name}</h2>
+                    <h2 className="text-center p-1 bg-pink-100">{laundry.name}</h2>
 
                     <div className="grid grid-cols-5 my-8 text-sm">
                         <div className="col-span-2 flex items-center justify-center">
