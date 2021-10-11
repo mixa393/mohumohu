@@ -47,13 +47,15 @@ const ModalButtons = ({id}) => {
             <>
                 <p className="text-center text-red-500">本当に削除しますか？</p>
 
-                <div className="mt-8 w-2/3 mx-auto flex justify-between">
+                <div className="mt-6 w-4/5 mx-auto flex justify-between">
                     <Button color="pink" func={(e) => {
                         deleteLaundryInfo(e, id)
-                    }} value="はい"/>
+                    }} value="はい"
+                    option="w-2/5"/>
                     <Button color="gray" func={() => {
                         setIsShownDeleteMode(false)
-                    }} value="いいえ"/>
+                    }} value="いいえ"
+                    option="w-2/5"/>
                 </div>
             </>
         )
