@@ -85,7 +85,7 @@ const WeeklyItem = ({id, name, image, weekly}) => {
                         image={laundry.image}
                         days={laundry.days}
                         washAt={laundry.washAt}
-                        description={laundry.washAt}
+                        description={laundry.description}
                     />
 
                     <ModalButtons id={laundry.id}/>

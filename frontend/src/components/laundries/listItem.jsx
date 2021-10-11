@@ -69,7 +69,7 @@ const ListItem = ({id, name, image}) => {
                         image={laundry.image}
                         days={laundry.days}
                         washAt={laundry.washAt}
-                        description={laundry.washAt}
+                        description={laundry.description}
                     />
 
                     <ModalButtons id={laundry.id}/>
