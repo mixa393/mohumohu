@@ -7,6 +7,7 @@ import {Link} from "react-router-dom";
 import {deleteLaundry, getLaundry, washed} from "../../lib/api/laundries";
 import {useHistory} from "react-router";
 import {createLaundryHistories} from "../../lib/api/laundry_histories";
+import ModalContents from "./modalContents";
 
 const customStyles = {
     content: {
@@ -139,29 +140,13 @@ const ListItem = ({id, name, image}) => {
                 <Loading isLoading={isLoading} width={'100%'} height={'100%'}>
                     <button onClick={closeModal} className="bg-gray-200">X</button>
 
-                    <h2 className="text-center p-1 bg-pink-100">{laundry.name}</h2>
-
-                    <div className="grid grid-cols-5 my-8 text-sm">
-                        <div className="col-span-2 flex items-center justify-center">
-                            <img src={laundryImage(laundry.image)} alt={`${laundry.name}の画像`}
-                                 className="w-3/5 h-auto"/>
-                        </div>
-                        <div className="col-span-3">
-                            {laundry.days &&
-                            <div className="flex justify-between items-center border-b-2 border-dashed">
-                                <p className="p-1 bg-gray-100">頻度</p>
-                                <p className="border-b border-dashed">{laundry.days ?? ""}日に1回</p>
-                            </div>}
-
-                            <div className="flex justify-between items-center mt-5 border-b-2 border-dashed">
-                                <p className="p-1 bg-gray-100">次回の洗濯</p>
-                                <p>{laundry.washAt}</p>
-                            </div>
-
-                            {laundry.description &&
-                            <p className="mt-5 border-b-2 border-dashed">{laundry.description ?? ""}</p>}
-                        </div>
-                    </div>
+                    <ModalContents
+                        name={laundry.name}
+                        image={laundry.image}
+                        days={laundry.days}
+                        washAt={laundry.washAt}
+                        description={laundry.washAt}
+                    />
 
                     {buttons()}
 
