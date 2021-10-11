@@ -6,7 +6,7 @@ class Api::V1::Auth::RegistrationsController < DeviseTokenAuth::RegistrationsCon
   # 論理削除 deleted_atカラムを現在日時に更新
   # @see: https://github.com/heartcombo/devise/wiki/How-to:-Soft-delete-a-user-when-user-deletes-account
   def destroy
-    user = User.find(params[:id])
+    user = User.find(@resource.id)
     soft_delete(user)
 
     Devise.sign_out_all_scopes ? sign_out : sign_out(resource_name)
