@@ -5,7 +5,6 @@ import Loading from "../../components/common/loading";
 import Button from "../../components/common/button";
 import {AuthContext} from "../../App";
 import {useHistory} from "react-router-dom";
-import "../../css/setting.css"
 import Tooltip from "../../components/common/tooltip";
 import Heading from "../../components/common/heading";
 
