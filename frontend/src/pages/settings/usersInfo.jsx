@@ -5,6 +5,7 @@ import {changePassword, updateUser} from "../../lib/api/auth";
 import Button from "../../components/common/button";
 import "../../css/setting.css"
 import Tooltip from "../../components/common/tooltip";
+import Heading from "../../components/common/heading";
 
 const UsersInfo = () => {
     const {currentUser} = useContext(AuthContext)
@@ -166,7 +167,7 @@ const UsersInfo = () => {
     return (
         <>
             <div className="pt-2">
-                <h1 className="p-2 text-xl heading-image font-black">ユーザー情報</h1>
+                <Heading content="ユーザー情報"/>
             </div>
             {contents(isDisplayedForm)}
         </>

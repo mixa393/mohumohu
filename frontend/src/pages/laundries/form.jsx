@@ -17,6 +17,7 @@ import unSelectedImage from "../../images/laundries/unSelected.svg"
 import Modal from "react-modal";
 import {laundryImage} from "../../lib/common";
 import {useHistory} from "react-router";
+import Heading from "../../components/common/heading";
 
 const customStyles = {
     content: {
@@ -59,7 +60,7 @@ const Form = ({match}) => {
     function closeModal() {
         setIsOpen(false);
     }
-    
+
     const params = useState({
         name: "",
         image: "",
@@ -117,8 +118,12 @@ const Form = ({match}) => {
     return (
         <>
             <div className="h-screen">
-                <h1 className="text-xl p-4 bg-yellow-200">洗濯物</h1>
-                {!laundryId && <p className="text-xs text-gray-300 text-right">※のついている項目は必須です</p>}
+                <Heading content="洗濯物編集"/>
+                {!laundryId && <>
+                    <Heading content="洗濯物作成"/>
+                    <p className="text-xs text-gray-300 text-right">※のついている項目は必須です</p>
+                </>
+                }
 
                 <form className="h-3/4 flex flex-col justify-around text-sm w-4/5 mx-auto mt-4">
                     <div className="flex flex-col">

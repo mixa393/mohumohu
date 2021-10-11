@@ -7,6 +7,7 @@ import {AuthContext} from "../../App";
 import {useHistory} from "react-router-dom";
 import "../../css/setting.css"
 import Tooltip from "../../components/common/tooltip";
+import Heading from "../../components/common/heading";
 
 
 const TeamsInfo = () => {
@@ -202,7 +203,7 @@ const TeamsInfo = () => {
     return (
         <div style={{minHeight: 'calc(100vh - 5.5rem - 18rem)'}} className="pt-2">
             <Loading isLoading={loading}>
-                <h1 className="p-2 text-xl heading-image font-black">チーム情報</h1>
+                <Heading content="チーム"/>
                 {contents(isDisplayedForm)}
             </Loading>
         </div>

@@ -4,6 +4,7 @@ import {getLaundryWeekly} from "../../lib/api/laundries";
 import Loading from "../../components/common/loading"
 import WeeklyHeader from "../../components/laundries/weeklyHeader";
 import WeeklyItem from "../../components/laundries/weeklyItem";
+import Heading from "../../components/common/heading";
 
 
 const LaundriesWeekly = () => {
@@ -31,9 +32,7 @@ const LaundriesWeekly = () => {
     return (
         <>
             <Loading isLoading={isLoading}>
-                <div className="pt-2 pb-2">
-                    <h1 className="p-2 text-2xl font-black heading-image">WEEKLY</h1>
-                </div>
+                <Heading content="WEEKLY"/>
                 <div className="relative">
                     <div className="overflow-auto">
                         <table className="table-fixed laundries-table"
