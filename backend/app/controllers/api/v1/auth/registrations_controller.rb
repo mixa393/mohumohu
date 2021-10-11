@@ -10,7 +10,6 @@ class Api::V1::Auth::RegistrationsController < DeviseTokenAuth::RegistrationsCon
     soft_delete(user)
 
     Devise.sign_out_all_scopes ? sign_out : sign_out(resource_name)
-    # set_flash_message :notice, :destroyed
     yield resource if block_given?
   end
 
