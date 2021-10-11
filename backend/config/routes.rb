@@ -13,7 +13,6 @@ Rails.application.routes.draw do
 
       # ログイン用
       mount_devise_token_auth_for 'User', at: 'auth', controllers: { registrations: 'api/v1/auth/registrations' }
-      devise_for :users, :controllers => { :registrations => 'users/registrations' }
       namespace :auth do
         resources :sessions, only: %i[index]
       end
