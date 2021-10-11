@@ -22,7 +22,7 @@ class Api::V1::Auth::RegistrationsController < DeviseTokenAuth::RegistrationsCon
   def soft_delete(user)
     deleted_email = 'deleted_' + Time.current.strftime("%F_%H_%M_%S") + user.email
     user.assign_attributes(email: deleted_email, deleted_at: Time.current)
-    # user.skip_reconfirmation!
+    user.skip_email_changed_notification!
     user.save!
   end
 
