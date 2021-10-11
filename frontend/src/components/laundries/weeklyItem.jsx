@@ -3,11 +3,9 @@ import washingMachine from "../../images/laundries/washing-machine.svg"
 import {laundryImage} from "../../lib/common";
 import Loading from '../common/loading.jsx'
 import Modal from "react-modal"
-import Button from "../common/button";
-import {Link} from "react-router-dom";
-import {deleteLaundry, getLaundry} from "../../lib/api/laundries";
-import {useHistory} from "react-router";
+import {getLaundry} from "../../lib/api/laundries";
 import ModalContents from "./modalContents";
+import ModalButtons from "./modalButtons";
 
 const customStyles = {
     content: {
@@ -25,8 +23,6 @@ Modal.setAppElement("#root")
 const WeeklyItem = ({id, name, image, weekly}) => {
     const [modalIsOpen, setIsOpen] = useState(false)
     const [isLoading, setIsLoading] = useState(false)
-    const [isShownDeleteMode, setIsShownDeleteMode] = useState(false)
-    const history = useHistory()
 
     function openModal() {
         setIsOpen(true);
@@ -49,52 +45,6 @@ const WeeklyItem = ({id, name, image, weekly}) => {
             setLaundry(res.data.data)
         } catch (err) {
             console.error(err)
-        }
-    }
-
-    const deleteLaundryInfo = async (e, id) => {
-        e.preventDefault()
-
-        try {
-            const res = await deleteLaundry(id)
-            setIsShownDeleteMode(false)
-            console.log(res)
-            history.push("/laundries")
-        } catch (err) {
-            console.error(err)
-        }
-    }
-
-    let buttons
-    if (isShownDeleteMode) {
-        buttons = () => {
-            return (
-                <>
-                    <p className="text-center text-red-500">本当に削除しますか？</p>
-
-                    <div className="mt-8 w-2/3 mx-auto flex justify-between space-x-2">
-                        <Button color="pink" func={(e) => {
-                            deleteLaundryInfo(e, laundry.id)
-                        }} value="はい"/>
-                        <Button color="gray" func={() => {
-                            setIsShownDeleteMode(false)
-                        }} value="いいえ"/>
-                    </div>
-                </>
-            )
-        }
-    } else {
-        buttons = () => {
-            return (
-                <div className="mt-8 w-2/3 mx-auto flex justify-between space-x-1">
-                    <Link to={`/laundries/${laundry.id}`}
-                          className="bg-pink-100 hover:bg-pink-100 py-2 px-3 rounded-xl border-b-4 border-pink-500">
-                        変更する</Link>
-                    <Button color="gray" func={() => {
-                        setIsShownDeleteMode(true)
-                    }} value="削除する"/>
-                </div>
-            )
         }
     }
 
@@ -138,7 +88,7 @@ const WeeklyItem = ({id, name, image, weekly}) => {
                         description={laundry.washAt}
                     />
 
-                    {buttons()}
+                    <ModalButtons id={laundry.id}/>
 
                 </Loading>
             </Modal>
