@@ -37,7 +37,7 @@ RSpec.describe "ユーザー認証API", type: :request do
   context "サインイン後" do
     let!(:user) { FactoryBot.create(:user) }
     let(:auth_tokens) { sign_in(user) }
-    let(:json){JSON.parse(response.body)}
+    let(:json) { JSON.parse(response.body) }
 
     it 'DELETE api/v1/auth/sign_out サインアウト' do
       delete "/api/v1/auth/sign_out", headers: auth_tokens
@@ -52,7 +52,6 @@ RSpec.describe "ユーザー認証API", type: :request do
       expect(response.status).to eq(200)
       expect(json["message"]).to include("更新に成功")
     end
-
 
     it 'PUT /api/v1/auth ユーザー情報の変更' do
       update_params = { "name" => Faker::Internet.username, "email" => Faker::Internet.unique.email }
