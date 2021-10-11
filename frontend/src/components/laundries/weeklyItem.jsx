@@ -111,11 +111,11 @@ const WeeklyItem = ({id, name, image, weekly}) => {
 
                 {weekly?.map((day, index) => {
                     if (day === 2) {
-                        return (<td key={index} className="border-2 border-dotted border-gray-100 bg-yellow-500 w-1/12">
-                            <img src={washingMachine} alt="洗濯する日" className="w-3/5 m-auto"/>
+                        return (<td key={index} className="border-2 border-dotted border-gray-100 bg-yellow-200 w-1/12">
+                            <img src={washingMachine} alt="洗濯する日" className="w-3/5 m-auto opacity-60"/>
                         </td>)
                     } else if (day === 1) {
-                        return (<td key={index} className="border-2 border-dotted border-gray-100 bg-yellow-400"></td>)
+                        return (<td key={index} className="border-2 border-dotted border-gray-100 bg-yellow-100"></td>)
                     } else {
                         return (<td key={index} className="border-2 border-dotted border-gray-100"></td>)
                     }
