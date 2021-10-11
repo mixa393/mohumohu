@@ -44,7 +44,7 @@ const Header = ({date}) => {
         } else if (pathname === "/laundries/weekly") {
             setBackgroundColor({
                 index: "bg-white",
-                laundries: "bg-yellow-200",
+                laundries: "bg-yellow-300",
                 menu: "bg-white"
             })
             setIcon({
@@ -56,7 +56,7 @@ const Header = ({date}) => {
             setBackgroundColor({
                 index: "bg-white",
                 laundries: "bg-white",
-                menu: "bg-yellow-200"
+                menu: "bg-yellow-300"
             })
             setIcon({
                 index: sunRed,
@@ -67,7 +67,7 @@ const Header = ({date}) => {
             setBackgroundColor({
                 index: "bg-white",
                 laundries: "bg-white",
-                menu: "bg-yellow-200"
+                menu: "bg-yellow-300"
             })
             setIcon({
                 index: sunRed,
