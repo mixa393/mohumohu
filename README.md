@@ -39,6 +39,10 @@
   - [Rails5 + devise token authで作る 認証API](http://www.webcyou.com/?p=7869)
   - [【Rails API 入門】devise-token-auth](https://qiita.com/tomokazu0112/items/5fdd6a51a84c520c45b5)
   - [Rails6.0とdevice_token_auth でトークンベースで認証を実装する~confirmable + action mailerの設定まで](https://qiita.com/mtoyopet/items/076b623ac72f4f83c5f6)
+- 論理削除
+  - [Deviseで論理削除を実装する](https://qiita.com/tanutanu/items/3048e17da0dc5a0e944e)
+  - [【翻訳】deviseで論理削除を実装する方法](https://qiita.com/t1gert1ger/items/0b90040085005f0860bf)
+  - [How to: Soft delete a user when user deletes account](https://github.com/heartcombo/devise/wiki/How-to:-Soft-delete-a-user-when-user-deletes-account)
 - バッチ処理
   - [Railsで定期的に実行したい処理を、rakeタスクを使って実装する。（おまけ:Wheneverとの連携）](https://qiita.com/Tatsu88/items/0d85d2e8509632d2536b)
   - [Railsでバッチを書く時によく使うrails runnerとrake taskの違い](https://qiita.com/rllllho/items/672e336a03335cba6b34)
