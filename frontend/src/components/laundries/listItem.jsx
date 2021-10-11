@@ -106,17 +106,17 @@ const ListItem = ({id, name, image}) => {
     } else {
         buttons = () => {
             return (
-                <div className="mt-8 w-2/3 mx-auto flex justify-between space-x-1">
+                <div className="mt-8 flex justify-around text-sm">
                     <Button color="pink" func={(e) => {
-                        handleWash(e,id)
+                        handleWash(e, id)
                     }} value="今日洗濯する"/>
                     <Link to={`/laundries/${laundry.id}`}
-                          className="bg-pink-100 hover:bg-pink-100 py-2 px-3 rounded-xl border-b-4 border-pink-500">
-                        変更する</Link>
+                          className="bg-pink-100 hover:bg-pink-200 py-2 px-3 rounded-xl border-b-4 border-pink-500">
+                        変更する
+                    </Link>
                     <Button color="gray" func={() => {
                         setIsShownDeleteMode(true)
                     }} value="削除する"/>
-                    <p>今日洗濯する</p>
                 </div>
             )
         }
