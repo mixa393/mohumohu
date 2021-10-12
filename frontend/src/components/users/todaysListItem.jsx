@@ -71,7 +71,7 @@ const TodaysListItem = ({index, id, name, image, isDisplayed, limitDays, update}
                 <p className="col-span-3 my-auto leading-none text-sm">{name}</p>
                 <p className="col-span-1 my-auto leading-tight text-sm">{howManyDays(limitDays)}</p>
                 <div className="col-span-4 flex w-11/12 mx-auto">
-                    <button className="h-10 w-1/2 rounded-l-xl bg-yellow-200 text-sm my-auto hover:shadow-sm hover:translate-y-0.5 transform transition"
+                    <button className="h-10 w-1/2 rounded-l-xl bg-pink-100 text-sm my-auto hover:shadow-sm hover:translate-y-0.5 transform transition"
                             onClick={(e) => {
                                 handleWash(e, id)
                             }}>洗濯する

@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from "react";
+import React, {useEffect, useState, useCallback} from "react";
 import {useHistory} from "react-router-dom";
 import Weather from "../../components/users/weather";
 import TodaysList from "../../components/users/todaysList";
@@ -18,7 +18,7 @@ const UsersIndex = () => {
     // ----------------------------- laundries取得 -------------------------------
     const [laundries, setLaundries] = useState([]);
 
-    const getLaundries = async () => {
+    const getLaundries = useCallback(async () => {
         try {
             const res = await getLaundryList()
             console.log(res)
@@ -28,7 +28,7 @@ const UsersIndex = () => {
             // FIXME:初回は失敗するので、リロードするが後ほど解消する
             history.go(0)
         }
-    }
+    }, [history])
 
     const update = async () => {
         await getLaundries()
@@ -73,7 +73,7 @@ const UsersIndex = () => {
         return () => {
             abortController.abort()
         }
-    }, [])
+    }, [getLaundries])
 
     return (
         <Loading isLoading={loading}>

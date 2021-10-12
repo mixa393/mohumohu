@@ -1,0 +1,6 @@
+.heading-image {
+    background-image: url("../images/common/heading.png");
+    background-size: 100% 100%;
+    text-shadow: 5px 1px 2px brown;
+    margin: 100% 0 10% 0;
+}

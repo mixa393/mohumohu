@@ -1,4 +1,5 @@
 import React, {useState} from "react";
+import washingMachine from "../../images/laundries/washing-machine.svg"
 import {laundryImage} from "../../lib/common";
 import Loading from '../common/loading.jsx'
 import Modal from "react-modal"
@@ -19,7 +20,7 @@ const customStyles = {
 
 Modal.setAppElement("#root")
 
-const ListItem = ({id, name, image}) => {
+const WeeklyItem = ({id, name, image, weekly}) => {
     const [modalIsOpen, setIsOpen] = useState(false)
     const [isLoading, setIsLoading] = useState(false)
 
@@ -49,13 +50,28 @@ const ListItem = ({id, name, image}) => {
 
     return (
         <>
-            <li className="flex h-14 w-full mx-auto border-dashed border-b-2 border-gray-200">
-                <img src={laundryImage(image)} alt={`${name}の画像`} className="h-3/5 w-auto m-auto"/>
-                <button className="w-3/5 break-all mx-auto" onClick={openModal}>
-                    {name}
-                </button>
-            </li>
+            <tr className="h-16">
+                <td className="h-full border-2 border-dotted border-gray-100 relative">
+                    <div className="absolute inset-0 h-4/5 w-4/5 t-shirts m-auto flex items-center w-full">
+                        <img src={laundryImage(image)} alt={`${name}の画像`} className="w-1/6 h-auto m-auto"/>
+                        <button className="w-3/5 break-all mx-auto" onClick={openModal}>
+                            {name}
+                        </button>
+                    </div>
+                </td>
 
+                {weekly?.map((day, index) => {
+                    if (day === 2) {
+                        return (<td key={index} className="border-2 border-dotted border-gray-100 bg-pink-100 w-1/12">
+                            <img src={washingMachine} alt="洗濯する日" className="w-3/5 m-auto opacity-60"/>
+                        </td>)
+                    } else if (day === 1) {
+                        return (<td key={index} className="border-2 border-dotted border-gray-100 bg-pink-100"></td>)
+                    } else {
+                        return (<td key={index} className="border-2 border-dotted border-gray-100"></td>)
+                    }
+                })}
+            </tr>
 
             <Modal isOpen={modalIsOpen}
                    onRequestClose={closeModal}
@@ -78,7 +94,8 @@ const ListItem = ({id, name, image}) => {
             </Modal>
         </>
     )
+        ;
 }
 
 
-export default ListItem
+export default WeeklyItem

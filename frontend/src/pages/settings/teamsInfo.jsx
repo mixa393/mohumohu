@@ -1,11 +1,12 @@
-import {useContext, useState, useEffect} from "react";
+import React, {useContext, useState, useEffect, useCallback} from "react";
 import locationId from "../../lib/api/locationId";
 import {getTeam, updateTeam} from "../../lib/api/teams";
 import Loading from "../../components/common/loading";
 import Button from "../../components/common/button";
 import {AuthContext} from "../../App";
 import {useHistory} from "react-router-dom";
-import "../../css/setting.css"
+import Tooltip from "../../components/common/tooltip";
+import Heading from "../../components/common/heading";
 
 
 const TeamsInfo = () => {
@@ -45,10 +46,14 @@ const TeamsInfo = () => {
         setLoading(false)
     }
 
-    const getLocationName = (id) => {
-        const {pref, city} = getLocationData(id)
-        return `${pref}${city}`
-    }
+    const getLocationName = useCallback(
+        (id) => {
+            const {pref, city} = getLocationData(id)
+            return `${pref}${city}`
+        },
+        [],
+    );
+
 
 
     const getLocationData = (id) => {
@@ -112,7 +117,7 @@ const TeamsInfo = () => {
                             <label htmlFor="name" className="text-left block">チーム名</label>
                             <input type="text" id="name" name="name"
                                    className="bg-gray-100 p-2 w-full focus:outline-none focus:ring"
-                                   value={name}
+                                   defaultValue= {name}
                                    onChange={(e) => {
                                        setName(e.target.value)
                                    }}/>
@@ -122,6 +127,7 @@ const TeamsInfo = () => {
                         <div className="mt-6 w-full mx-auto">
                             <label htmlFor="locationId" className="text-left block">
                                 天気を表示する地域
+                                <Tooltip content="お住まいの地域の天気予報を表示します"/>
                             </label>
                             <select className="mt-2 bg-gray-100 p-2 w-full"
                                     onChange={(e) => {
@@ -161,7 +167,7 @@ const TeamsInfo = () => {
                         </div>
 
                         <div className="mt-8 space-x-4">
-                            <Button color="yellow" func={handleUpdateTeam} value="変更する" option="w-2/5"/>
+                            <Button color="pink" func={handleUpdateTeam} value="変更する" option="w-2/5"/>
                             <Button color="gray" func={() => {
                                 setIsDisplayedForm(false)
                             }} value="戻る" option="w-2/5"/>
@@ -183,7 +189,7 @@ const TeamsInfo = () => {
                             <p className="bg-gray-100 p-2">{getLocationName(currentTeam.locationId)}</p>
                         </div>
 
-                        <Button color="yellow" func={() => {
+                        <Button color="pink" func={() => {
                             setIsDisplayedForm(true)
                         }} value="変更する" option="w-2/5 mt-8"/>
                     </div>
@@ -194,9 +200,9 @@ const TeamsInfo = () => {
 
 
     return (
-        <div style={{minHeight: 'calc(100vh - 5.5rem - 18rem)'}}>
+        <div style={{minHeight: 'calc(100vh - 5.5rem - 18rem)'}} className="pt-2">
             <Loading isLoading={loading}>
-                <h1 className="p-2 text-2xl background--sunny font-black">チーム情報</h1>
+                <Heading content="チーム"/>
                 {contents(isDisplayedForm)}
             </Loading>
         </div>

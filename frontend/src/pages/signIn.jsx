@@ -4,7 +4,7 @@ import Cookies from "js-cookie"
 
 import {AuthContext} from "../App"
 import {signIn} from "../lib/api/auth"
-import mofit from "../images/common/mofit.svg"
+import mofit from "../images/common/mofit.png"
 import Button from "../components/common/button";
 
 // サインイン用ページ
@@ -46,7 +46,7 @@ const SignIn = () => {
 
     return (
         <>
-            <div className="h-screen flex flex-col justify-center bg-yellow-100">
+            <div className="h-screen flex flex-col justify-center bg-pink-200">
                 <img src={mofit} alt="mofitのロゴ" className="w-52 h-auto mx-auto"/>
 
                 <form className="flex flex-col w-2/3 mx-auto max-w-lg h-1/3 justify-around mt-4">
@@ -66,12 +66,7 @@ const SignIn = () => {
                                onChange={event => setPassword(event.target.value)}/>
                     </div>
 
-                    <Button color="yellow" func={handleSubmit} value="ログイン"/>
-                    {/*<input type="submit"*/}
-                    {/*       disabled={!email || !password} // 空欄があった場合はボタンを押せないように*/}
-                    {/*       onClick={handleSubmit}*/}
-                    {/*       value="ログイン"*/}
-                    {/*       className="bg-yellow-300 w-1/2 p-2 mx-auto rounded-xl border-b-4 border-pink-600 hover:bg-yellow-400"/>*/}
+                    <Button color="pink" func={handleSubmit} value="ログイン" option="w-1/2"/>
                 </form>
 
                 <ul className="text-xs mt-8 text-gray-600">

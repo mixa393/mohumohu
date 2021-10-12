@@ -4,30 +4,31 @@ class Api::V1::Auth::RegistrationsController < DeviseTokenAuth::RegistrationsCon
 
   # registraions#destroy のオーバーライド
   # 論理削除 deleted_atカラムを現在日時に更新
-  # @return [json] status,data,message
+  # @see: https://github.com/heartcombo/devise/wiki/How-to:-Soft-delete-a-user-when-user-deletes-account
   def destroy
-    if @resource
-      @resource.update(deleted_at: Time.now)
-      yield @resource if block_given?
+    user = User.find(@resource.id)
+    soft_delete(user)
 
-      # 以下はrender_destroy_messageにdataを加えたもの
-      render json: {
-        status: 'success',
-        data: @resource,
-        message: I18n.t('devise_token_auth.registrations.account_with_uid_destroyed', uid: @resource.uid)
-      }
-    else
-      render_destroy_error
-    end
+    Devise.sign_out_all_scopes ? sign_out : sign_out(resource_name)
+    yield resource if block_given?
   end
 
   private
+
+  # 論理削除メソッド
+  # メールアドレスとdeleted_atを変更
+  def soft_delete(user)
+    deleted_email = 'deleted_' + Time.current.strftime("%F_%H_%M_%S") + user.email
+    user.assign_attributes(email: deleted_email, deleted_at: Time.current)
+    user.skip_email_changed_notification!
+    user.save!
+  end
 
   def sign_up_params
     params.permit(:name, :team_id, :remind_at, :email, :password, :password_confirmation)
   end
 
   def account_update_params
-    params.permit(:name, :email, :password, :password_confirmation)
+    params.permit(:name, :team_id, :remind_at, :email, :password, :password_confirmation)
   end
 end

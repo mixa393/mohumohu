@@ -52,6 +52,10 @@ const Menu = ({menuVisibility, handleMouseDown}) => {
                     ホームページ
                 </Link>
 
+                <Link to="/laundries" className="menu-item hover:bg-white p-3">
+                    洗濯物一覧
+                </Link>
+
                 <Link to="/settings/team" className="menu-item hover:bg-white p-3">
                     チーム設定
                 </Link>

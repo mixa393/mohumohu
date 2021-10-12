@@ -9,7 +9,7 @@ const TodaysList = ({laundries, update}) => {
         contents = laundries.map((laundry, index) => {
             return (
                 <>
-                    <h2 className="bg-yellow-100 py-3 text-yellow-600">今日の洗濯物</h2>
+                    <h2 className="bg-pink-100 py-3 text-pink-600">今日の洗濯物</h2>
                     <TodaysListItem
                         key={index}
                         index={index}

@@ -12,7 +12,7 @@ import './css/App.css';
 import Header from './components/common/header'
 import Footer from './components/common/footer'
 import UsersIndex from "./pages/users/index";
-import LaundriesIndex from "./pages/laundries";
+import LaundriesWeekly from "./pages/laundries";
 import Form from "./pages/laundries/form"
 import SignIn from "./pages/signIn";
 import SignUp from "./pages/signUp";
@@ -72,9 +72,10 @@ function App() {
                 </div>
             )
         } else if (!loading && isSignedIn) {
-            return (<>
+            return (
+                <>
                     <Header/>
-                    <main className="mt-16 mb-4">
+                    <main className="mt-16 mb-6">
                         {children}
                     </main>
                     <Footer/>
@@ -88,7 +89,7 @@ function App() {
     return (
         <BrowserRouter>
             <AuthContext.Provider value={{loading, setLoading, isSignedIn, setIsSignedIn, currentUser, setCurrentUser}}>
-                <div className="App flex flex-col min-h-screen text-gray-800">
+                <div className="App text-gray-800">
                     <Switch>
                         <Route exact path="/signup" component={SignUp}/>
                         <Route exact path="/signin" component={SignIn}/>
@@ -97,7 +98,7 @@ function App() {
                                 <UsersIndex/>
                             </Route>
                             <Route exact path="/laundries">
-                                <LaundriesIndex/>
+                                <LaundriesWeekly/>
                             </Route>
                             <Route exact path="/laundries/add" component={Form} />
                             <Route exact path="/laundries/:id(\d+)" component={Form} />

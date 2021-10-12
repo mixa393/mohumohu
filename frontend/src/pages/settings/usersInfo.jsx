@@ -1,10 +1,10 @@
-import {useContext, useState} from "react";
+import React, {useContext, useState} from "react";
 import {useHistory} from "react-router-dom";
 import {AuthContext} from "../../App";
 import {changePassword, updateUser} from "../../lib/api/auth";
 import Button from "../../components/common/button";
-import "../../css/setting.css"
 import Tooltip from "../../components/common/tooltip";
+import Heading from "../../components/common/heading";
 
 const UsersInfo = () => {
     const {currentUser} = useContext(AuthContext)
@@ -27,7 +27,7 @@ const UsersInfo = () => {
         e.preventDefault()
 
         for (const property in params) {
-            if (params[property] === "") {
+            if (params[property] === "" || (property === 'name' && params[property] === currentUser.name) || (property === 'email' && params[property] === currentUser.email)) {
                 delete params[property]
             }
         }
@@ -85,6 +85,19 @@ const UsersInfo = () => {
                         </div>
 
                         <div className="mt-6 w-full mx-auto">
+                            <label htmlFor="remindAt" className="text-left block">
+                                リマインダー
+                                <Tooltip content="通知の時間を指定してください。指定しない場合通知はオフに設定されます"/>
+                            </label>
+                            <input type="time" id="remindAt" name="remindAt"
+                                   className="bg-gray-100 p-2 w-full focus:outline-none focus:ring"
+                                   defaultValue={currentUser.remindAt}
+                                   onChange={(e) => {
+                                       setPasswords({...params, remindAt: e.target.value})
+                                   }}/>
+                        </div>
+
+                        <div className="mt-6 w-full mx-auto">
                             <label htmlFor="password" className="text-left block">パスワード</label>
                             <input type="password" id="password" name="password"
                                    className="bg-gray-100 p-2 w-full focus:outline-none focus:ring"
@@ -108,7 +121,7 @@ const UsersInfo = () => {
                         </div>
 
                         <div className="mt-8 space-x-4">
-                            <Button color="yellow" func={handleSubmit} value="変更する" option="w-2/5"/>
+                            <Button color="pink" func={handleSubmit} value="変更する" option="w-2/5"/>
                             <Button color="gray" func={() => {
                                 setIsDisplayedForm(false)
                             }} value="戻る" option="w-2/5"/>
@@ -131,14 +144,13 @@ const UsersInfo = () => {
                             <p className="bg-gray-100 p-2">{currentUser.email}</p>
                         </div>
 
-                        {/* TODO:リマインドの変更 */}
-                        {/*<div className="w-full mx-auto">*/}
-                        {/*    <h2 className="text-left">リマインダー</h2>*/}
-                        {/*    <p className="bg-gray-100 p-2">{currentUser.remindAt}</p>*/}
-                        {/*</div>*/}
+                        <div className="mt-8 w-full mx-auto">
+                            <h2 className="text-left">リマインダー</h2>
+                            <p className="bg-gray-100 p-2">{currentUser.remindAt}</p>
+                        </div>
 
                         <div className="mt-8 space-x-4">
-                            <Button color="yellow" func={() => {
+                            <Button color="pink" func={() => {
                                 setIsDisplayedForm(true)
                             }} value="変更する" option="w-2/5"/>
                             <Button color="gray" func={() => {
@@ -153,7 +165,9 @@ const UsersInfo = () => {
 
     return (
         <>
-            <h1 className="p-2 text-xl background--sunny font-black">ユーザー情報</h1>
+            <div className="pt-2">
+                <Heading content="ユーザー情報"/>
+            </div>
             {contents(isDisplayedForm)}
         </>
     )

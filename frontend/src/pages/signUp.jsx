@@ -71,7 +71,7 @@ const SignUp = () => {
 
     return (
         <>
-            <h1 className="text-xl bg-yellow-100 p-3">アカウント登録</h1>
+            <h1 className="text-xl bg-pink-100 p-3">アカウント登録</h1>
 
             <form className="flex flex-col w-2/3 mx-auto max-w-lg text-sm">
                 <div className="mt-6 flex flex-col">
@@ -181,7 +181,7 @@ const SignUp = () => {
                     </select>
                 </div>
 
-                <Button color="yellow" func={handleCreateUser} value="登録" option="mt-8 py-2 px-5"/>
+                <Button color="pink" func={handleCreateUser} value="登録" option="mt-8 py-2 px-5"/>
             </form>
         </>
     )

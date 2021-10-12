@@ -17,6 +17,7 @@ import unSelectedImage from "../../images/laundries/unSelected.svg"
 import Modal from "react-modal";
 import {laundryImage} from "../../lib/common";
 import {useHistory} from "react-router";
+import Heading from "../../components/common/heading";
 
 const customStyles = {
     content: {
@@ -34,7 +35,6 @@ Modal.setAppElement("#root")
 const Form = ({match}) => {
     const history = useHistory()
     const laundryId = match?.params?.id ?? ''
-
     const [laundry, setLaundry] = useState({});
 
     useEffect(() => {
@@ -118,12 +118,18 @@ const Form = ({match}) => {
     return (
         <>
             <div className="h-screen">
-                <h1 className="text-xl p-4 bg-yellow-200">洗濯物</h1>
-                {/*<p className="text-xs text-gray-300 text-right">※のついている項目は必須です</p>*/}
+                <Heading content="洗濯物編集"/>
+                {!laundryId && <>
+                    <Heading content="洗濯物作成"/>
+                    <p className="text-xs text-gray-300 text-right">※のついている項目は必須です</p>
+                </>
+                }
 
                 <form className="h-3/4 flex flex-col justify-around text-sm w-4/5 mx-auto mt-4">
                     <div className="flex flex-col">
-                        <label htmlFor="name">洗濯物名</label>
+                        <label htmlFor="name">
+                            {!laundryId && <span className="text-gray-300">※</span>}
+                            洗濯物名</label>
                         <input type="text" id="name" name="name" className="bg-gray-100 p-1"
                                defaultValue={laundry.name ?? ""}/>
                     </div>
@@ -223,7 +229,7 @@ const Form = ({match}) => {
                                defaultValue={laundry.description ?? ""}/>
                     </div>
 
-                    <Button color="yellow" func={(e) => {
+                    <Button color="pink" func={(e) => {
                         handleSubmit(e, laundryId)
                     }} value="変更する"/>
                 </form>

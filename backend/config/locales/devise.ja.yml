@@ -45,6 +45,7 @@ ja:
       timeout: セッションがタイムアウトしました。もう一度ログインしてください。
       unauthenticated: ログインもしくはアカウント登録してください。
       unconfirmed: メールアドレスの本人確認が必要です。
+      deleted_account: このアカウントは既に削除されています。
     mailer:
       confirmation_instructions:
         action: メールアドレスの確認

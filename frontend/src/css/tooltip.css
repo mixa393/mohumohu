@@ -9,7 +9,7 @@
     bottom: calc(100% + 5px);
     left: 50%;
     transform: translateX(-50%);
-    background-color: lightyellow;
+    background-color: lightpink;
     color: dimgray;
     padding: 0.5em 1em;
     border-radius: 5px;
