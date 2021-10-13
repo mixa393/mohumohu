@@ -1,0 +1,11 @@
+{
+  "name": "mohumohu",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "github.com:mb-c16h18n3scl31985/mohumohu.git",
+  "author": "yumi takahashi <c16h18n3scl31985@gmail.com>",
+  "license": "MIT",
+  "scripts": {
+    "start": "bundle exec foreman start"
+  }
+}
