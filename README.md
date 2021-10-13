@@ -62,3 +62,7 @@
 - [画像によるradioボタン](https://gouf.hatenablog.com/entry/2018/02/19/075202)
 - [tooltop](https://reffect.co.jp/react/react-tooltip)
 - [自分で実装したいけどまだしていないmodal](https://reffect.co.jp/react/react-modal)
+
+### デプロイ
+- [React + RailsのアプリをHerokuで動かす方法](https://qiita.com/pure-adachi/items/c2c5730560650c80a5e0)
+- [Failed to install gems via Bundler. が出た時の対処法 HEROKU](https://qiita.com/m6mmsf/items/fb8a8672df98bdb59c9c)
