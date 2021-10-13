@@ -51,3 +51,6 @@ gem 'devise-i18n'
 
 # バッチ処理
 gem 'whenever', require: false
+
+# デプロイ
+gem 'foreman'
