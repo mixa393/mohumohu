@@ -7,10 +7,9 @@
   "license": "MIT",
   "scripts": {
     "start": "bundle exec foreman start",
-    "install": "npm run git-clone && npm run setup",
-    "git-clone": "mkdir -p projects && npm run git-clone-backend && npm run git-clone-frontend",
-    "setup": "bundle install --path vendor/bundle && npm run setup-frontend && npm run setup-backend",
-    "setup-frontend": "cd ./frontend && npm install",
-    "setup-backend": "cd ./backend && npm install"
+    "install": "yarn setup",
+    "setup": "bundle install --path vendor/bundle && yarn setup-frontend && yarn setup-backend",
+    "setup-frontend": "cd ./frontend && yarn",
+    "setup-backend": "cd ./backend && yarn"
   }
 }
