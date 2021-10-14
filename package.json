@@ -7,8 +7,7 @@
   "license": "MIT",
   "scripts": {
     "start": "bundle exec foreman start",
-    "install": "yarn run setup",
-    "setup": "bundle install --path vendor/bundle && yarn setup-frontend && yarn setup-backend",
+    "install": "yarn run setup && bundle install --path vendor/bundle && yarn setup-frontend && yarn setup-backend",
     "setup-frontend": "cd ./frontend && yarn",
     "setup-backend": "cd ./backend && yarn"
   }
