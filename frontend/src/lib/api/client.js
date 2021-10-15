@@ -8,7 +8,7 @@ const options = {
 }
 
 const client = applyCaseMiddleware(axios.create({
-    baseURL: "http://192.168.10.103:3001/api/v1",
+    baseURL: "https://mofit-backend.herokuapp.com/api/v1",
     mode: 'cors',
     credentials: 'include',
     headers: {

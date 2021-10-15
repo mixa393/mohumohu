@@ -12,7 +12,7 @@ import './css/App.css';
 import Header from './components/common/header'
 import Footer from './components/common/footer'
 import UsersIndex from "./pages/users/index";
-import LaundriesWeekly from "./pages/laundries";
+import LaundriesWeekly from "./pages/laundries/weekly";
 import Form from "./pages/laundries/form"
 import SignIn from "./pages/signIn";
 import SignUp from "./pages/signUp";
@@ -20,6 +20,7 @@ import SignUp from "./pages/signUp";
 import {getCurrentUser} from "./lib/api/auth";
 import TeamsInfo from "./pages/settings/teamsInfo";
 import UsersInfo from "./pages/settings/usersInfo";
+import LaundriesIndex from "./pages/laundries";
 
 
 /**
@@ -98,6 +99,9 @@ function App() {
                                 <UsersIndex/>
                             </Route>
                             <Route exact path="/laundries">
+                                <LaundriesIndex/>
+                            </Route>
+                            <Route exact path="/laundries/weekly">
                                 <LaundriesWeekly/>
                             </Route>
                             <Route exact path="/laundries/add" component={Form} />

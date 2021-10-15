@@ -30,7 +30,7 @@ export const signIn = (params) => {
 
 /**
  * ログインした上でのパスワード変更
- * @param params {{ password:string, password_confirmation:string }}
+ * @param params {{passwordConfirmation: string, password: string}}
  * @returns {Promise<AxiosResponse<any>>}
  */
 export const changePassword = (params) => {
