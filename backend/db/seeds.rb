@@ -31,9 +31,9 @@ Team.all.each do |team|
   # 各チームに1人検証用ユーザーを作成
   team.users.create!(
     name: "テストユーザー#{team.id}",
-    email: "test#{team.id}@email.com",
-    password: "password",
-    password_confirmation: "password",
+    email: "#{team.id}"+"#{Rails.application.credentials.user[:email]}",
+    password: Rails.application.credentials.user[:password],
+    password_confirmation: Rails.application.credentials.user[:password],
     remind_at: Random.rand(Time.parse("08:00:00")..Time.parse("22:00:00")),
     team_id: team.id
   )
