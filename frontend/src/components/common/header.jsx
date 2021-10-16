@@ -91,14 +91,14 @@ const Header = ({date}) => {
                 <div className="h-16 grid grid-cols-3">
                     <div className="transition duration-150 ease-in-outduration-300 cols-span-1 border border-dotted">
                         <Link
-                            className={`h-16 flex justify-items-center items-center hover:bg-pink-200 ${backgroundColor.index}`}
+                            className={`h-16 flex justify-items-center items-center ${backgroundColor.index}`}
                             to={"/"}>
                             <img src={icon.index} alt="ダッシュボード" className="h-3/5 w-auto mx-auto"/>
                         </Link>
                     </div>
                     <div className="border border-dotted cols-span-1">
                         <Link
-                            className={`h-16 flex justify-items-center items-center hover:bg-pink-100 ${backgroundColor.laundries}`}
+                            className={`h-16 flex justify-items-center items-center ${backgroundColor.laundries}`}
                             to="/laundries/weekly">
                             <img src={icon.laundries} alt="weekly" className="h-1/2 w-auto mx-auto"/>
                         </Link>

@@ -166,7 +166,7 @@ const UsersInfo = () => {
     return (
         <>
             <div className="pt-2">
-                <Heading content="ユーザー情報"/>
+                <Heading content="ユーザー"/>
             </div>
             {contents(isDisplayedForm)}
         </>
