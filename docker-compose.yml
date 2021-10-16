@@ -14,12 +14,12 @@ services:
 
   rails:
     build:
-      context: ./backend/
+      context: ./mofit-backend/
       dockerfile: Dockerfile
     command: bash -c "rm -f tmp/pids/server.pid && bundle exec rails s -p 3000 -b '0.0.0.0'"
     volumes:
-      - ./backend:/myapp
-      - ./backend/vendor/bundle:/myapp/vendor/bundle
+      - ./mofit-backend:/myapp
+      - ./mofit-backend/vendor/bundle:/myapp/vendor/bundle
     ports:
       - "3001:3000"
     depends_on:
@@ -29,10 +29,10 @@ services:
 
   react:
     build:
-      context: ./frontend/
+      context: ./mofit-frontend/
       dockerfile: Dockerfile
     volumes:
-      - ./frontend:/usr/src/app
+      - ./mofit-frontend:/usr/src/app
     command: sh -c "yarn && yarn start"
     ports:
       - "3000:3000"

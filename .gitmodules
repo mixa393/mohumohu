@@ -1,0 +1,6 @@
+[submodule "mofit-frontend"]
+	path = mofit-frontend
+	url = git@github.com:mb-c16h18n3scl31985/mofit-frontend.git
+[submodule "mofit-backend"]
+	path = mofit-backend
+	url = git@github.com:mb-c16h18n3scl31985/mofit-backend.git
