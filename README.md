@@ -38,6 +38,8 @@ https://mofit-frontend.herokuapp.com/
 <br>
 
 ## 環境
+- HTML/CSS
+- tailwind
 - React.js 17.0.2  
   - React-router-dom
 - MySQL
